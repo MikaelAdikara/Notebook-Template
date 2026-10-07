@@ -17,7 +17,9 @@ Kumpulan template notebook Python (`.ipynb`) siap pakai untuk lomba data analyti
 00_Setup/
   00_environment_check.ipynb        ← JALANKAN PERTAMA di laptop lomba (cek & install package, GPU)
 01_Churn_Insurance/                 ← ⭐ UTAMA untuk case churn / asuransi
-  churn_insurance_master.ipynb      ← analisis + prediksi + rekomendasi bisnis, end-to-end
+  00_MULAI_DI_SINI.md               ← RUNBOOK hari H: data masuk → laporan → ZIP (baca ini dulu)
+  churn_insurance_master.ipynb      ← analisis + prediksi + rekomendasi bisnis + AUTO DRAFT LAPORAN, end-to-end
+  contoh_output/                    ← contoh hasil run pada data sintetis (draft laporan, insights, figure)
   PLAYBOOK_ANALISIS.md              ← "jika X maka Y", cheat-sheet statistik, istilah asuransi, strategi retensi, Q&A juri
   PANDUAN_LAPORAN.md                ← struktur artikel 10 halaman, mapping figure → bab, template kalimat, referensi
   Article_Template_Final_Stage.docx ← template Word sesuai format soal (A4, TNR 12, 1.15, margin 4/3 cm)
@@ -43,7 +45,15 @@ requirements.txt
 
 ---
 
-## Mulai cepat (hari H)
+## Alur hari H (churn/asuransi) — ringkas
+```
+00_environment_check  →  isi USER OVERRIDE  →  RUN_MODE="fast" (cek)  →  RUN_MODE="full"
+→  outputs/churn_insurance/REPORT_TODO.md  →  edit REPORT_DRAFT.docx  →  Save As PDF
+→  CFG.MAKE_ZIP=True (cell 24.4)  →  upload "TeamName_Final Stage 1.zip"
+```
+Detail lengkap: `01_Churn_Insurance/00_MULAI_DI_SINI.md`.
+
+## Mulai cepat (template lain)
 
 1. **Clone / copy** repo ke laptop lomba.
 2. Buka `00_Setup/00_environment_check.ipynb` → **Restart & Run All** → kalau ada install, restart kernel & run lagi sampai semua inti ✅.
@@ -72,7 +82,7 @@ requirements.txt
 | 3 | Data quality & cleaning | deteksi target/ID otomatis, parsing label churn (Yes/No, Exited, Attrited, is_active terbalik), angka-dalam-string (`"12,500,000"`, `"Rp 5.000.000"`), tanggal, typo kategori, nilai mustahil, duplikat, quality report |
 | 4 | Target | churn rate, imbalance, baseline |
 | 5 | Roles & domain FE | deteksi role (tenure, premi, klaim, keluhan, telat bayar, channel, ...) EN+ID; fitur asuransi (premium-to-income, claims per year, reject rate, tenure band, price shock, ...); **leakage screen** |
-| 6–7 | EDA & **driver analysis** | churn rate + Wilson CI, chi-square/Mann-Whitney + **effect size**, **Information Value/WoE**, univariate AUC, FDR correction, insight otomatis |
+| 6–7 | EDA & **driver analysis** | churn rate + Wilson CI, chi-square/Mann-Whitney + **effect size**, **Information Value/WoE**, univariate AUC, FDR correction, insight otomatis, **analisis alasan churn** (kolom post-event, deskriptif) |
 | 8 | Korelasi | Spearman, Cramér's V, VIF |
 | 9 | Segments | heatmap interaksi, **decision-tree segment rules** (IF–THEN + lift) |
 | 10 | **Survival** | Kaplan-Meier, retention 6/12/24/36 bln, hazard per interval, log-rank, **Cox hazard ratios** (+ uji asumsi PH bila lifelines ada) |
@@ -80,11 +90,12 @@ requirements.txt
 | 12 | Drift | PSI, KS, unseen categories, adversarial validation |
 | 13–17 | Modeling | LogReg, RF, ET, HGB, LightGBM, XGBoost, CatBoost (native categorical, in-fold target encoding), Optuna (pruning), multi-seed, feature selection, **ensemble** (mean, rank, hill-climbing, optimized weights, stacking) |
 | 18 | Threshold & calibration | threshold optimal per metrik, reliability diagram, isotonic/Platt |
-| 19 | Debugging | ROC/PR, confusion matrix, fold stability, **learning curve**, **shuffled-target test**, OOF vs test, error analysis, performa per segmen |
-| 20 | Explainability | gain, permutation, **SHAP** (bar, beeswarm, dependence, kategori, waterfall), **PDP**, **driver evidence matrix** |
+| 19 | Debugging | ROC/PR, confusion matrix, **bootstrap 95% CI & paired model comparison**, fold stability, **learning curve**, **shuffled-target test**, OOF vs test, error analysis, performa per segmen |
+| 20 | Explainability | gain, permutation, **SHAP** (bar, beeswarm, dependence, kategori, waterfall), **PDP**, **driver heterogeneity per segmen**, **driver evidence matrix** |
 | 21 | **Business analytics** | lift/gains/KS, risk tiers, **CLV & value at risk**, **risk × value matrix**, **campaign ROI simulation + sensitivity**, **what-if scenarios**, **churn personas (SHAP clustering)** |
 | 22 | Recommendations | rekomendasi otomatis berbasis bukti (aksi, evidence, impact, KPI) |
-| 23–24 | Submission & export | validator, beberapa varian submission, action list customer, Excel semua tabel, `insights.md`, `figure_index.md`, `run_summary.json` |
+| 23 | Submission | validator, beberapa varian submission, action list customer (tier, value, quadrant) |
+| 24 | **Deliverables** | Excel semua tabel, `insights.md`, executive summary figure, **`REPORT_DRAFT.docx`** (format soal, angka & figure sudah terisi, bagian `[EDIT]` di-highlight), **`REPORT_TODO.md`** (daftar yang wajib kamu edit), **ZIP `TeamName_Final Stage 1.zip`** |
 | 25 | Troubleshooting | 20+ error → solusi, recipes, checklist |
 
 Latihan: `python tools/make_synthetic_insurance_churn.py --out ./data` → jalankan notebook churn (set `CFG.EXTRA_TABLES` untuk `claims.csv`) → bandingkan driver yang ditemukan dengan driver yang ditanam (lihat docstring generator).
