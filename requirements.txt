@@ -1,0 +1,30 @@
+# Core (wajib)
+numpy
+pandas
+scikit-learn
+scipy
+matplotlib
+seaborn
+openpyxl
+# Tabular / churn (sangat disarankan)
+lightgbm
+xgboost
+catboost
+statsmodels
+optuna
+shap
+lifelines
+imbalanced-learn
+# Clustering / time series (opsional)
+hdbscan
+umap-learn
+# NLP / CV (opsional; torch install terpisah sesuai CUDA: https://pytorch.org/get-started/locally/)
+transformers
+sentence-transformers
+sentencepiece
+timm
+Pillow
+tqdm
+# Notebook
+jupyter
+ipykernel
