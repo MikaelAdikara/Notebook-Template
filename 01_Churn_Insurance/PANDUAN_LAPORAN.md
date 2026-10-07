@@ -2,6 +2,8 @@
 
 Panduan ini memetakan **output notebook `churn_insurance_master.ipynb` → bagian artikel**, plus template kalimat (English) yang tinggal diisi angka. Semua angka yang dibutuhkan ada di `outputs/churn_insurance/insights.md`, `tables/`, `report_tables.xlsx`, dan `figures/`.
 
+> **Jalur tercepat:** notebook otomatis membuat **`outputs/churn_insurance/REPORT_DRAFT.docx`** (format soal, angka & figure run kamu sudah masuk) + **`REPORT_TODO.md`** (daftar bagian `[EDIT]` yang wajib kamu lengkapi). Panduan ini menjelaskan *kenapa* strukturnya begitu & cara menulis bagian `[EDIT]` dengan baik. Prosedur lengkap: `00_MULAI_DI_SINI.md`.
+
 ---
 
 ## 0. Aturan format (dari soal) — cek sebelum submit
