@@ -22,6 +22,8 @@ Kumpulan template notebook Python (`.ipynb`) siap pakai untuk lomba data analyti
   contoh_output/                    ← contoh hasil run pada data sintetis (draft laporan, insights, figure)
   PLAYBOOK_ANALISIS.md              ← "jika X maka Y", cheat-sheet statistik, istilah asuransi, strategi retensi, Q&A juri
   PANDUAN_LAPORAN.md                ← struktur artikel 10 halaman, mapping figure → bab, template kalimat, referensi
+  BAHAN_LATAR_BELAKANG.md           ← latar belakang + tinjauan pustaka + rumusan masalah (EN/ID), fakta OJK/AAJI terverifikasi, daftar pustaka
+  CONTOH_LAPORAN_FINAL/             ← contoh artikel final lengkap (docx + pdf) dari data asuransi nyata (Kaggle)
   Article_Template_Final_Stage.docx ← template Word sesuai format soal (A4, TNR 12, 1.15, margin 4/3 cm)
 02_Tabular/
   tabular_master.ipynb              ← klasifikasi biner/multikelas & regresi tabular umum
@@ -77,7 +79,7 @@ Detail lengkap: `01_Churn_Insurance/00_MULAI_DI_SINI.md`.
 
 | # | Section | Highlight |
 |---|---|---|
-| 0–1 | Setup & Config | auto-install, availability flags, `CFG` + `USER OVERRIDE`, fast/full mode |
+| 0–1 | Setup & Config | auto-install, availability flags, `CFG` + `USER OVERRIDE`, fast/full mode, **auto-adapt ke RAM/CPU/GPU & ukuran data** |
 | 2 | Load data | csv/xlsx/parquet/json, auto separator/encoding, **multi-tabel** (merge 1-1, agregasi 1-many: claims/payments) |
 | 3 | Data quality & cleaning | deteksi target/ID otomatis, parsing label churn (Yes/No, Exited, Attrited, is_active terbalik), angka-dalam-string (`"12,500,000"`, `"Rp 5.000.000"`), tanggal, typo kategori, nilai mustahil, duplikat, quality report |
 | 4 | Target | churn rate, imbalance, baseline |
@@ -92,7 +94,7 @@ Detail lengkap: `01_Churn_Insurance/00_MULAI_DI_SINI.md`.
 | 18 | Threshold & calibration | threshold optimal per metrik, reliability diagram, isotonic/Platt |
 | 19 | Debugging | ROC/PR, confusion matrix, **bootstrap 95% CI & paired model comparison**, fold stability, **learning curve**, **shuffled-target test**, OOF vs test, error analysis, performa per segmen |
 | 20 | Explainability | gain, permutation, **SHAP** (bar, beeswarm, dependence, kategori, waterfall), **PDP**, **driver heterogeneity per segmen**, **driver evidence matrix** |
-| 21 | **Business analytics** | lift/gains/KS, risk tiers, **CLV & value at risk**, **risk × value matrix**, **campaign ROI simulation + sensitivity**, **what-if scenarios**, **churn personas (SHAP clustering)** |
+| 21 | **Business analytics** | lift/gains/KS, risk tiers, **CLV & value at risk**, **risk × value matrix**, **campaign ROI simulation + sensitivity**, **what-if scenarios**, **causal effects (doubly robust AIPW)**, **churn personas (SHAP clustering)** |
 | 22 | Recommendations | rekomendasi otomatis berbasis bukti (aksi, evidence, impact, KPI) |
 | 23 | Submission | validator, beberapa varian submission, action list customer (tier, value, quadrant) |
 | 24 | **Deliverables** | Excel semua tabel, `insights.md`, executive summary figure, **`REPORT_DRAFT.docx`** (format soal, angka & figure sudah terisi, bagian `[EDIT]` di-highlight), **`REPORT_TODO.md`** (daftar yang wajib kamu edit), **ZIP `TeamName_Final Stage 1.zip`** |

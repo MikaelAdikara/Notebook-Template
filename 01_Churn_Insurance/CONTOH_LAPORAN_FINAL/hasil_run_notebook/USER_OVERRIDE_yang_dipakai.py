@@ -1,0 +1,15 @@
+CFG.RUN_MODE = "full"
+CFG.TRAIN_PATH = "data/train.csv"
+CFG.TEST_PATH = "data/test.csv"
+CFG.SAMPLE_SUB_PATH = "data/sample_submission.csv"
+CFG.OUTPUT_DIR = "out_kaggle"
+CFG.TEAM_NAME = "DataWizards"
+CFG.COMPANY_NAME = "a Texas auto insurer"
+CFG.CURRENCY = "USD"
+CFG.PROFIT_MARGIN = 0.15
+CFG.RETENTION_COST = 25
+CFG.RETENTION_SUCCESS_RATE = 0.25
+CFG.OPTUNA_TRIALS = 15
+CFG.OPTUNA_TIMEOUT = 420
+CFG.FINAL_SEEDS = [42, 7]
+CFG.FIG_DPI = 150

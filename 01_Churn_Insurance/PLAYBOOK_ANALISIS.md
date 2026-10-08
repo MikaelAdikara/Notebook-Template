@@ -292,3 +292,33 @@ ax.set_xlabel("Churn rate"); plt.tight_layout(); plt.savefig("fig.png", dpi=300)
 - Error message: baca **baris terakhir** traceback dulu (jenis error + pesan), lalu baris kode milik kita yang paling bawah. Cari pesan error di Stack Overflow.
 - Troubleshooting table di akhir setiap notebook (Section 25 untuk notebook churn).
 - Debug cepat: `print(X.shape, X.dtypes.value_counts())`, `X.isna().sum().sum()`, `np.isinf(X.select_dtypes("number")).sum().sum()`.
+
+---
+
+## J. Jenis data / case asuransi lain → notebook & konfigurasi
+
+| Case / target di soal | Contoh kolom target | Notebook | Konfigurasi kunci | Analisis bisnis utama |
+|---|---|---|---|---|
+| Churn / lapse / non-renewal / surrender / attrition | `Churn`, `Exited`, `Status`, `is_active`, `lapse_flag` | `01_Churn_Insurance` | `TARGET_COL`, `POSITIVE_LABEL` (kalau multi-status) | driver, survival, retensi, ROI, causal |
+| Status polis multi-kelas (Active / Lapsed / Surrendered / Paid-up) | `policy_status` | `01_Churn_Insurance` (biner otomatis: aktif vs lainnya) **dan** `02_Tabular` (multiclass) | `POSITIVE_LABEL=["Lapsed","Surrendered"]` | bandingkan driver lapse vs surrender (jalankan 2× dengan POSITIVE_LABEL berbeda) |
+| Klaim terjadi / tidak (claim propensity) | `is_claim`, `OUTCOME`, `ClaimNb` | `01_Churn_Insurance` (event = klaim; analisis driver & survival tetap valid) atau `02_Tabular` | target hitungan → otomatis event = >0 | risk factor, segmentasi risiko untuk underwriting/pricing — ganti narasi "retention" menjadi "risk selection" |
+| Fraud klaim | `fraud_reported` (Y/N) | `02_Tabular` (binary, metric PR-AUC/F1) + driver analysis dari `01` | `METRIC="pr_auc"` atau `"f1"`, threshold tuning | red-flag rules (segment tree), biaya investigasi vs fraud dicegah |
+| Cross-sell / response campaign | `Response`, `TravelInsurance`, `CARAVAN` | `01_Churn_Insurance` (event = beli) atau `02_Tabular` | — | campaign ROI (benefit = premi produk baru) — ganti narasi |
+| Besar klaim / severity (regresi) | `claim_amount`, `charges` | `02_Tabular` (TASK="regression", log1p target, RMSE/MAE) | `TARGET_TRANSFORM="log1p"` | driver biaya, segmen berbiaya tinggi |
+| Frekuensi klaim (count) | `ClaimNb` + `Exposure` | `02_Tabular` regresi (target = ClaimNb/Exposure) atau event >0 di `01` | | pricing factors |
+| Premi / CLV (regresi) | `premium`, `clv` | `02_Tabular` regresi | | value drivers |
+| Segmentasi nasabah tanpa label | — | `06_Clustering_Segmentation` (+ RFM) | `OUTCOME_COL` = churn kalau ada | persona, prioritas |
+| Data deret waktu (klaim/premi/lapse per bulan) | `lapse_count` per bulan | `05_Time_Series` | horizon & frekuensi | forecast lapse/claims, kapasitas |
+| Teks keluhan / catatan klaim | `complaint_text` | `03_NLP` (klasifikasi topik/sentimen) → hasilnya jadi fitur di `01` | | topik keluhan pemicu churn |
+
+**Kombinasi yang sering menang:** `06_Clustering` (persona) + `01_Churn` (driver, survival, causal, ROI) dalam satu laporan → segmentasi + prediksi + rekomendasi per segmen.
+
+### Data multi-tabel (umum di asuransi)
+```python
+CFG.TRAIN_PATH = "./data/customer.csv"                         # tabel utama (1 baris / customer) + target
+CFG.EXTRA_ONE_TO_ONE = {"demo": {"path": "./data/demographic.csv", "key": "individual_id"}}
+CFG.EXTRA_TABLES = {"claims":   {"path": "./data/claims.csv",   "key": "individual_id", "date_col": "claim_date"},
+                    "payments": {"path": "./data/payments.csv", "key": "individual_id", "date_col": "pay_date"}}
+```
+Kalau target ada di tabel terpisah (misal `termination.csv` berisi tanggal berhenti): buat target dulu di cell kecil sebelum notebook,
+misal `cust["Churn"] = cust["individual_id"].isin(term["individual_id"]).astype(int)` lalu simpan sebagai train.csv. **Jangan** pakai tanggal berhenti sebagai fitur (leak).

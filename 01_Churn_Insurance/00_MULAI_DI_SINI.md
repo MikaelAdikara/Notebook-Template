@@ -3,6 +3,8 @@
 Satu prosedur dari **menerima data → upload ZIP**. Ikuti urut. Dokumen pendukung:
 - `PLAYBOOK_ANALISIS.md` — aturan "jika X → Y", statistik, istilah asuransi, strategi retensi, Q&A juri
 - `PANDUAN_LAPORAN.md` — struktur artikel, template kalimat, tips, referensi
+- `BAHAN_LATAR_BELAKANG.md` — **latar belakang, tinjauan pustaka, justifikasi metode, rumusan masalah/tujuan/manfaat (EN + ID), fakta industri Indonesia terverifikasi (OJK/AAJI/AAUI), daftar pustaka APA terverifikasi**
+- `CONTOH_LAPORAN_FINAL/` — contoh artikel final lengkap (data asuransi nyata dari Kaggle) untuk ditiru struktur & gaya tulisnya
 - `churn_insurance_master.ipynb` — notebook utama (Section 0–25)
 
 ---
@@ -54,10 +56,10 @@ Setelah full run selesai, di `outputs/churn_insurance/`:
 
 1. Buka **`REPORT_TODO.md`** → ini daftar kerja kamu.
 2. Buka **`REPORT_DRAFT.docx`** (sudah A4, TNR 12, spasi 1.15, margin 4/3 cm, berisi angka & figure run ini).
-3. Kerjakan semua bagian **kuning `[EDIT: ...]`**.
+3. Kerjakan semua bagian **kuning `[EDIT: ...]`**. Untuk latar belakang/tinjauan pustaka/diskusi, ambil paragraf dari `BAHAN_LATAR_BELAKANG.md` (§C) lalu sesuaikan.
 4. Parafrase kalimat otomatis; ganti nama fitur teknis jadi bahasa bisnis (`fe_premium_to_income` → "premium-to-income ratio").
 5. Baca `insights.md` → pilih temuan paling kuat yang belum ada di draft.
-6. Cek halaman ≤ 10 (tanpa cover & appendix). Kelebihan → pindahkan figure ke Appendix, ringkas.
+6. Cek halaman ≤ 10 (tanpa cover & appendix). Kalau MS Word ada, notebook sudah menghitung otomatis ("isi utama ≈ N hal") dan membuat `REPORT_DRAFT.pdf`. Kelebihan → pindahkan figure ke Appendix, ringkas.
 7. Save As PDF: **`TeamName_Final Stage 1.pdf`**.
 
 ### Peta output → bagian laporan
