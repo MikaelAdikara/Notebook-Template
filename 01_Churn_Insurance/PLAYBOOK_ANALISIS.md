@@ -322,3 +322,23 @@ CFG.EXTRA_TABLES = {"claims":   {"path": "./data/claims.csv",   "key": "individu
 ```
 Kalau target ada di tabel terpisah (misal `termination.csv` berisi tanggal berhenti): buat target dulu di cell kecil sebelum notebook,
 misal `cust["Churn"] = cust["individual_id"].isin(term["individual_id"]).astype(int)` lalu simpan sebagai train.csv. **Jangan** pakai tanggal berhenti sebagai fitur (leak).
+
+
+---
+
+## K. Metode lanjutan (ditambahkan) — cara baca & jika X → Y
+
+| Output | Cara baca | Jika X → Y | Untuk laporan |
+|---|---|---|---|
+| **DeLong test** (`model_comparison_full.csv`) | p (Holm) < 0.05 → model final benar-benar lebih baik | tidak signifikan vs LogReg/EBM → tonjolkan model interpretable (juri asuransi suka) | "significantly better (ΔAUC +0.012, DeLong p < 0.001)" |
+| **EMPC** (Verbraken et al., 2013) | profit maksimum harapan per customer, memperhitungkan ketidakpastian tingkat penerimaan tawaran | model EMPC terbaik ≠ AUC terbaik → pilih berdasar profit (Höppner et al., 2020) | 1 kalimat di 3.4 |
+| **Ablation study** | penurunan AUC saat kelompok fitur dibuang (DeLong) | kelompok penting tapi ablation ≈ 0 → informasinya redundan | bukti kontribusi feature engineering |
+| **Experiment log / journey** | semua eksperimen + skor | — | bukti trial-and-error (Appendix F) |
+| **RMST** | rata-rata lama bertahan dalam horizon τ | selisih besar antar grup → angka "bulan yang hilang" yang mudah dipahami manajemen | 3.2 |
+| **Schoenfeld / AFT** | PH dilanggar → pakai time ratio AFT | banyak pelanggaran → sebut HR sebagai efek rata-rata | Appendix E |
+| **KM per risk tier + C-index** | skor juga mengurutkan waktu churn | kurva tier tidak terpisah → skor kurang berguna untuk timing | validasi tambahan |
+| **AIPW + robustness** | ATE (pp), placebo ≈ 0, overlap < 20%, E-value ≥ 1.25 → "robust" | tidak robust → jangan klaim kausal; jadikan hipotesis pilot | 4.3 |
+| **DR-learner uplift / GATES** | Q5 vs Q1 + targeting curve | homogen → targeting berdasar risiko; heterogen → targeting berdasar uplift × value (Ascarza, 2018) | 4.3 (kalimat menyesuaikan otomatis) |
+| **Pilot power analysis** | n per arm untuk efek yang diharapkan | n > ukuran segmen → perpanjang pilot / gabung segmen / targetkan efek lebih besar | 5 |
+| **Fairness audit + model card** | kalibrasi & AUC per kelompok, porsi High tier | calibration ratio jauh dari 1 di suatu grup → rekalibrasi per grup / jangan pakai untuk keputusan merugikan | Appendix J + 1 kalimat governance |
+| **EBM** | glass-box GAM: kurva efek per fitur bisa dibaca langsung | AUC EBM ≈ ensemble → opsi deploy transparan | 3.4 |

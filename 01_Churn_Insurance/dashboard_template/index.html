@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Churn Retention Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div>
+      <p class="eyebrow" id="eyebrow"></p>
+      <h1 id="title">Customer Churn &amp; Retention</h1>
+      <p class="sub" id="subtitle"></p>
+    </div>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle dark mode">◐</button>
+  </div>
+</header>
+<nav class="tabs-bar" aria-label="Sections"><div class="tabs" id="tabs" role="tablist"></div></nav>
+
+<main>
+  <section id="overview" class="panel">
+    <div class="kpis" id="kpis"></div>
+    <div class="grid2">
+      <div class="card"><h2>Key findings</h2><ol id="findings" class="findings"></ol></div>
+      <div class="card"><h2>Top churn drivers</h2><p class="note">Share of model attribution (SHAP). Filled = actionable lever.</p><div id="driverShare"></div></div>
+    </div>
+  </section>
+
+  <section id="drivers" class="panel">
+    <div class="card">
+      <div class="card-head"><h2>Churn rate by driver</h2>
+        <label class="ctl">Driver <select id="driverSel"></select></label></div>
+      <p class="note">Bars: churn rate per group with 95% CI. Dashed line: overall churn rate.</p>
+      <div id="driverChart"></div>
+    </div>
+    <div class="card"><h2>Evidence matrix</h2><p class="note">A driver is robust when several independent methods agree.</p><div id="evidenceTable" class="tablewrap"></div></div>
+    <div class="card"><h2>High-risk segments (decision tree)</h2><div id="segTable" class="tablewrap"></div></div>
+  </section>
+
+  <section id="timing" class="panel">
+    <div class="grid2">
+      <div class="card"><h2>Survival by predicted risk tier</h2><p class="note">Share of customers still active by tenure.</p><div id="kmChart"></div></div>
+      <div class="card"><h2>When customers leave</h2><p class="note">Churn hazard by tenure interval.</p><div id="hazardChart"></div></div>
+    </div>
+  </section>
+
+  <section id="model" class="panel">
+    <div class="grid2">
+      <div class="card"><h2>Targeting efficiency</h2><p class="note">Cumulative share of churners captured when contacting the highest-risk customers first.</p><div id="gainsChart"></div></div>
+      <div class="card"><h2>Model comparison</h2><p class="note">Out-of-fold ROC-AUC with 95% DeLong CI.</p><div id="modelChart"></div></div>
+    </div>
+    <div class="card"><h2>All models</h2><div id="modelTable" class="tablewrap"></div></div>
+  </section>
+
+  <section id="campaign" class="panel">
+    <div class="card">
+      <div class="card-head"><h2>Retention campaign simulator</h2></div>
+      <p class="note">Customers ranked by expected loss (churn probability × value). Move the sliders to test your own assumptions.</p>
+      <div class="sliders">
+        <label class="ctl">Success rate <input type="range" id="sSucc" min="0.05" max="0.8" step="0.01"><output id="oSucc"></output></label>
+        <label class="ctl">Cost per contact <input type="range" id="sCost" min="0" step="1"><output id="oCost"></output></label>
+      </div>
+      <div class="kpis small" id="campKpis"></div>
+      <div id="campChart"></div>
+    </div>
+    <div class="card"><h2>What works? Causal effect estimates</h2><p class="note">Doubly robust (AIPW) change in churn probability if customers move to the favourable condition; 95% CI.</p><div id="causalChart"></div></div>
+  </section>
+
+  <section id="actions" class="panel">
+    <div class="card"><h2>Recommendations</h2><div id="recTable" class="tablewrap"></div></div>
+    <div class="card"><h2>Churn personas</h2><div id="personaTable" class="tablewrap"></div></div>
+    <div class="card">
+      <div class="card-head"><h2>Customer action list</h2>
+        <label class="ctl">Search <input type="search" id="custSearch" placeholder="ID, tier, quadrant…"></label></div>
+      <p class="note" id="custNote"></p>
+      <div id="custTable" class="tablewrap tall"></div>
+    </div>
+  </section>
+
+  <section id="method" class="panel">
+    <div class="card"><h2>Methodology &amp; architecture</h2><div id="gallery" class="gallery"></div></div>
+  </section>
+</main>
+<footer class="foot" id="foot"></footer>
+<div class="tip" id="tip" role="tooltip" hidden></div>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

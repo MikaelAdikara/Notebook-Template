@@ -24,6 +24,8 @@ Kumpulan template notebook Python (`.ipynb`) siap pakai untuk lomba data analyti
   PANDUAN_LAPORAN.md                ← struktur artikel 10 halaman, mapping figure → bab, template kalimat, referensi
   BAHAN_LATAR_BELAKANG.md           ← latar belakang + tinjauan pustaka + rumusan masalah (EN/ID), fakta OJK/AAJI terverifikasi, daftar pustaka
   CONTOH_LAPORAN_FINAL/             ← contoh artikel final lengkap (docx + pdf) dari data asuransi nyata (Kaggle)
+  CASE_SCENARIOS.md                 ← semua kemungkinan bentuk case/data → setting & efek ke laporan
+  dashboard_template/               ← web app dashboard (diisi otomatis oleh notebook)
   Article_Template_Final_Stage.docx ← template Word sesuai format soal (A4, TNR 12, 1.15, margin 4/3 cm)
 02_Tabular/
   tabular_master.ipynb              ← klasifikasi biner/multikelas & regresi tabular umum
@@ -41,6 +43,12 @@ Guides/
   CHEATSHEET_METRIK_MODEL_VALIDASI.md
   DEBUGGING_TANPA_AI.md
 tools/
+  new_case.py                       ← buat folder kerja case (data/, case_config.json, intake form, RUN_*.bat)
+  CASE_INTAKE.html                  ← form offline: semua info dari soal → case_config.json
+  run_case.py                       ← jalankan notebook headless dengan config (output tersimpan di notebook)
+  make_zip.py                       ← ZIP pengumpulan sesuai aturan
+  stress_test.py                    ← uji 18 bentuk data berbeda (bukti robust)
+  case_config.example.json
   make_synthetic_insurance_churn.py ← generator data latihan asuransi (messy + driver yang diketahui)
 requirements.txt
 ```
@@ -49,11 +57,22 @@ requirements.txt
 
 ## Alur hari H (churn/asuransi) — ringkas
 ```
-00_environment_check  →  isi USER OVERRIDE  →  RUN_MODE="fast" (cek)  →  RUN_MODE="full"
-→  outputs/churn_insurance/REPORT_TODO.md  →  edit REPORT_DRAFT.docx  →  Save As PDF
-→  CFG.MAKE_ZIP=True (cell 24.4)  →  upload "TeamName_Final Stage 1.zip"
+python tools/new_case.py ../case --team NamaTim      → folder kerja + form intake + RUN_*.bat
+copy data panitia → case/data/ ; isi case/CASE_INTAKE.html → case_config.json
+RUN_FAST.bat (cek 5–10 mnt) → RUN_FULL.bat (30–90 mnt)
+→ case/outputs/churn_insurance/<Tim>_Final Stage 1.docx/.pdf  (artikel lengkap ≤10 hal + appendix A–L)
+→ NARRATIVE_OPTIONS.md (pilih narasi) · JUDGE_QA.md (latihan Q&A) · dashboard/ (npx vercel --prod)
+→ edit di Word → Save As PDF → python tools/make_zip.py --case ../case --pdf "<PDF final>"
 ```
-Detail lengkap: `01_Churn_Insurance/00_MULAI_DI_SINI.md`.
+Detail lengkap: `01_Churn_Insurance/00_MULAI_DI_SINI.md` · semua kemungkinan case: `01_Churn_Insurance/CASE_SCENARIOS.md`.
+
+## Yang baru (upgrade final)
+- **Headless runner** `tools/run_case.py` + `tools/new_case.py` + form offline `tools/CASE_INTAKE.html` (semua pertanyaan case → `case_config.json`).
+- **Artikel ditulis otomatis & lengkap**: narasi berbasis data + literatur terverifikasi, judul berbasis temuan, figure komposit, cross-reference, daftar pustaka hanya yang disitasi, **autofit ≤ 10 halaman via MS Word/LibreOffice**, appendix A–L, PDF otomatis, `NARRATIVE_OPTIONS.md`, `JUDGE_QA.md`.
+- **Metodologi tambahan**: EBM (glass-box) & MLP di model zoo, **experiment log + model development journey**, **ablation study (DeLong)**, **DeLong/Holm**, **EMPC (profit-based)**, ECE, RMST, Schoenfeld PH test, Weibull AFT, KM per risk tier + C-index, **AIPW robustness (placebo, E-value, overlap, DAG)**, **DR-learner uplift + GATES**, **fairness audit + model card**, **pilot A/B power analysis**, roadmap Gantt, 5 diagram arsitektur.
+- **Robustness**: CatBoost OOF fix, label file terpisah, 1-file dengan target kosong = test, rekonstruksi tenure dari tanggal, figure tidak duplikat saat cell dijalankan ulang, console Windows UTF-8, fallback LibreOffice, template dashboard ter-embed.
+- **Dashboard interaktif** (`outputs/.../dashboard/`, tanpa library eksternal) — offline & siap Vercel, dengan simulator kampanye.
+- **Stress test** `tools/stress_test.py`: 18 bentuk data asuransi berbeda → `STRESS_TEST_REPORT.md`.
 
 ## Mulai cepat (template lain)
 
@@ -97,7 +116,7 @@ Detail lengkap: `01_Churn_Insurance/00_MULAI_DI_SINI.md`.
 | 21 | **Business analytics** | lift/gains/KS, risk tiers, **CLV & value at risk**, **risk × value matrix**, **campaign ROI simulation + sensitivity**, **what-if scenarios**, **causal effects (doubly robust AIPW)**, **churn personas (SHAP clustering)** |
 | 22 | Recommendations | rekomendasi otomatis berbasis bukti (aksi, evidence, impact, KPI) |
 | 23 | Submission | validator, beberapa varian submission, action list customer (tier, value, quadrant) |
-| 24 | **Deliverables** | Excel semua tabel, `insights.md`, executive summary figure, **`REPORT_DRAFT.docx`** (format soal, angka & figure sudah terisi, bagian `[EDIT]` di-highlight), **`REPORT_TODO.md`** (daftar yang wajib kamu edit), **ZIP `TeamName_Final Stage 1.zip`** |
+| 24 | **Deliverables** | Excel semua tabel, `insights.md`, executive summary figure, **5 diagram arsitektur**, **artikel lengkap `<Tim>_Final Stage 1.docx/.pdf` (autofit ≤10 hal, appendix A–L)**, `NARRATIVE_OPTIONS.md`, `JUDGE_QA.md`, **dashboard Vercel**, ZIP |
 | 25 | Troubleshooting | 20+ error → solusi, recipes, checklist |
 
 Latihan: `python tools/make_synthetic_insurance_churn.py --out ./data` → jalankan notebook churn (set `CFG.EXTRA_TABLES` untuk `claims.csv`) → bandingkan driver yang ditemukan dengan driver yang ditanam (lihat docstring generator).

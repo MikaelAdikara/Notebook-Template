@@ -44,3 +44,6 @@
 5. Cek 10 halaman (notebook menghitung otomatis kalau ada MS Word), Save As PDF dengan nama `NamaTim_Final Stage 1.pdf`.
 
 > Catatan: angka di artikel ini adalah hasil run nyata notebook pada data Kaggle tersebut. Artikel ini **contoh**; jangan dikumpulkan sebagai jawaban lomba.
+
+## v2 (otomatis penuh)
+`hasil_run_notebook_v2_auto_article/` — artikel yang ditulis seluruhnya oleh notebook versi terbaru (narasi, autofit 10 halaman, appendix A–L, dashboard). Lihat README di folder itu.

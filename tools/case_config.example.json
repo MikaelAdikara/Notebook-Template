@@ -1,0 +1,39 @@
+// Contoh case_config.json — salin, ganti isinya sesuai soal (atau pakai tools/CASE_INTAKE.html).
+// Baris yang diawali // diabaikan. Key = nama atribut CFG di notebook. Yang tidak diisi → default/auto-detect.
+{
+  "RUN_MODE": "full",
+  "TRAIN_PATH": "data/train.csv",
+  "TEST_PATH": "data/test.csv",
+  "SAMPLE_SUB_PATH": "data/sample_submission.csv",
+  "TARGET_COL": null,
+  "POSITIVE_LABEL": null,
+  "ID_COL": null,
+  "DROP_COLS": [],
+  "EXTRA_TABLES": {},
+  "METRIC": "roc_auc",
+  "SUBMISSION_MODE": "probability",
+
+  "TEAM_NAME": "NamaTim",
+  "TEAM_MEMBERS": ["Nama 1", "Nama 2", "Nama 3"],
+  "UNIVERSITY": "Nama Universitas",
+
+  "COMPANY_NAME": "PT Asuransi X",
+  "INSURANCE_LINE": "auto",
+  "MARKET": "Indonesia",
+  "CASE_CONTEXT": "PT Asuransi X is a general insurer whose renewal rate has declined over the last two years. Management wants to understand which customers leave, when and why, and which retention actions are worth funding.",
+  "CHURN_DEFINITION": "a policy that is not renewed within 30 days after expiry",
+  "DATA_PERIOD": "",
+  "MANAGEMENT_OBJECTIVE": "auto",
+  "CASE_QUESTIONS": [],
+  "AVAILABLE_INTERVENTIONS": [],
+  "NARRATIVE_ANGLE": "auto",
+
+  "CURRENCY": "IDR",
+  "VALUE_PERIOD": "annual",
+  "PROFIT_MARGIN": 0.20,
+  "RETENTION_COST": 150000,
+  "RETENTION_SUCCESS_RATE": 0.30,
+  "RETENTION_BUDGET": null,
+
+  "FIG_DPI": 300
+}

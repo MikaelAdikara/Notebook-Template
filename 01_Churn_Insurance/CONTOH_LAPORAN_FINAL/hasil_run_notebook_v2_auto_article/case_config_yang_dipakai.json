@@ -1,0 +1,22 @@
+{
+  "RUN_MODE": "full",
+  "TRAIN_PATH": "data/train.csv",
+  "TEST_PATH": "data/test.csv",
+  "SAMPLE_SUB_PATH": "data/sample_submission.csv",
+  "TEAM_NAME": "DataWizards",
+  "TEAM_MEMBERS": ["Member One", "Member Two", "Member Three"],
+  "UNIVERSITY": "Example University",
+  "COMPANY_NAME": "a Texas auto insurer",
+  "MARKET": "Global",
+  "INSURANCE_LINE": "general",
+  "CASE_CONTEXT": "A personal auto insurer in Texas has seen roughly one in nine policyholders leave and wants to understand who leaves, when, and which retention actions are worth funding. The dataset (public Kaggle auto-insurance churn data) contains policy, demographic and household attributes for 200,000 customers.",
+  "CHURN_DEFINITION": "an account that was suspended (policy cancelled or not renewed)",
+  "CURRENCY": "USD",
+  "PROFIT_MARGIN": 0.15,
+  "RETENTION_COST": 25,
+  "RETENTION_SUCCESS_RATE": 0.25,
+  "OPTUNA_TRIALS": 15,
+  "OPTUNA_TIMEOUT": 420,
+  "FINAL_SEEDS": [42, 7],
+  "FIG_DPI": 150
+}

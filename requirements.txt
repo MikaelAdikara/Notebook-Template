@@ -6,7 +6,7 @@ scipy
 matplotlib
 seaborn
 openpyxl
-# Tabular / churn (sangat disarankan)
+# Tabular / churn (sangat disarankan — semua dipakai notebook churn)
 lightgbm
 xgboost
 catboost
@@ -14,7 +14,16 @@ statsmodels
 optuna
 shap
 lifelines
+python-docx
+interpret-core       # Explainable Boosting Machine (glass-box model)
 imbalanced-learn
+psutil
+PyMuPDF              # hitung halaman PDF (fallback tanpa MS Word)
+tabulate             # tabel markdown di REPORT_DRAFT.md
+# Headless runner (tools/run_case.py, tools/stress_test.py)
+nbclient
+nbformat
+ipykernel
 # Clustering / time series (opsional)
 hdbscan
 umap-learn
@@ -27,4 +36,3 @@ Pillow
 tqdm
 # Notebook
 jupyter
-ipykernel

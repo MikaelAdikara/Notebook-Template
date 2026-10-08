@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case Intake</title>
+<style>
+:root { color-scheme: light; --page:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --muted:#898781; --ring:rgba(11,11,11,.12); --accent:#2a78d6; --warn:#b45309; }
+@media (prefers-color-scheme: dark) { :root:where(:not([data-theme="light"])) { color-scheme: dark; --page:#0d0d0d; --surface:#1a1a19; --ink:#fff; --ink2:#c3c2b7; --muted:#898781; --ring:rgba(255,255,255,.12); --accent:#3987e5; --warn:#f59e0b; } }
+:root[data-theme="dark"] { color-scheme: dark; --page:#0d0d0d; --surface:#1a1a19; --ink:#fff; --ink2:#c3c2b7; --muted:#898781; --ring:rgba(255,255,255,.12); --accent:#3987e5; --warn:#f59e0b; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--page); color:var(--ink); font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }
+.wrap { max-width:1180px; margin:0 auto; padding:20px 16px 60px; display:grid; grid-template-columns:minmax(0,1fr) 380px; gap:20px; }
+@media (max-width:900px) { .wrap { grid-template-columns:1fr; } }
+h1 { font-size:22px; margin:0 0 4px; } .lead { color:var(--ink2); margin:0 0 16px; }
+fieldset { border:1px solid var(--ring); border-radius:12px; background:var(--surface); padding:14px 16px 6px; margin:0 0 16px; }
+legend { font-weight:650; padding:0 6px; }
+.f { margin-bottom:14px; }
+.f label { display:block; font-weight:600; font-size:14px; }
+.f .key { font-family:ui-monospace,Consolas,monospace; font-size:12px; color:var(--muted); font-weight:400; margin-left:6px; }
+.f .help { color:var(--ink2); font-size:12.5px; margin:2px 0 6px; }
+.f .where { color:var(--warn); font-size:12px; }
+input[type=text], input[type=number], select, textarea { width:100%; font:inherit; font-size:14px; padding:7px 9px; border-radius:8px; border:1px solid var(--ring); background:var(--page); color:var(--ink); }
+textarea { min-height:70px; resize:vertical; }
+.row2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:600px) { .row2 { grid-template-columns:1fr; } }
+aside { position:sticky; top:16px; align-self:start; }
+.card { border:1px solid var(--ring); border-radius:12px; background:var(--surface); padding:14px; }
+pre { margin:8px 0; max-height:55vh; overflow:auto; font-size:12px; background:var(--page); padding:10px; border-radius:8px; border:1px solid var(--ring); white-space:pre-wrap; word-break:break-word; }
+button { font:inherit; font-size:14px; border-radius:8px; border:1px solid var(--ring); background:var(--surface); color:var(--ink); padding:8px 12px; cursor:pointer; }
+button.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+.btns { display:flex; gap:8px; flex-wrap:wrap; }
+.steps { font-size:13px; color:var(--ink2); padding-left:18px; margin:8px 0 0; }
+code { font-family:ui-monospace,Consolas,monospace; font-size:12.5px; overflow-wrap:anywhere; }
+html, body { overflow-x:hidden; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<main>
+  <h1>Case Intake — Insurance Churn</h1>
+  <p class="lead">Isi dari soal (5–10 menit). Kosongkan yang tidak ada di soal → notebook memakai deteksi otomatis / default yang aman.
+  Hasil: <code>case_config.json</code> → jalankan <code>python tools/run_case.py --config case_config.json</code>.</p>
+  <form id="form"></form>
+</main>
+<aside>
+  <div class="card">
+    <strong>case_config.json</strong>
+    <pre id="out"></pre>
+    <div class="btns">
+      <button class="primary" type="button" id="dl">Download JSON</button>
+      <button type="button" id="cp">Copy</button>
+      <label><button type="button" id="ldBtn">Load JSON…</button><input type="file" id="ld" accept=".json" hidden></label>
+      <button type="button" id="rs">Reset</button>
+    </div>
+    <ol class="steps">
+      <li>Simpan file sebagai <code>case_config.json</code> di folder kerja (sebelah folder <code>data/</code>).</li>
+      <li>Fast check: <code>python tools/run_case.py --config case_config.json --set RUN_MODE=fast</code></li>
+      <li>Final: <code>python tools/run_case.py --config case_config.json</code></li>
+      <li>Buka <code>outputs/churn_insurance/REPORT_TODO.md</code>.</li>
+    </ol>
+  </div>
+</aside>
+</div>
+<script>
+const SECTIONS = [
+ ["1. File & kolom data", [
+  ["TRAIN_PATH","Path data train","text","data/train.csv","Relatif terhadap folder kerja. csv/xlsx/parquet/json didukung.","Nama file di soal / folder data"],
+  ["TEST_PATH","Path data test (kalau ada)","text","data/test.csv","Kosongkan kalau soal tidak memberi test set → analisis + CV saja.",""],
+  ["SAMPLE_SUB_PATH","Path sample submission","text","data/sample_submission.csv","Format submission diikuti persis (kolom & urutan).",""],
+  ["TARGET_COL","Kolom target churn","text","","Kosong = auto-detect. Isi kalau soal menyebut nama kolom target.","Bagian 'Data description' / 'Target'"],
+  ["POSITIVE_LABEL","Nilai yang berarti churn","text","","Mis. Yes, 1, Lapsed, Cancelled. Untuk status multi-kelas pisahkan koma: Lapsed,Surrendered","Definisi target di soal"],
+  ["ID_COL","Kolom ID","text","","Kosong = auto. Penting untuk submission.",""],
+  ["DROP_COLS","Kolom yang dibuang (pisahkan koma)","list","","Kolom post-churn yang jelas (cancel_date, reason) atau identitas pribadi (nama, telp). Leakage lain dideteksi otomatis.","Kolom yang hanya ada untuk nasabah yang sudah keluar"],
+  ["GROUP_COL","Kolom grup (opsional)","text","","Isi kalau satu nasabah punya banyak baris (data bulanan/polis ganda), mis. customer_id → CV tidak bocor.",""],
+  ["EXTRA_TABLES","Tabel tambahan one-to-many (JSON)","json","","Contoh: {\"claims\": {\"path\": \"data/claims.csv\", \"key\": \"customer_id\", \"date_col\": \"claim_date\"}}","Kalau soal memberi beberapa file (klaim, pembayaran, keluhan)"],
+  ["EXTRA_ONE_TO_ONE","Tabel tambahan one-to-one (JSON)","json","","Contoh: {\"demo\": {\"path\": \"data/demographics.csv\", \"key\": \"customer_id\"}}",""],
+  ["TRAIN_LABELS","Label train di file terpisah (JSON)","json","","Contoh: {\"path\": \"data/train_labels.csv\", \"key\": \"customer_id\"} — di-merge hanya ke train.",""],
+  ["TREATMENT_COLS","Kolom intervensi historis (pisahkan koma)","list","","Mis. received_offer, agent_call — efek kausal & uplift dianalisis lebih dulu (bukti terkuat untuk rekomendasi).","Kolom kampanye/penawaran di data"],
+  ["REFERENCE_DATE","Tanggal snapshot data (YYYY-MM-DD)","text","","Untuk 'days since' & rekonstruksi tenure dari tanggal. Kosong = tanggal terbaru di data.",""],
+ ]],
+ ["2. Kompetisi & tim", [
+  ["TEAM_NAME","Nama tim","text","TeamName","Dipakai untuk nama file: <Tim>_Final Stage 1.pdf/.zip",""],
+  ["TEAM_MEMBERS","Anggota tim (satu per baris)","lines","","Masuk ke cover.",""],
+  ["UNIVERSITY","Universitas","text","","Masuk ke cover.",""],
+  ["METRIC","Metrik penilaian prediksi","select:roc_auc,pr_auc,f1,f2,accuracy,balanced_accuracy,recall,precision,logloss,brier,mcc,kappa,gini","roc_auc","Kalau soal tidak menyebut → roc_auc.","Bagian 'Evaluation'"],
+  ["SUBMISSION_MODE","Format submission","select:probability,label","probability","AUC/logloss → probability; F1/accuracy → label 0/1. Cek sample_submission.",""],
+ ]],
+ ["3. Case brief (menentukan narasi laporan)", [
+  ["COMPANY_NAME","Nama perusahaan","text","the insurer","Persis seperti di soal.",""],
+  ["INSURANCE_LINE","Jenis asuransi","select:auto,life,general,health","auto","life = lapse/surrender (unit link, whole life); general = non-renewal (kendaraan, properti); auto = deteksi dari data.","Deskripsi produk"],
+  ["MARKET","Pasar","text","Indonesia","'Indonesia' → konteks OJK/AAJI terverifikasi otomatis masuk Introduction.",""],
+  ["CASE_CONTEXT","Konteks soal (2–4 kalimat, English)","area","","Siapa perusahaannya, masalahnya, apa yang diminta manajemen. Paragraf pertama Introduction.","Paragraf pembuka soal"],
+  ["CHURN_DEFINITION","Definisi churn (English)","text","","Mis. 'a policy not renewed within 30 days after expiry'.",""],
+  ["DATA_PERIOD","Periode data","text","","Mis. 'January 2023 – December 2024'.",""],
+  ["MANAGEMENT_OBJECTIVE","Tujuan manajemen","select:auto,reduce_churn,maximize_profit,understand_drivers,early_warning","auto","Menentukan framing kalimat tujuan & penekanan rekomendasi.",""],
+  ["CASE_QUESTIONS","Pertanyaan yang diminta soal (satu per baris, English)","lines","","Kalau diisi → menjadi Research Questions laporan (dijawab di Discussion). Kosong = 4 RQ standar.","Daftar tugas / deliverables di soal"],
+  ["AVAILABLE_INTERVENTIONS","Intervensi yang bisa dilakukan perusahaan (satu per baris)","lines","","Mis. 'auto-debit incentive', 'agent call', 'discount at renewal'. Rekomendasi yang cocok diprioritaskan.",""],
+  ["NARRATIVE_ANGLE","Sudut cerita / judul","select:auto,lifecycle,payment,price,service,profit","auto","auto = dipilih dari temuan terkuat. Alternatif judul ada di NARRATIVE_OPTIONS.md.",""],
+  ["REPORT_TITLE","Judul manual (opsional)","text","","Kosong = judul otomatis berbasis temuan.",""],
+ ]],
+ ["4. Parameter bisnis (kalau soal tidak memberi → biarkan, ditulis sebagai asumsi + sensitivity)", [
+  ["BUSINESS_PARAMS_SOURCE","Sumber parameter bisnis","select:assumed,case","assumed","case = margin/biaya/success rate diberikan soal → laporan menulis 'given in the case'; assumed = asumsi wajar + sensitivity.",""],
+  ["CURRENCY","Mata uang","text","IDR","",""],
+  ["VALUE_COL","Kolom nilai nasabah (premi)","text","","Kosong = auto (role premium).",""],
+  ["VALUE_PERIOD","Periode premi","select:annual,monthly","annual","monthly → dikali 12.",""],
+  ["PROFIT_MARGIN","Margin dari premi","number","0.20","0.20 = 20%.",""],
+  ["RETENTION_COST","Biaya kontak+insentif per nasabah","number","150000","Dalam mata uang di atas.",""],
+  ["RETENTION_SUCCESS_RATE","Success rate retensi","number","0.30","Porsi churner yang dikontak lalu bertahan.",""],
+  ["DISCOUNT_RATE","Discount rate CLV","number","0.10","",""],
+  ["CLV_HORIZON_YEARS","Horizon CLV (tahun)","number","5","",""],
+  ["RETENTION_BUDGET","Anggaran kampanye (opsional)","number","","Kalau soal menyebut budget → ukuran kampanye optimal dalam budget.",""],
+ ]],
+ ["5. Run", [
+  ["RUN_MODE","Mode","select:full,fast","full","fast = cek cepat (±5 menit); full = final.",""],
+  ["USE_OPTUNA","Hyperparameter tuning (Optuna)","select:true,false","true","false kalau waktu sangat mepet.",""],
+  ["OPTUNA_TIMEOUT","Batas waktu tuning per model (detik)","number","900","",""],
+  ["FIG_DPI","DPI figure","number","200","300 untuk kualitas cetak.",""],
+  ["REFERENCES_COUNT_IN_LIMIT","Daftar pustaka dihitung dalam 10 halaman?","select:true,false","true","true = aman (konservatif).","Aturan format di soal"],
+ ]],
+];
+const DEFAULTS = {};
+const form = document.getElementById("form"), out = document.getElementById("out");
+SECTIONS.forEach(([title, fields]) => {
+  const fs = document.createElement("fieldset"); const lg = document.createElement("legend"); lg.textContent = title; fs.append(lg);
+  fields.forEach(([key, label, type, def, help, where]) => {
+    DEFAULTS[key] = def;
+    const d = document.createElement("div"); d.className = "f";
+    const l = document.createElement("label"); l.htmlFor = key; l.textContent = label;
+    const k = document.createElement("span"); k.className = "key"; k.textContent = key; l.append(k);
+    d.append(l);
+    if (help) { const h = document.createElement("div"); h.className = "help"; h.textContent = help; d.append(h); }
+    if (where) { const w = document.createElement("div"); w.className = "where"; w.textContent = "Cari di soal: " + where; d.append(w); }
+    let inp;
+    if (type.startsWith("select:")) { inp = document.createElement("select"); type.slice(7).split(",").forEach((o) => { const op = document.createElement("option"); op.value = o; op.textContent = o; inp.append(op); }); }
+    else if (type === "area" || type === "lines" || type === "json") { inp = document.createElement("textarea"); }
+    else { inp = document.createElement("input"); inp.type = type === "number" ? "text" : "text"; if (type === "number") inp.inputMode = "decimal"; }
+    inp.id = key; inp.dataset.type = type; inp.value = def; inp.addEventListener("input", update);
+    d.append(inp); fs.append(d);
+  });
+  form.append(fs);
+});
+function collect() {
+  const o = {};
+  document.querySelectorAll("[data-type]").forEach((inp) => {
+    const t = inp.dataset.type, v = inp.value.trim(), k = inp.id;
+    if (v === "" ) return;
+    if (v === String(DEFAULTS[k]) && !["TRAIN_PATH","TEST_PATH","SAMPLE_SUB_PATH","TEAM_NAME","RUN_MODE"].includes(k)) return;
+    if (t === "number") { const n = Number(v.replace(/_/g, "")); if (!isNaN(n)) o[k] = n; }
+    else if (t === "list") o[k] = v.split(",").map((s) => s.trim()).filter(Boolean);
+    else if (t === "lines") o[k] = v.split("\n").map((s) => s.trim()).filter(Boolean);
+    else if (t === "json") { try { o[k] = JSON.parse(v); } catch (e) { o[k] = "⚠ JSON tidak valid"; } }
+    else if (v === "true" || v === "false") o[k] = v === "true";
+    else if (k === "POSITIVE_LABEL" && v.includes(",")) o[k] = v.split(",").map((s) => s.trim());
+    else o[k] = v;
+  });
+  return o;
+}
+function update() { const o = collect(); out.textContent = JSON.stringify(o, null, 2); try { localStorage.setItem("case-intake", JSON.stringify(o)); } catch (e) {} }
+function load(o) {
+  Object.entries(o).forEach(([k, v]) => { const inp = document.getElementById(k); if (!inp) return;
+    inp.value = Array.isArray(v) ? (inp.dataset.type === "list" || k === "POSITIVE_LABEL" ? v.join(", ") : v.join("\n")) : (typeof v === "object" && v !== null ? JSON.stringify(v) : String(v)); });
+  update();
+}
+document.getElementById("dl").onclick = () => { const b = new Blob([JSON.stringify(collect(), null, 2)], { type: "application/json" }); const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = "case_config.json"; a.click(); };
+document.getElementById("cp").onclick = () => navigator.clipboard && navigator.clipboard.writeText(JSON.stringify(collect(), null, 2));
+document.getElementById("ldBtn").onclick = () => document.getElementById("ld").click();
+document.getElementById("ld").onchange = (e) => { const f = e.target.files[0]; if (!f) return; f.text().then((t) => load(JSON.parse(t.split("\n").filter((l) => !l.trim().startsWith("//")).join("\n")))); };
+document.getElementById("rs").onclick = () => { Object.entries(DEFAULTS).forEach(([k, v]) => { document.getElementById(k).value = v; }); update(); };
+try { const s = localStorage.getItem("case-intake"); if (s) load(JSON.parse(s)); else update(); } catch (e) { update(); }
+</script>
+</body>
+</html>

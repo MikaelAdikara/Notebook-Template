@@ -2,6 +2,8 @@
 
 Panduan ini memetakan **output notebook `churn_insurance_master.ipynb` → bagian artikel**, plus template kalimat (English) yang tinggal diisi angka. Semua angka yang dibutuhkan ada di `outputs/churn_insurance/insights.md`, `tables/`, `report_tables.xlsx`, dan `figures/`.
 
+> **UPDATE — artikel sekarang ditulis lengkap otomatis** (bukan kerangka): lihat **§A di bawah**. Bagian lama panduan ini tetap berguna untuk memahami *kenapa* strukturnya begitu dan untuk mengedit narasi.
+
 > **Jalur tercepat:** notebook otomatis membuat **`outputs/churn_insurance/REPORT_DRAFT.docx`** (format soal, angka & figure run kamu sudah masuk) + **`REPORT_TODO.md`** (daftar bagian `[EDIT]` yang wajib kamu lengkapi). Panduan ini menjelaskan *kenapa* strukturnya begitu & cara menulis bagian `[EDIT]` dengan baik. Prosedur lengkap: `00_MULAI_DI_SINI.md`.
 
 ---
@@ -150,3 +152,37 @@ Cadangan (kalau ada ruang): what-if bar chart, persona heatmap, odds-ratio fores
 - Prokhorenkova, L., Gusev, G., Vorobev, A., Dorogush, A. V., & Gulin, A. (2018). CatBoost: Unbiased boosting with categorical features. *Advances in Neural Information Processing Systems, 31*.
 - Siddiqi, N. (2006). *Credit risk scorecards: Developing and implementing intelligent credit scoring*. Wiley. (Weight of Evidence & Information Value)
 - Verbeke, W., Dejaeger, K., Martens, D., Hur, J., & Baesens, B. (2012). New insights into churn prediction in the telecommunication sector: A profit driven data mining approach. *European Journal of Operational Research, 218*(1), 211–229. (profit-based churn evaluation)
+
+
+---
+
+## A. Artikel otomatis (Section 24.2c–24.5) — apa yang sudah dibuat & cara memakainya
+
+**Output:** `<Tim>_Final Stage 1.docx/.pdf` (= `REPORT_DRAFT`), `REPORT_TODO.md`, `NARRATIVE_OPTIONS.md`, `JUDGE_QA.md`, `dashboard/`.
+
+| Bagian artikel | Isi otomatis | Sumber | Bisa diatur lewat |
+|---|---|---|---|
+| Cover | judul berbasis temuan, tim, anggota, universitas, tahun | — | `REPORT_TITLE`, `TEAM_MEMBERS`, `UNIVERSITY` |
+| Executive Summary | masalah + nilai di risiko, 4–5 temuan berangka, model + CI, kampanye optimal, efek kausal robust, 3 rekomendasi + ukuran pilot | semua section | — |
+| 1. Introduction | konteks soal, konteks pasar Indonesia (OJK/AAJI/AAUI, terverifikasi, disesuaikan jenis asuransi), ekonomi retensi, literatur, RQ | BAHAN_LATAR_BELAKANG | `CASE_CONTEXT`, `MARKET`, `INSURANCE_LINE`, `CASE_QUESTIONS`, `MANAGEMENT_OBJECTIVE` |
+| 2. Data & Methodology | data, cleaning log, leakage, FE, kerangka 5 lapis (Figure arsitektur), validasi + sanity check | Section 3–5, 12–13 | `CHURN_DEFINITION`, `DATA_PERIOD` |
+| 3.1 Who churns | driver + IV + lift, variabel negligible, **Figure komposit driver**, **Table evidence matrix** (4 metode), odds ratio vs referensi, alasan berhenti | Section 7, 11, 20.5 | — |
+| 3.2 When | KM, hazard puncak, **Figure hazard + KM per risk tier**, RMST, Cox/AFT/PH test | Section 10 | — |
+| 3.3 Segments | aturan decision tree dalam bahasa bisnis + tabel | Section 9 | — |
+| 3.4 Prediction | **Table model** (AUC CI DeLong, PR-AUC, Brier, EMPC, p Holm), LogReg/EBM vs ensemble, EMPC vs AUC, konsentrasi, experiment log, ablation, C-index | Section 14–19 | — |
+| 3.5 Explaining | SHAP share, heterogenitas driver per segmen | Section 20 | — |
+| 4. Business | value at risk, Priority Save, kampanye (asumsi/“given in the case”, sensitivity, budget), **kausal AIPW + robustness + uplift** (kalimat mengikuti bukti: heterogen vs homogen), persona | Section 21 | `BUSINESS_PARAMS_SOURCE`, `RETENTION_BUDGET`, `TREATMENT_COLS` |
+| 5. Recommendations | tabel aksi (evidence, impact, KPI, kapan), 2–3 aksi utama, desain pilot (n per arm), MLOps | Section 22 | `AVAILABLE_INTERVENTIONS` (diprioritaskan) |
+| 6. Discussion & Conclusion | jawaban RQ1–RQ4, kait literatur sesuai tema driver yang muncul (atau kontradiksi), governance, limitations | BAHAN §C.5–C.6 | — |
+| References | **hanya yang disitasi**, APA 7, terverifikasi | `REF_DB` | `REFERENCES_COUNT_IN_LIMIT` |
+| Appendix A–L | data & kualitas, metodologi + arsitektur + narasi metode (dengan sitasi teknis), driver lengkap, regresi, survival, **model development & trial-and-error**, explainability, kausal & uplift, bisnis, governance (model card, fairness, MLOps, roadmap), reproducibility + *References for the Appendices* | semua figure/tabel | — |
+
+**Autofit ≤ 10 halaman:** level 0 (lengkap) → level 1 (paragraf prioritas 3 dibuang) → 2 (figure prioritas 3 ke appendix) → 3 (figure lebih kecil, tabel lebih pendek) → 4 (figure prioritas 2 ke appendix). Figure yang dipindah tetap ada di appendix dan referensinya di teks otomatis menjadi "Figure F.2" dst.
+
+**Yang tetap harus dilakukan manusia (±60 menit):**
+1. Baca seluruh artikel, parafrase kalimat yang terasa generik, tambahkan 1–2 insight spesifik case.
+2. Pilih judul & framing dari `NARRATIVE_OPTIONS.md`; beri nama persona.
+3. Cek angka sensitif (target mapping, parameter bisnis) & klaim kausal (hanya verdict "robust").
+4. Kalau ada aturan soal yang berbeda (misal Bahasa Indonesia, referensi tidak dihitung) → set config / terjemahkan.
+
+Re-generate tanpa modeling ulang: ubah case brief → jalankan ulang cell 24.2c–24.5 saja (±3 menit).
