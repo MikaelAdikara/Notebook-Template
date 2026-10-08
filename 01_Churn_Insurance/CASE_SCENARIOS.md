@@ -1,7 +1,7 @@
 # CASE SCENARIOS — semua kemungkinan bentuk case & data → apa yang dilakukan
 
 Pakai tabel ini setelah membaca soal. Kolom **Otomatis?** = notebook sudah menangani tanpa setting; **Set** = key di `case_config.json` (atau USER OVERRIDE); **Laporan** = bagian artikel yang berubah.
-Bentuk data A1–A12 dan B1–B12 sudah diuji end-to-end dengan `tools/stress_test.py` — **22 varian, semua PASS tanpa section error** (lihat `../tools/STRESS_TEST_REPORT.md`). B13 (`TREATMENT_COLS`) memakai jalur kode AIPW yang sama dengan fitur actionable yang sudah teruji.
+Bentuk data A1–A12, B1–B12 dan **semua kerusakan di bagian X** sudah diuji end-to-end dengan `tools/stress_test.py` — **44 varian (22 skenario + 22 data rusak/dimanipulasi)**; hasilnya di `../tools/STRESS_TEST_REPORT.md` dan `../QA/QA_FINAL_REPORT.md`.
 
 ## A. Bentuk data & target
 
@@ -55,6 +55,33 @@ Bentuk data A1–A12 dan B1–B12 sudah diuji end-to-end dengan `tools/stress_te
 | C11 | Forecast churn rate bulanan | `05_Time_Series` | — |
 | C12 | Dashboard / monitoring | `outputs/.../dashboard` (Vercel) + model card + MLOps loop | — |
 
+## X. Data rusak / dimanipulasi (semua diuji — varian `x_*` di stress test)
+
+| # | Kerusakan | Otomatis? | Set kalau perlu |
+|---|---|---|---|
+| X1 | BOM (`\ufeff`), spasi/enter di nama kolom | ✅ dibersihkan | — |
+| X2 | Nama kolom ganda; kolom index tersimpan (`Unnamed: 0`) | ✅ akhiran `.1`/`__2`; index 0,1,2,… dibuang | — |
+| X3 | Kolom test berbeda dari train (kurang, lebih, urutan) | ✅ diselaraskan, kolom hilang = NaN | — |
+| X4 | Tipe campur dalam 1 kolom (`12`, `"12 tahun"`, `"n/a"`, `"-"`) | ✅ parsing angka toleran; sisa → NaN | `FORCE_NUMERIC` |
+| X5 | Label target kotor (`yes`, `Y `, `TRUE`, `1.0`) tanpa `POSITIVE_LABEL` | ✅ dinormalisasi | `POSITIVE_LABEL` |
+| X6 | `inf`/`-inf`, nilai negatif mustahil, outlier ekstrem | ✅ inf → NaN (dicatat), nilai mustahil → NaN | — |
+| X7 | Format tanggal campur dalam 1 kolom | ✅ dayfirst + `format="mixed"` | `REFERENCE_DATE` |
+| X8 | Baris kosong total, kolom kosong total, kolom konstan | ✅ dibuang + dicatat | — |
+| X9 | Baris duplikat, termasuk duplikat dengan label bertentangan | ✅ dideteksi & dilaporkan di Data Quality | — |
+| X10 | Kategori baru di test | ✅ encoder aman | — |
+| X11 | Kolom PII/teks bebas (nama, telp, email, keluhan) | ✅ ID/PII dikecualikan dari model | `DROP_COLS` |
+| X12 | Kolom boolean (`True/False`), nama kolom dengan simbol (`premi (Rp)`, `%claim`) | ✅ | — |
+| X13 | Excel: judul/logo di atas header, banyak sheet | ✅ header dideteksi, sheet terbesar dipilih | `EXCEL_SHEET` |
+| X14 | Uang dalam teks berskala: `"Rp 5 jt"`, `"1,2 M"`, `"750 rb"` | ✅ jt/juta, rb/ribu, M/miliar, T/triliun | — |
+| X15 | File `.txt` ber-tab, `.jsonl`, `.parquet` | ✅ | — |
+| X16 | Target `True/False` atau `0.0/1.0` | ✅ | — |
+| X17 | Target status (`Active/Inactive`) | ✅ aktif = 0 | `POSITIVE_LABEL` |
+| X18 | ID kardinalitas tinggi / kolom kode unik | ✅ dibuang dari model | — |
+| X19 | Jebakan leakage (`cancel_date`, `refund_amount`, `days_to_cancel`) | ✅ leakage screen | `DROP_COLS` |
+| X20 | Data kecil + banyak kolom + kotor sekaligus | ✅ (analisis heterogeneity dilewati otomatis kalau segmen terlalu kecil) | — |
+| X21 | CSV rusak (baris kelebihan kolom, encoding cp1252) | ✅ baris rusak dilewati + dicatat | — |
+| X22 | **Target hanya 1 kelas** / file < 30 baris | ⛔ berhenti dengan pesan jelas (apa yang salah & key yang harus di-set) | `TARGET_COL`, `TRAIN_LABELS`, `POSITIVE_LABEL` |
+
 ## D. Konteks bisnis & laporan
 
 | # | Kondisi | Set | Efek |
@@ -68,6 +95,14 @@ Bentuk data A1–A12 dan B1–B12 sudah diuji end-to-end dengan `tools/stress_te
 | D7 | Artikel wajib Bahasa Indonesia | generator menulis EN → terjemahkan di Word (struktur & angka tetap) | — |
 | D8 | Referensi tidak dihitung dalam 10 halaman | `REFERENCES_COUNT_IN_LIMIT: false` | autofit memberi ruang lebih untuk figure |
 | D9 | Ingin judul/angle tertentu | `REPORT_TITLE` atau `NARRATIVE_ANGLE` | judul & framing |
+| D10 | Soal menyebut jumlah nasabah/polis perusahaan (data = sampel) | `PORTFOLIO_SIZE` | value at risk & kampanye ditulis skala sampel **dan** skala portofolio |
+| D11 | Soal memberi anggaran retensi | `RETENTION_BUDGET` (+ `PORTFOLIO_SIZE`) | 4.2: budget binding atau tidak, berapa kontak, ROI dalam budget |
+| D12 | Soal memberi angka bisnis | `BUSINESS_PARAMS_SOURCE: "case"` | "given in the case", bukan "assumed" |
+| D13 | Casebook punya fakta spesifik (tren churn, target manajemen, program baru) | `CASE_KEY_FACTS` atau sheet `case_facts` | kalimat masuk Introduction |
+| D14 | Tim menemukan jurnal/fakta industri sendiri | `CASE_RESEARCH.xlsx` (lihat `RESEARCH_KIT.md`) | Introduction, Discussion, Appendix B, daftar pustaka |
+| D15 | Ingin paragraf sendiri di bagian tertentu | sheet `custom_paragraphs` (section + start/end) | paragraf disisipkan di posisi itu |
+| D16 | Konteks pasar bawaan tidak relevan | `USE_DEFAULT_MARKET_CONTEXT: false` | paragraf OJK/AAJI bawaan diganti fakta industri tim |
+| D17 | Dashboard akan dipublikasikan, data nasabah rahasia | `DASHBOARD_INCLUDE_CUSTOMERS: false` | tab nasabah tidak diekspor |
 
 ## E. Snippet pra-proses (kalau benar-benar perlu)
 

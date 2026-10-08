@@ -1,0 +1,54 @@
+{
+  "RUN_MODE": "full",
+  "TRAIN_PATH": "data/train.csv",
+  "TEST_PATH": "data/test.csv",
+  "SAMPLE_SUB_PATH": "data/sample_submission.csv",
+  "EXTRA_TABLES": {
+    "claims": {
+      "path": "data/claims.csv",
+      "key": "customer_id",
+      "date_col": "claim_date"
+    }
+  },
+  "TARGET_COL": "churn",
+  "ID_COL": "customer_id",
+  "METRIC": "roc_auc",
+  "SUBMISSION_MODE": "probability",
+  "REFERENCE_DATE": "2025-06-30",
+  "TEAM_NAME": "Warkab",
+  "TEAM_MEMBERS": [
+    "Mikael Alexander Adikara Purnama",
+    "Pandu Winata"
+  ],
+  "UNIVERSITY": "[Universitas]",
+  "COMPANY_NAME": "PT Asuransi Nusantara Sejahtera",
+  "INSURANCE_LINE": "multi",
+  "MARKET": "Indonesia",
+  "CASE_CONTEXT": "PT Asuransi Nusantara Sejahtera (ANS) is a multi-line insurer that sells life, health, motor and property policies through agents, bancassurance partners, brokers and an online channel. Policy non-renewal and lapse rose from 15.2% in 2022 to 20.6% in 2024, and the Board has asked for an explanation of who is leaving, when and why, together with a retention programme for 2026 within a budget of Rp1.5 billion.",
+  "CHURN_DEFINITION": "a policy that was not renewed or lapsed within the observation window (January 2022 – June 2025)",
+  "DATA_PERIOD": "January 2022 – June 2025 (snapshot 30 June 2025)",
+  "MANAGEMENT_OBJECTIVE": "maximize_profit",
+  "CASE_QUESTIONS": [
+    "What are the main drivers of churn, and how large is each effect?",
+    "When during the customer lifecycle is churn risk highest?",
+    "How accurately can churn be predicted for the customers in the test set?",
+    "Which retention programme within the Rp1.5 billion budget maximises the financial return?"
+  ],
+  "AVAILABLE_INTERVENTIONS": [
+    "auto-debit enrolment",
+    "mobile app nudges",
+    "agent persistency bonus",
+    "renewal discount",
+    "complaint follow-up call"
+  ],
+  "NARRATIVE_ANGLE": "auto",
+  "CURRENCY": "IDR",
+  "VALUE_PERIOD": "annual",
+  "PROFIT_MARGIN": 0.2,
+  "RETENTION_COST": 150000,
+  "RETENTION_SUCCESS_RATE": 0.3,
+  "RETENTION_BUDGET": 1500000000,
+  "BUSINESS_PARAMS_SOURCE": "case",
+  "FIG_DPI": 200,
+  "PORTFOLIO_SIZE": 1200000
+}

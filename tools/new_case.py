@@ -30,7 +30,8 @@ REPO = os.path.dirname(HERE)
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("folder")
-    ap.add_argument("--team", default="TeamName")
+    ap.add_argument("--team", default="Warkab")
+    ap.add_argument("--members", default="Mikael Alexander Adikara Purnama;Pandu Winata", help="anggota dipisah titik koma")
     a = ap.parse_args()
     d = os.path.abspath(a.folder)
     os.makedirs(os.path.join(d, "data"), exist_ok=True)
@@ -38,6 +39,7 @@ def main():
         txt = "\n".join(l for l in f.read().splitlines() if not l.strip().startswith("//"))
     cfg = json.loads(txt)
     cfg["TEAM_NAME"] = a.team
+    cfg["TEAM_MEMBERS"] = [m.strip() for m in a.members.split(";") if m.strip()]
     cfg_path = os.path.join(d, "case_config.json")
     if os.path.exists(cfg_path):
         print("case_config.json sudah ada → tidak ditimpa")
@@ -45,6 +47,12 @@ def main():
         with open(cfg_path, "w", encoding="utf-8") as f:
             json.dump(cfg, f, indent=2, ensure_ascii=False)
     shutil.copyfile(os.path.join(HERE, "CASE_INTAKE.html"), os.path.join(d, "CASE_INTAKE.html"))
+    try:                                             # research plan + CASE_RESEARCH.xlsx (dibuat ulang dengan --casebook setelah soal ada)
+        sys.path.insert(0, HERE)
+        import research_helper
+        research_helper.run(d, quiet=True)
+    except Exception as e:
+        print("(research_helper dilewati:", e, ")")
     runner = os.path.join(HERE, "run_case.py")
     py = sys.executable
     for mode in ["fast", "full"]:
@@ -58,19 +66,23 @@ def main():
 1. Copy semua file data dari panitia ke `data/`.
 2. Buka `CASE_INTAKE.html` → isi dari soal → **Download JSON** → simpan sebagai `case_config.json` di folder ini (timpa).
    (Atau edit `case_config.json` langsung.)
-3. Double-click **RUN_FAST.bat** (±5–10 menit) → cek `outputs/churn_insurance/run_summary.json` & `REPORT_TODO.md`:
+3. Simpan PDF/DOCX soal sebagai `casebook.pdf` di folder ini → `python "{os.path.join(HERE, 'research_helper.py')}" --case .`
+   → buka **RESEARCH_PLAN.html** (keyword + query siap-klik) & isi **CASE_RESEARCH.xlsx** (panduan: RESEARCH_KIT.md).
+4. Double-click **RUN_FAST.bat** (±5–10 menit) → cek `outputs/churn_insurance/run_summary.json` & `REPORT_TODO.md`:
    target/ID benar? churn rate masuk akal? tidak ada section error?
-4. Double-click **RUN_FULL.bat** (±30–90 menit; jalan di background).
-5. Hasil di `outputs/churn_insurance/`:
+5. Double-click **RUN_FULL.bat** (±30–90 menit; jalan di background).
+6. Hasil di `outputs/churn_insurance/`:
    - `{a.team}_Final Stage 1.docx/.pdf` — artikel (≤10 halaman isi, appendix lengkap)
    - `NARRATIVE_OPTIONS.md` — alternatif judul/framing/nama persona/paragraf diskusi
    - `JUDGE_QA.md` — persiapan pertanyaan juri
    - `dashboard/` — buka `index.html`; deploy: `cd outputs/churn_insurance/dashboard` lalu `npx vercel --prod`
    - `submission.csv`, `tables/`, `figures/`, `report_tables.xlsx`, `model_card.md`
    - `{a.team}_churn_analysis.ipynb` (di folder ini) — notebook ter-eksekusi lengkap dengan output (bukti analisis)
-6. Edit artikel di Word (parafrase, pilih narasi) → Save As PDF `{a.team}_Final Stage 1.pdf`.
-7. ZIP pengumpulan: `python "{os.path.join(HERE, 'make_zip.py')}" --case . --pdf "{a.team}_Final Stage 1.pdf"`
+7. Setelah CASE_RESEARCH.xlsx terisi: jalankan ulang cell 24.2c–24.5 di notebook (±3 menit) → artikel memuat riset tim.
+8. Edit artikel di Word (parafrase, pilih narasi) → Save As PDF `{a.team}_Final Stage 1.pdf`.
+9. ZIP pengumpulan: `python "{os.path.join(HERE, 'make_zip.py')}" --case . --pdf "{a.team}_Final Stage 1.pdf"`
    (PDF final hasil edit kamu; tanpa --pdf → pakai draft otomatis).
+10. Cek akhir otomatis: `python "{os.path.join(REPO, 'QA', 'qa_check.py')}" --case .` → semua cek wajib PASS (hasil di `QA_CHECK.md`).
 
 Panduan lengkap: {os.path.join(REPO, '01_Churn_Insurance', '00_MULAI_DI_SINI.md')}
 """

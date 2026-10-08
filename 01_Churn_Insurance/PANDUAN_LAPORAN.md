@@ -186,3 +186,18 @@ Cadangan (kalau ada ruang): what-if bar chart, persona heatmap, odds-ratio fores
 4. Kalau ada aturan soal yang berbeda (misal Bahasa Indonesia, referensi tidak dihitung) → set config / terjemahkan.
 
 Re-generate tanpa modeling ulang: ubah case brief → jalankan ulang cell 24.2c–24.5 saja (±3 menit).
+
+## B. Membuat narasi "nempel" ke case (riset tim → artikel otomatis)
+Generator menulis narasi dari data; supaya Introduction & Discussion **spesifik ke perusahaan di soal**, isi `CASE_RESEARCH.xlsx` (dibuat `new_case.py`) — metodenya di `RESEARCH_KIT.md`.
+
+| Sheet workbook | Masuk ke artikel | Contoh isi |
+|---|---|---|
+| `case_facts` | Introduction (setelah konteks soal) | "Non-renewal rose from 15.2% in 2022 to 20.6% in 2024." |
+| `industry_facts` | Introduction (konteks pasar) + daftar pustaka | fakta OJK/AAJI/AAUI dengan referensi APA |
+| `literature` | Discussion (dicocokkan dengan driver temuan) + Appendix B + daftar pustaka | 1 kalimat temuan jurnal + sitasi (Nama, Tahun) |
+| `custom_paragraphs` | awal/akhir section yang dipilih | paragraf strategi khas tim di executive summary / recommendations |
+| `feature_labels` | semua tabel & figure | `pay_auto_debit` → "Auto-debit payment" |
+
+Aturan: kolom `use` = Y agar dipakai; `verified` = Y setelah DOI/URL dicek (yang belum diverifikasi muncul sebagai peringatan di `REPORT_TODO.md` §A2).
+Referensi duplikat (judul sama / nama+tahun sama) otomatis dibuang. Setelah workbook berubah cukup jalankan ulang cell 24.2c–24.5.
+Contoh workbook terisi: `../examples/mock_case_warkab/CASE_RESEARCH.xlsx`; hasilnya di `../QA/` (PDF demo).

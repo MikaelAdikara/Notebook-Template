@@ -25,6 +25,7 @@ Kumpulan template notebook Python (`.ipynb`) siap pakai untuk lomba data analyti
   BAHAN_LATAR_BELAKANG.md           ← latar belakang + tinjauan pustaka + rumusan masalah (EN/ID), fakta OJK/AAJI terverifikasi, daftar pustaka
   CONTOH_LAPORAN_FINAL/             ← contoh artikel final lengkap (docx + pdf) dari data asuransi nyata (Kaggle)
   CASE_SCENARIOS.md                 ← semua kemungkinan bentuk case/data → setting & efek ke laporan
+  RESEARCH_KIT.md                   ← metode riset latar belakang/"resume": casebook → keyword → sumber → verifikasi → workbook → laporan
   dashboard_template/               ← web app dashboard (diisi otomatis oleh notebook)
   Article_Template_Final_Stage.docx ← template Word sesuai format soal (A4, TNR 12, 1.15, margin 4/3 cm)
 02_Tabular/
@@ -47,9 +48,17 @@ tools/
   CASE_INTAKE.html                  ← form offline: semua info dari soal → case_config.json
   run_case.py                       ← jalankan notebook headless dengan config (output tersimpan di notebook)
   make_zip.py                       ← ZIP pengumpulan sesuai aturan
-  stress_test.py                    ← uji 18 bentuk data berbeda (bukti robust)
+  stress_test.py                    ← uji 44 bentuk data (22 skenario case + 22 data rusak/dimanipulasi) → STRESS_TEST_REPORT.md
+  research_helper.py                ← casebook (pdf/docx/md) → keyword, fakta, link pencarian (RESEARCH_PLAN.html) + workbook riset
+  CASE_RESEARCH_TEMPLATE.xlsx       ← workbook riset kosong (case_facts, industry_facts, literature, custom_paragraphs, feature_labels)
   case_config.example.json
   make_synthetic_insurance_churn.py ← generator data latihan asuransi (messy + driver yang diketahui)
+examples/
+  mock_case_warkab/                 ← contoh case lengkap (casebook fiktif, config, riset terisi) → make_mock_case.py
+QA/
+  QA_FINAL_REPORT.md                ← hasil QA/QC final (stress test, regresi, demo end-to-end)
+  walkthrough_warkab/               ← REKAMAN proses demo: video MP4 + screenshot + STEPS.md
+  make_walkthrough.py               ← membuat rekaman walkthrough dari folder case mana pun
 requirements.txt
 ```
 
@@ -57,8 +66,9 @@ requirements.txt
 
 ## Alur hari H (churn/asuransi) — ringkas
 ```
-python tools/new_case.py ../case --team NamaTim      → folder kerja + form intake + RUN_*.bat
+python tools/new_case.py ../case --casebook soal.pdf → folder kerja + form intake + RUN_*.bat + RESEARCH_PLAN.html + CASE_RESEARCH.xlsx
 copy data panitia → case/data/ ; isi case/CASE_INTAKE.html → case_config.json
+riset: klik link di RESEARCH_PLAN.html → isi CASE_RESEARCH.xlsx (otomatis masuk Introduction/Discussion/pustaka)
 RUN_FAST.bat (cek 5–10 mnt) → RUN_FULL.bat (30–90 mnt)
 → case/outputs/churn_insurance/<Tim>_Final Stage 1.docx/.pdf  (artikel lengkap ≤10 hal + appendix A–L)
 → NARRATIVE_OPTIONS.md (pilih narasi) · JUDGE_QA.md (latihan Q&A) · dashboard/ (npx vercel --prod)
@@ -72,7 +82,11 @@ Detail lengkap: `01_Churn_Insurance/00_MULAI_DI_SINI.md` · semua kemungkinan ca
 - **Metodologi tambahan**: EBM (glass-box) & MLP di model zoo, **experiment log + model development journey**, **ablation study (DeLong)**, **DeLong/Holm**, **EMPC (profit-based)**, ECE, RMST, Schoenfeld PH test, Weibull AFT, KM per risk tier + C-index, **AIPW robustness (placebo, E-value, overlap, DAG)**, **DR-learner uplift + GATES**, **fairness audit + model card**, **pilot A/B power analysis**, roadmap Gantt, 5 diagram arsitektur.
 - **Robustness**: CatBoost OOF fix, label file terpisah, 1-file dengan target kosong = test, rekonstruksi tenure dari tanggal, figure tidak duplikat saat cell dijalankan ulang, console Windows UTF-8, fallback LibreOffice, template dashboard ter-embed.
 - **Dashboard interaktif** (`outputs/.../dashboard/`, tanpa library eksternal) — offline & siap Vercel, dengan simulator kampanye.
-- **Stress test** `tools/stress_test.py`: 18 bentuk data asuransi berbeda → `STRESS_TEST_REPORT.md`.
+- **Stress test** `tools/stress_test.py`: 44 bentuk data (22 skenario case + 22 data rusak: BOM, kolom ganda, "Rp 5 jt", tanggal campur, inf, label kotor, Excel multi-sheet berjudul, jsonl, leakage, target konstan, …) → `STRESS_TEST_REPORT.md`.
+- **Research kit**: `research_helper.py` + `RESEARCH_KIT.md` + `CASE_RESEARCH.xlsx` → fakta casebook, fakta industri, literatur tim, paragraf custom & label fitur masuk otomatis ke artikel (dedupe referensi, peringatan sumber belum diverifikasi).
+- **Skala portofolio & budget**: `PORTFOLIO_SIZE` → nilai uang dari sampel diskalakan ke portofolio; budget dibandingkan dengan kampanye skala portofolio (binding/tidak).
+- **Contoh case + rekaman QA**: `examples/mock_case_warkab/` dan `QA/walkthrough_warkab/` (video proses end-to-end tim Warkab).
+- **Dashboard (Vercel)** = hasil analisis case, dibuat ulang tiap run (konteks soal, pertanyaan, tim, KPI, driver, kampanye, rekomendasi); `DASHBOARD_INCLUDE_CUSTOMERS=false` untuk deploy publik tanpa data nasabah.
 
 ## Mulai cepat (template lain)
 

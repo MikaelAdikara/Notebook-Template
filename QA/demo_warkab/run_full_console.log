@@ -1,0 +1,12 @@
+▶ Executing Warkab_churn_analysis.ipynb in C:\Users\mikae\AppData\Local\Temp\claude\C--Users-mikae-OneDrive-Documents-Lomba-DAC-ITS-Final\2b8ba008-e213-4b90-aecb-bb8ca8abfc8c\scratchpad\demo_warkab
+  config: {"RUN_MODE": "full", "TRAIN_PATH": "data/train.csv", "TEST_PATH": "data/test.csv", "SAMPLE_SUB_PATH": "data/sample_submission.csv", "EXTRA_TABLES": {"claims": {"path": "data/claims.csv", "key": "customer_id", "date_col": "claim_date"}}, "TARGET_COL": "churn", "ID_COL": "customer_id", "METRIC": "roc_auc", "SUBMISSION_MODE": "probability", "REFERENCE_DATE": "2025-06-30", "TEAM_NAME": "Warkab", "TEAM
+
+⏱  3,518s | executed notebook saved → C:\Users\mikae\AppData\Local\Temp\claude\C--Users-mikae-OneDrive-Documents-Lomba-DAC-ITS-Final\2b8ba008-e213-4b90-aecb-bb8ca8abfc8c\scratchpad\demo_warkab\Warkab_churn_analysis.ipynb
+✅ final model: hill_climb | OOF AUC 0.7600 | n_train 8000 | churn rate 0.211
+✅ no section errors
+   ✔ REPORT_DRAFT.docx
+   ✔ REPORT_DRAFT.pdf
+   ✔ dashboard/index.html
+   ✔ submission.csv
+Press any key to continue . . . 
+elapsed min: 58.7

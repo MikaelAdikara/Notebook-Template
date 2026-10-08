@@ -10,11 +10,15 @@
   "ID_COL": null,
   "DROP_COLS": [],
   "EXTRA_TABLES": {},
+  "TRAIN_LABELS": null,
+  "TREATMENT_COLS": [],
+  "REFERENCE_DATE": null,
+  "EXCEL_SHEET": null,
   "METRIC": "roc_auc",
   "SUBMISSION_MODE": "probability",
 
-  "TEAM_NAME": "NamaTim",
-  "TEAM_MEMBERS": ["Nama 1", "Nama 2", "Nama 3"],
+  "TEAM_NAME": "Warkab",
+  "TEAM_MEMBERS": ["Mikael Alexander Adikara Purnama", "Pandu Winata"],
   "UNIVERSITY": "Nama Universitas",
 
   "COMPANY_NAME": "PT Asuransi X",
@@ -27,6 +31,9 @@
   "CASE_QUESTIONS": [],
   "AVAILABLE_INTERVENTIONS": [],
   "NARRATIVE_ANGLE": "auto",
+  "CASE_KEY_FACTS": [],
+  "RESEARCH_FILE": null,
+  "USE_DEFAULT_MARKET_CONTEXT": true,
 
   "CURRENCY": "IDR",
   "VALUE_PERIOD": "annual",
@@ -34,6 +41,9 @@
   "RETENTION_COST": 150000,
   "RETENTION_SUCCESS_RATE": 0.30,
   "RETENTION_BUDGET": null,
+  "PORTFOLIO_SIZE": null,
+  "BUSINESS_PARAMS_SOURCE": "assumed",
+  "DASHBOARD_INCLUDE_CUSTOMERS": true,
 
   "FIG_DPI": 300
 }

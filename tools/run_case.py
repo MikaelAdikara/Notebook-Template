@@ -92,6 +92,11 @@ def main():
     with open(cfg_path, "w", encoding="utf-8") as f:
         json.dump(cfg, f, indent=2, default=str)
 
+    if sys.platform.startswith("win"):           # hilangkan warning zmq "Proactor event loop" di Windows
+        import asyncio
+        import warnings
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+        warnings.filterwarnings("ignore", message=".*Proactor event loop.*")
     nb = nbformat.read(out_nb, as_version=4)
     env_backup = dict(os.environ)
     os.environ["CHURN_CONFIG"] = cfg_path
@@ -106,12 +111,16 @@ def main():
     status = 0
     print(f"▶ Executing {os.path.basename(out_nb)} in {workdir}")
     print(f"  config: {json.dumps(cfg, default=str)[:400]}")
+    # stderr level-proses kernel (mis. traceback 'KeyError joblib_memmapping_folder' dari pembersih joblib di Windows — tidak berbahaya)
+    # → file log, supaya console bersih; output analisis tetap tersimpan di notebook.
+    err_log = open(os.path.join(workdir, "kernel_stderr.log"), "w", encoding="utf-8", errors="replace")
     try:
-        client.execute()
+        client.execute(stderr=err_log)
     except Exception as e:  # critical section failed → notebook stopped
         status = 1
         print(f"\n❌ Notebook stopped: {type(e).__name__}: {str(e)[-1500:]}")
     finally:
+        err_log.close()
         nbformat.write(nb, out_nb)
         os.environ.clear()
         os.environ.update(env_backup)
