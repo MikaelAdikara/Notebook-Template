@@ -287,6 +287,29 @@ Repo bersih diekstrak ke folder baru, lalu dijalankan persis seperti di komputer
   - versi pengembangan: 0 section error.
 - **Auto-install di notebook**: di luar virtual environment, paket dipasang dengan `--user` (tanpa admin, tidak mengubah paket sistem).
 
+## 5d. Uji dari nol memakai ZIP release Zenodo + data asuransi nyata
+
+Skenario paling "malas" di hari-H:
+1. ZIP v1.0.0 di-download dari Zenodo, lalu diekstrak ke folder baru.
+2. `SETUP.bat` dijalankan; `.venv` baru selesai dalam 7,8 menit.
+3. `new_case.py` dijalankan, dan **satu CSV nyata** (Kaggle auto-insurance churn, 40.000 baris) di-copy ke `data/train.csv` **tanpa mengedit config apa pun**.
+4. `RUN_FAST.bat` dijalankan, lalu RUN FULL.
+
+Data itu sengaja berantakan: ID float, pendapatan berupa rentang teks, kolom bocor `acct_suspd_date`, dan tidak ada file test.
+
+- **Deteksi otomatis**:
+  - target `Churn` terbaca benar (1 = churn);
+  - peran kolom dikenali (tenure, premi, usia, pendapatan, wilayah, tanggungan);
+  - **4 kolom bocor dibuang** (`acct_suspd_date` beserta turunannya).
+- **Temuan & perbaikan**: di data ini semua driver non-tenure punya IV < 0,02, sehingga model Cox sempat error karena daftar fiturnya kosong. Perbaikannya: Cox otomatis memakai driver teratas tanpa ambang IV, atau dilewati dengan pesan jelas bila memang tidak ada fitur. `qa_check` juga tidak lagi mewajibkan `submission.csv` bila soal tidak memberi data test.
+- **Hasil akhir RUN FULL**:
+  - 0 section error, OOF AUC 0,700, model Cox berjalan;
+  - paper 10 halaman isi (68 total), gaya tulisan 98/100;
+  - `SENTUHAN_MANUSIA.md` terisi angka data ini (persistency 13 bulan 94,4%);
+  - ZIP tanpa catatan internal;
+  - `qa_check` 27 PASS · 0 FAIL.
+- Total waktu dari ZIP sampai paper (mode fast): ±13 menit.
+
 ## 5. Regresi & perbaikan pada QA final
 
 Tidak ada downgrade:

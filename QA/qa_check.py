@@ -132,7 +132,11 @@ def main():
             chk("slop_check", False, str(e)[:100], required=False)
 
     # 3. other deliverables
-    for fn, req in [("submission.csv", bool(cfg.get("TEST_PATH", True))), ("dashboard/index.html", True), ("NARRATIVE_OPTIONS.md", True), ("JUDGE_QA.md", True), ("REPORT_TODO.md", True)]:
+    _tp = cfg.get("TEST_PATH", "data/test.csv")
+    has_test = bool(_tp) and os.path.exists(_tp if os.path.isabs(str(_tp)) else os.path.join(case, str(_tp)))
+    if not has_test:
+        chk("Tanpa file test → submission tidak dibuat (sesuai soal)", True, "soal tidak memberi data test", required=False)
+    for fn, req in [("submission.csv", has_test), ("dashboard/index.html", True), ("NARRATIVE_OPTIONS.md", True), ("JUDGE_QA.md", True), ("REPORT_TODO.md", True)]:
         chk(f"Output {fn}", os.path.exists(os.path.join(out, fn)), required=req)
     dj = os.path.join(out, "dashboard", "data.js")
     if os.path.exists(dj):
