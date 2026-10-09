@@ -19,7 +19,7 @@
 - claims_count: churned customers have a median of 1.00 vs 0.00 for retained customers (higher → more churn; rank-biserial r = 0.14, small effect, IV = 0.08). Highest-risk bin ≥3 churns at 32.8% (1.6x the average).
 - No statistically significant association with churn after FDR correction for: claims_claim_amount_max, claims_days_since_last, claims_days_since_first, claims_claim_amount_mean, claims_claim_amount_min, claims_claim_amount_std, age, policy_start_date_month, annual_premium, sum_insured, marital_status, region.
 - Among churned customers, the most frequently stated reasons (cancellation_reason) were Moved (21%), Price (21%), Competitor offer (20%).
-- Most robust actionable churn drivers (consistent across statistical tests, regression and SHAP): premium_change_pct, payment_method, auto_renew, n_complaints_12m, n_products.
+- Most robust actionable churn drivers (consistent across statistical tests, regression and SHAP): premium_change_pct, payment_method, auto_renew, n_complaints_12m, avg_claim_settlement_days.
 - Key non-actionable risk indicators useful for targeting: tenure_months, digital_engagement_score, fe_claims_per_year.
 
 ## Segments
@@ -59,40 +59,40 @@
 
 - Ablation study: removing 'premium_change' lowers ROC-AUC by 0.033 (95% CI 0.024 to 0.042, DeLong p <0.001), the largest contribution of any feature group.
 - Engineered insurance features add -0.0036 ROC-AUC over the raw variables (DeLong p 0.179).
-- The final model (hill_climb) achieves a cross-validated roc_auc of 0.7600 (ROC-AUC 0.7600) versus 0.50 for a random baseline.
-- We ran 32 logged experiments across 6 stages (model zoo, tuning, multi-seed, feature selection, ablation, ensembling); ROC-AUC improved from 0.7565 (logistic regression baseline) to 0.7600 (final hill_climb).
-- At the selected threshold (0.21) the model identifies 69.6% of churners (recall) with a precision of 38.1%, i.e. 1.8x better targeting than random selection.
+- The final model (hill_climb) achieves a cross-validated roc_auc of 0.7599 (ROC-AUC 0.7599) versus 0.50 for a random baseline.
+- We ran 32 logged experiments across 6 stages (model zoo, tuning, multi-seed, feature selection, ablation, ensembling); ROC-AUC improved from 0.7565 (logistic regression baseline) to 0.7599 (final hill_climb).
+- At the selected threshold (0.25) the model identifies 61.5% of churners (recall) with a precision of 41.2%, i.e. 2.0x better targeting than random selection.
 - Final model ROC-AUC = 0.760 (95% bootstrap CI 0.748–0.772).
-- The final model is significantly better than the interpretable logistic regression (Δroc_auc = +0.0035, 95% CI +0.0011 to +0.0060).
+- The final model is significantly better than the interpretable logistic regression (Δroc_auc = +0.0034, 95% CI +0.0011 to +0.0058).
 - Across 15 candidate models, the final model's ROC-AUC is 0.760 (95% DeLong CI 0.747–0.773); it is significantly better than 15 of them after Holm correction.
-- Profit-based evaluation (EMPC; Verbraken et al., 2013) agrees with the AUC ranking: the most profitable model is FINAL: hill_climb with an expected maximum profit of 115.01K IDR per customer when targeting about 55.6% of the base.
-- The interpretable logistic regression reaches ROC-AUC 0.757; the gap to the final model is +0.0035 (DeLong p 0.006).
-- A glass-box Explainable Boosting Machine attains ROC-AUC 0.748 (Δ vs final +0.0120, DeLong p <0.001), offering a fully transparent alternative for regulated use.
-- The out-of-fold risk score also orders customers by time to churn (Harrell's C-index 0.792); survival curves of the three risk tiers separate clearly (log-rank p <0.001).
+- Profit-based evaluation (EMPC; Verbraken et al., 2013) agrees with the AUC ranking: the most profitable model is FINAL: hill_climb with an expected maximum profit of 114.99K IDR per customer when targeting about 55.7% of the base.
+- The interpretable logistic regression reaches ROC-AUC 0.757; the gap to the final model is +0.0034 (DeLong p 0.008).
+- A glass-box Explainable Boosting Machine attains ROC-AUC 0.748 (Δ vs final +0.0119, DeLong p <0.001), offering a fully transparent alternative for regulated use.
+- The out-of-fold risk score also orders customers by time to churn (Harrell's C-index 0.794); survival curves of the three risk tiers separate clearly (log-rank p <0.001).
 
 ## Explainability
 
-- Partial dependence: moving premium_change_pct from -7.50 to 15.72 changes average predicted churn from 10.5% to 31.3%.
-- Partial dependence: moving tenure_months from 3.00 to 76.00 changes average predicted churn from 25.0% to 12.1%.
-- Partial dependence: moving n_products from 1.00 to 3.00 changes average predicted churn from 22.9% to 14.8%.
-- Partial dependence: moving digital_engagement_score from 19.00 to 88.00 changes average predicted churn from 24.7% to 17.3%.
-- Partial dependence: moving late_payments_12m from 0.00 to 2.00 changes average predicted churn from 19.3% to 23.6%.
-- Partial dependence: moving fe_claim_reject_rate from 0.00 to 1.00 changes average predicted churn from 19.8% to 26.3%.
-- For policy_type = 'Auto', the top churn drivers are premium_change_pct (13%), tenure_months (10%), payment_method (10%).
-- For policy_type = 'Health', the top churn drivers are premium_change_pct (13%), tenure_months (10%), payment_method (10%).
-- For policy_type = 'Life', the top churn drivers are premium_change_pct (13%), tenure_months (10%), payment_method (10%).
-- For policy_type = 'Property', the top churn drivers are premium_change_pct (14%), tenure_months (10%), payment_method (10%).
+- Partial dependence: moving premium_change_pct from -7.50 to 15.72 changes average predicted churn from 11.4% to 31.9%.
+- Partial dependence: moving tenure_months from 3.00 to 76.00 changes average predicted churn from 22.9% to 15.9%.
+- Partial dependence: moving digital_engagement_score from 19.00 to 88.00 changes average predicted churn from 23.8% to 18.1%.
+- Partial dependence: moving n_products from 1.00 to 3.00 changes average predicted churn from 22.2% to 15.6%.
+- Partial dependence: moving avg_claim_settlement_days from 3.00 to 34.00 changes average predicted churn from 17.7% to 24.5%.
+- Partial dependence: moving fe_tenure_years from 0.25 to 6.33 changes average predicted churn from 21.7% to 17.6%.
+- For policy_type = 'Auto', the top churn drivers are premium_change_pct (11%), payment_method (11%), auto_renew (10%).
+- For policy_type = 'Health', the top churn drivers are premium_change_pct (11%), auto_renew (10%), payment_method (10%).
+- For policy_type = 'Life', the top churn drivers are premium_change_pct (11%), payment_method (11%), auto_renew (10%).
+- For policy_type = 'Property', the top churn drivers are premium_change_pct (12%), payment_method (11%), auto_renew (10%).
 
 ## Business
 
-- Targeting the top 20% highest-risk customers captures 45.9% of all churners (2.3x lift over random targeting); the top decile churns at 55.6% vs 3.4% in the bottom decile. KS = 0.39.
-- The High-risk tier (20% of customers, p ≥ 0.32) has an actual churn rate of 48.4% and contains 45.9% of all churners.
-- Expected annual premium at risk from churn is 9.94B IDR (20.8% of the annual premium base); the High-risk tier alone accounts for 43.3% of it.
-- 'Priority Save' customers (high risk & above-median value) are 9.7% of the base but hold 29.3% of the value at risk — the first target for personalised retention.
-- Simulated retention campaign (assumed success rate 30%, cost 150.00K IDR per contact): targeting the top 56% ranked by 'Model: expected loss (p × value)' maximises net profit at 807.70M (ROI 1.2x), versus 272.63M for random targeting of the same size.
-- What-if: 'Set auto_renew = 1 for everyone' affects 45% of customers and lowers their predicted churn from 24.5% to 16.9%; at 30% adoption this avoids ≈10 churners per 1,000 customers (model-based, associational).
-- What-if: 'Cap premium_change_pct at median (4.1)' affects 48% of customers and lowers their predicted churn from 25.6% to 19.4%; at 30% adoption this avoids ≈9 churners per 1,000 customers (model-based, associational).
-- What-if: 'Resolve issues: n_complaints_12m → 0' affects 26% of customers and lowers their predicted churn from 27.1% to 20.7%; at 30% adoption this avoids ≈5 churners per 1,000 customers (model-based, associational).
+- Targeting the top 20% highest-risk customers captures 45.8% of all churners (2.3x lift over random targeting); the top decile churns at 55.9% vs 3.4% in the bottom decile. KS = 0.39.
+- The High-risk tier (20% of customers, p ≥ 0.32) has an actual churn rate of 48.2% and contains 45.8% of all churners.
+- Expected annual premium at risk from churn is 9.97B IDR (20.8% of the annual premium base); the High-risk tier alone accounts for 43.1% of it.
+- 'Priority Save' customers (high risk & above-median value) are 9.8% of the base but hold 29.3% of the value at risk — the first target for personalised retention.
+- Simulated retention campaign (assumed success rate 30%, cost 150.00K IDR per contact): targeting the top 50% ranked by 'Model: expected loss (p × value)' maximises net profit at 810.79M (ROI 1.4x), versus 238.95M for random targeting of the same size.
+- What-if: 'Move all 'payment_method' customers to 'Auto-debit'' affects 67% of customers and lowers their predicted churn from 23.7% to 14.5%; at 30% adoption this avoids ≈19 churners per 1,000 customers (model-based, associational).
+- What-if: 'Set auto_renew = 1 for everyone' affects 45% of customers and lowers their predicted churn from 24.6% to 16.7%; at 30% adoption this avoids ≈11 churners per 1,000 customers (model-based, associational).
+- What-if: 'Cap premium_change_pct at median (4.1)' affects 48% of customers and lowers their predicted churn from 25.5% to 19.3%; at 30% adoption this avoids ≈9 churners per 1,000 customers (model-based, associational).
 
 ## Causal
 
@@ -100,33 +100,34 @@
 - Adjusting for observed confounders (doubly robust AIPW), auto_renew = 1 is associated with a -10.0 pp change in churn probability (95% CI -11.8 to -8.1; naive difference -9.7 pp).
 - Adjusting for observed confounders (doubly robust AIPW), payment_method = Auto-debit is associated with a -9.9 pp change in churn probability (95% CI -11.9 to -8.0; naive difference -10.4 pp).
 - Adjusting for observed confounders (doubly robust AIPW), n_complaints_12m = 0 is associated with a -8.9 pp change in churn probability (95% CI -11.5 to -6.2; naive difference -11.2 pp).
+- Adjusting for observed confounders (doubly robust AIPW), avg_claim_settlement_days ≤ median (13) is associated with a -6.9 pp change in churn probability (95% CI -10.3 to -3.5; naive difference -6.8 pp).
 - The effect of 'premium_change_pct ≤ median (4.1)' (-11.7 pp) is robust: a placebo treatment yields -0.60 pp (p 0.538) and an unmeasured confounder would need a risk-ratio association of at least 2.51 with both treatment and churn to explain it away (E-value).
 - The effect of 'payment_method = Auto-debit' (-9.9 pp) is robust: a placebo treatment yields +0.70 pp (p 0.507) and an unmeasured confounder would need a risk-ratio association of at least 2.34 with both treatment and churn to explain it away (E-value).
 - The effect of 'auto_renew = 1' (-10.0 pp) is robust: a placebo treatment yields +1.18 pp (p 0.221) and an unmeasured confounder would need a risk-ratio association of at least 2.23 with both treatment and churn to explain it away (E-value).
 - The effect of 'n_complaints_12m = 0' (-8.9 pp) is robust: a placebo treatment yields -2.13 pp (p 0.077) and an unmeasured confounder would need a risk-ratio association of at least 1.90 with both treatment and churn to explain it away (E-value).
-- Effects of 'premium_change_pct ≤ median (4.1)' are broadly homogeneous: the most responsive quintile shows a 12.0 pp churn reduction vs 11.7 pp in the least responsive (difference p 0.940). Treating the top 20% by predicted uplift avoids 30.6 churners per 1,000 eligible customers vs 68.2 when targeting by churn risk (-37.6).
-- Effects of 'auto_renew = 1' are broadly homogeneous: the most responsive quintile shows a 10.3 pp churn reduction vs 9.0 pp in the least responsive (difference p 0.681). Treating the top 20% by predicted uplift avoids 14.1 churners per 1,000 eligible customers vs 49.4 when targeting by churn risk (-35.3).
+- The effect of 'avg_claim_settlement_days ≤ median (13)' (-6.9 pp) is robust: a placebo treatment yields -1.70 pp (p 0.341) and an unmeasured confounder would need a risk-ratio association of at least 1.51 with both treatment and churn to explain it away (E-value).
+- Effects of 'premium_change_pct ≤ median (4.1)' are broadly homogeneous: the most responsive quintile shows a 12.0 pp churn reduction vs 11.7 pp in the least responsive (difference p 0.940). Treating the top 20% by predicted uplift avoids 30.6 churners per 1,000 eligible customers vs 66.5 when targeting by churn risk (-35.8).
+- Effects of 'auto_renew = 1' are broadly homogeneous: the most responsive quintile shows a 10.3 pp churn reduction vs 9.0 pp in the least responsive (difference p 0.681). Treating the top 20% by predicted uplift avoids 14.1 churners per 1,000 eligible customers vs 47.1 when targeting by churn risk (-33.0).
 
 ## Personas
 
-- Persona P3 (42% of at-risk customers, actual churn 33.3%): risk driven mainly by payment_method (+0.19); tenure_months (+0.10); auto_renew (+0.10).
-- Persona P1 (39% of at-risk customers, actual churn 38.2%): risk driven mainly by premium_change_pct (+0.51); payment_method (+0.19); tenure_months (+0.05).
-- Persona P2 (19% of at-risk customers, actual churn 31.5%): risk driven mainly by tenure_months (+0.14); premium_change_pct (+0.13); auto_renew (+0.11).
+- Persona P2 (53% of at-risk customers, actual churn 32.5%): risk driven mainly by auto_renew (+0.09); payment_method (+0.08).
+- Persona P1 (47% of at-risk customers, actual churn 36.8%): risk driven mainly by premium_change_pct (+0.42).
 
 ## Governance
 
-- Fairness audit across dependents, age band, gender, marital status, region: predicted risk tracks actual churn within each group (largest calibration ratio deviation: region = 'Bali', 0.91); the largest within-attribute AUC gap is 0.126. Differences in High-tier selection reflect genuine differences in churn rates; the score is intended for retention outreach only, not for pricing or underwriting.
+- Fairness audit across dependents, age band, gender, marital status, region: predicted risk tracks actual churn within each group (largest calibration ratio deviation: dependents = '3', 1.09); the largest within-attribute AUC gap is 0.127. Differences in High-tier selection reflect genuine differences in churn rates; the score is intended for retention outreach only, not for pricing or underwriting.
 
 ## Recommendations
 
-- 1. Smarter renewal pricing — Cap or phase in premium increases for at-risk loyal customers, explain the value behind increases, and offer coverage/deductible adjustments instead of lapse. Evidence: '13.2–30.6' churns at 33.5% (1.6x avg); IV 0.16; OR 1.64; HR 1.39; SHAP rank #1; causal (AIPW) -11.7 pp [-13.6, -9.9]. Impact: -2.99 pp churn at full adoption (≈9 churners avoided /1,000 at 30% adoption). KPI: Churn rate among customers with increases; price elasticity.
-- 2. Shift manual payers to automatic payment — Offer a small incentive (e.g. premium discount/cashback) and one-click enrolment for auto-debit/recurring card payment; send pre-due reminders to remaining manual payers. Evidence: 'Bank Transfer' churns at 25.5% (1.2x avg); IV 0.10; OR 2.33; HR 1.83; SHAP rank #3; causal (AIPW) -9.9 pp [-11.9, -8.0]. KPI: % of policies on auto-pay; lapse rate of converted vs control.
-- 3. Make renewal effortless (default auto-renewal) — Default new and renewing policies to auto-renewal with clear opt-out; 30/14/7-day renewal reminders with a one-click renew link. Evidence: '0' churns at 26.4% (1.3x avg); IV 0.08; OR 0.51; HR 0.61; SHAP rank #4; causal (AIPW) -10.0 pp [-11.8, -8.1]. Impact: -3.43 pp churn at full adoption (≈10 churners avoided /1,000 at 30% adoption). KPI: Auto-renew adoption; renewal rate.
-- 4. Complaint recovery programme — Trigger a proactive call within 48h of any complaint, enforce resolution SLAs, offer service-recovery gestures to high-value complainants, and fix top root causes. Evidence: '≥2' churns at 44.3% (2.1x avg); IV 0.11; OR 1.33; HR 1.23; SHAP rank #5; causal (AIPW) -8.9 pp [-11.5, -6.2]. Impact: -1.66 pp churn at full adoption (≈5 churners avoided /1,000 at 30% adoption). KPI: Complaint resolution time; churn rate of complainants.
-- 5. Bundling & cross-sell to raise switching costs — Offer multi-policy discounts and relevant riders to single-product customers with good risk profiles. Evidence: '1' churns at 23.8% (1.1x avg); IV 0.05; OR 0.76; SHAP rank #6. KPI: Products per customer; churn of bundled vs single.
-- 6. Improve the claims experience — Fast-track settlement, explain rejections transparently with an appeal path, and assign a claims concierge for high-value / high-risk customers after a claim event. Evidence: '1' churns at 37.1% (1.8x avg); IV 0.12; OR 1.26; HR 1.11; SHAP rank #11; causal (AIPW) -7.1 pp [-8.0, -6.2]. Impact: -0.87 pp churn at full adoption (≈3 churners avoided /1,000 at 30% adoption). KPI: Claim settlement days; post-claim churn rate; claim NPS.
-- 7. Longer payment / contract terms — Encourage annual/quarterly payment or longer contracts with a discount; monthly payers get extra reminders. Evidence: 'Monthly' churns at 23.6% (1.1x avg); IV 0.02; SHAP rank #8. KPI: Share of annual payers; churn by payment frequency.
-- 8. Deploy a churn early-warning system — Score all active policies monthly with this model; route High-risk/Priority-Save customers to retention teams, lower tiers to automated digital nudges; refresh the model quarterly. Evidence: Model ROC-AUC 0.760; top-20% captures 46% of churners. Impact: optimal campaign: target top 56% → net 807.70M. KPI: Precision/recall of alerts; retained revenue vs control group.
+- 1. Smarter renewal pricing — Cap or phase in premium increases for at-risk loyal customers, explain the value behind increases, and offer coverage/deductible adjustments instead of lapse. Evidence: premium_change_pct = 13.2–30.6: churn 33.5% (1.6× avg); IV 0.16; OR 1.64; HR 1.39; SHAP rank #1; causal (AIPW) -11.7 pp [-13.6, -9.9]. Impact: -2.98 pp churn at full adoption (≈9 churners avoided /1,000 at 30% adoption). KPI: Churn rate among customers with increases; price elasticity.
+- 2. Shift manual payers to automatic payment — Offer a small incentive (e.g. premium discount/cashback) and one-click enrolment for auto-debit/recurring card payment; send pre-due reminders to remaining manual payers. Evidence: payment_method = Bank Transfer: churn 25.5% (1.2× avg); IV 0.10; OR 2.33; HR 1.83; SHAP rank #2; causal (AIPW) -9.9 pp [-11.9, -8.0]. Impact: -6.19 pp churn at full adoption (≈19 churners avoided /1,000 at 30% adoption). KPI: % of policies on auto-pay; lapse rate of converted vs control.
+- 3. Make renewal effortless (default auto-renewal) — Default new and renewing policies to auto-renewal with clear opt-out; 30/14/7-day renewal reminders with a one-click renew link. Evidence: auto_renew = No: churn 26.4% (1.3× avg); IV 0.08; OR 0.51; HR 0.61; SHAP rank #3; causal (AIPW) -10.0 pp [-11.8, -8.1]. Impact: -3.56 pp churn at full adoption (≈11 churners avoided /1,000 at 30% adoption). KPI: Auto-renew adoption; renewal rate.
+- 4. Complaint recovery programme — Trigger a proactive call within 48h of any complaint, enforce resolution SLAs, offer service-recovery gestures to high-value complainants, and fix top root causes. Evidence: n_complaints_12m = ≥2: churn 44.3% (2.1× avg); IV 0.11; OR 1.33; HR 1.23; SHAP rank #8; causal (AIPW) -8.9 pp [-11.5, -6.2]. Impact: -1.11 pp churn at full adoption (≈3 churners avoided /1,000 at 30% adoption). KPI: Complaint resolution time; churn rate of complainants.
+- 5. Improve the claims experience — Fast-track settlement, explain rejections transparently with an appeal path, and assign a claims concierge for high-value / high-risk customers after a claim event. Evidence: avg_claim_settlement_days = 21–28: churn 34.6% (1.6× avg); IV 0.10; OR 1.19; HR 1.11; SHAP rank #9; causal (AIPW) -6.9 pp [-10.3, -3.5]. Impact: -0.76 pp churn at full adoption (≈2 churners avoided /1,000 at 30% adoption). KPI: Claim settlement days; post-claim churn rate; claim NPS.
+- 6. Bundling & cross-sell to raise switching costs — Offer multi-policy discounts and relevant riders to single-product customers with good risk profiles. Evidence: n_products = 1: churn 23.8% (1.1× avg); IV 0.05; OR 0.76; SHAP rank #7. KPI: Products per customer; churn of bundled vs single.
+- 7. Longer payment / contract terms — Encourage annual/quarterly payment or longer contracts with a discount; monthly payers get extra reminders. Evidence: payment_frequency = Monthly: churn 23.6% (1.1× avg); IV 0.02; SHAP rank #6. KPI: Share of annual payers; churn by payment frequency.
+- 8. Deploy a churn early-warning system — Score all active policies monthly with this model; route High-risk/Priority-Save customers to retention teams, lower tiers to automated digital nudges; refresh the model quarterly. Evidence: Model ROC-AUC 0.760; top-20% captures 46% of churners. Impact: optimal campaign: target top 50% → net 810.79M. KPI: Precision/recall of alerts; retained revenue vs control group.
 - 9. Validate with controlled pilots (A/B tests) — For each intervention keep a random control group (e.g. 20% of targeted customers) to measure true uplift before scaling. Evidence: What-if results are associational. KPI: Uplift in retention rate (treated − control).
-- Pilot design: to detect a 11.7 pp reduction from a baseline of 48.4% in the High-risk tier ('Shift to: premium_change_pct ≤ median (4.1)'), a randomised test needs 278 customers per arm (α = 0.05, power 80%), i.e. 135% of the High-tier portfolio.
+- Pilot design: to detect a 11.7 pp reduction from a baseline of 48.2% in the High-risk tier ('Shift to: premium_change_pct ≤ median (4.1)'), a randomised test needs 277 customers per arm (α = 0.05, power 80%), i.e. 137% of the High-tier portfolio.
 

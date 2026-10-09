@@ -8,6 +8,7 @@
 | `walkthrough_warkab/STEPS.md` + `screens/` | Langkah yang sama dalam bentuk screenshot (bisa dibaca tanpa memutar video) |
 | `demo_warkab/` | Hasil nyata demo: `Warkab_Final Stage 1.pdf`, dashboard (buka `dashboard/index.html`), `QA_CHECK.md`, `RESEARCH_PLAN.html`, `NARRATIVE_OPTIONS.md`, `JUDGE_QA.md`, `REPORT_TODO.md`, `run_summary.json`, log console |
 | `qa_check.py` | Cek otomatis artikel/case mana pun: `python QA/qa_check.py --case <folder case>` |
+| `slop_check.py` | Audit gaya tulisan "terasa AI" pada paper (aturan skill ai-paraphrase, anti-ai-slop-writing, stop-slop untuk ragam akademik): `python QA/slop_check.py "<paper>.pdf"` → skor ≥ 80 |
 | `make_walkthrough.py` | Membuat rekaman dari folder case mana pun: `python QA/make_walkthrough.py --case <folder> --out <folder rekaman> --stress tools/STRESS_TEST_REPORT.md` |
 
 Hasil stress test lengkap: `../tools/STRESS_TEST_REPORT.md`. Daftar semua bentuk case & kerusakan: `../01_Churn_Insurance/CASE_SCENARIOS.md`.

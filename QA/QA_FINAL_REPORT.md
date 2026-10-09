@@ -9,8 +9,8 @@ Anggota tim: Mikael Alexander Adikara Purnama & Pandu Winata.
 |---|---|---|---|
 | 1 | **Stress test 44 bentuk data**: 22 skenario case + 22 data rusak/dimanipulasi, semuanya pada notebook final | ****44/44 PASS**** (target 1 kelas berhenti dengan pesan jelas = perilaku yang benar) | `tools/STRESS_TEST_REPORT.md`, bagian 2 |
 | 2 | Bukti per jenis kerusakan: data rusak ditafsirkan **benar**, bukan sekadar tidak error | 22/22 sesuai harapan | bagian 3 (baris log asli notebook) |
-| 3 | **Demo end-to-end tim Warkab** (casebook fiktif → intake → riset → `RUN_FULL.bat` → artikel → dashboard → ZIP) | 0 section error, OOF AUC 0,760, **AUC test tersembunyi 0,782**, 58,7 menit | `demo_warkab/`, video |
-| 4 | QA otomatis artikel demo (`QA/qa_check.py`) | **43 PASS · 0 FAIL · 1 WARN** | `demo_warkab/QA_CHECK.md` |
+| 3 | **Demo end-to-end tim Warkab** (casebook fiktif → intake → riset → `RUN_FULL.bat` → artikel → dashboard → ZIP) | 0 section error, OOF AUC 0,760, **AUC test tersembunyi 0,782**, 47,3 menit | `demo_warkab/`, video |
+| 4 | QA otomatis artikel demo (`QA/qa_check.py`) | **43 PASS · 0 FAIL · 2 WARN** | `demo_warkab/QA_CHECK.md` |
 | 5 | Regresi (tidak ada downgrade): notebook final vs sebelum upgrade, data & seed sama | AUC fast run identik 0,7575; 154 cell (90 code) tetap; semua fitur lama tetap | bagian 5 |
 | 6 | Run cepat pada notebook + runner final | 0 section error, AUC 0,7575, test AUC 0,780, console bersih | bagian 5 |
 | 7 | Rekaman proses | Video MP4 (37 langkah, ±2,8 menit) + screenshot per langkah + `STEPS.md` | `walkthrough_warkab/` |
@@ -129,12 +129,12 @@ Data sintetis: 8.000 train + 2.000 test + tabel klaim, sengaja berantakan.
 | Langkah | Perintah | Hasil |
 |---|---|---|
 | Siapkan case | `python examples/mock_case_warkab/make_mock_case.py <folder>` | folder kerja + RESEARCH_PLAN + workbook riset |
-| Run penuh | double-click `RUN_FULL.bat` | 58,7 menit (sambil 3 stress test paralel), 0 section error |
+| Run penuh | double-click `RUN_FULL.bat` | 47,3 menit (sambil 3 stress test paralel), 0 section error |
 | Model | — | hill-climbing ensemble (XGBoost-FS, LogReg, CatBoost), OOF ROC-AUC 0,760 (95% CI 0,748–0,772); **AUC pada test tersembunyi 0,782** |
 | Leakage | — | `cancellation_reason` terdeteksi & dibuang otomatis |
-| Artikel | `Warkab_Final Stage 1.pdf` | 78 halaman total: cover + **10 halaman isi** + appendix A–L |
+| Artikel | `Warkab_Final Stage 1.pdf` | 83 halaman total: cover + **10 halaman isi** + appendix A–L |
 | ZIP | `python tools/make_zip.py --case <folder>` | `Warkab_Final Stage 1.zip` (PDF + notebook ter-eksekusi + supporting) |
-| QA | `python QA/qa_check.py --case <folder>` | 43 PASS · 0 FAIL · 1 WARN |
+| QA | `python QA/qa_check.py --case <folder>` | 43 PASS · 0 FAIL · 2 WARN (termasuk gaya tulisan 98/100) |
 
 Isi artikel yang dicek mengikuti case:
 - **Executive summary**:
@@ -153,7 +153,104 @@ Isi artikel yang dicek mengikuti case:
 - **Appendix B**: dukungan metode dari literatur tim (Devriendt et al., 2021).
 - **Dashboard**: judul, perusahaan, tim & anggota, konteks & pertanyaan soal, KPI, driver, timing, model, kampanye, aksi, metodologi. Semuanya dari run ini.
 
-WARN satu-satunya: 1 dari 5 literatur tim tidak dipakai karena Discussion memilih 3 literatur yang paling cocok dengan driver teratas. Literatur itu tetap bisa dipakai lewat sheet `custom_paragraphs`.
+Dua WARN: 2 dari 5 literatur tim tidak dipakai karena Discussion memilih 3 literatur yang paling cocok dengan driver teratas. Literatur itu tetap bisa dipakai lewat sheet `custom_paragraphs`.
+
+## 5a. Kualitas tulisan & kedalaman appendix (putaran akhir)
+
+Generator narasi diaudit dengan aturan tiga skill: **ai-paraphrase** (Wikipedia: Signs of AI writing), **anti-ai-slop-writing** dan **stop-slop**. Aturannya disesuaikan untuk ragam akademik: tanpa kontraksi, dan pasif masih boleh di bagian metode. Perbaikannya dilakukan di sumber, jadi paper hari-H otomatis ikut bersih:
+
+- Em dash di kalimat diubah: yang berpasangan jadi kurung, yang tunggal jadi koma. Rentang angka seperti 13,2–30,6 tidak disentuh.
+- "The conclusion is robust" dan "Most importantly" diganti pernyataan langsung. "Doubly robust" tetap dipakai karena istilah statistik baku.
+- Label mentah dalam kalimat diganti frasa wajar, misalnya:
+  - "customers whose premium change at last renewal is between 13.2% and 30.6%";
+  - "between 18 and 24 months of tenure";
+  - "keeping the premium change at the last renewal at or below its median (4.1%)";
+  - "auto-renewal = No" (bukan '0').
+- Kesalahan tata bahasa diperbaiki:
+  - "answer three questions" padahal ada 4 RQ, kini "four research questions";
+  - "1 related table(s)" kini "One related table (claims) was…";
+  - "a 11.7 pp" kini "an 11.7 pp";
+  - huruf kapital di tengah daftar rekomendasi.
+- Urutan kalimat tujuan → RQ diperbaiki, dan jawaban RQ di Discussion ditulis satu kalimat per RQ.
+- Bug heading "4.4 Churn personas" tanpa isi (terjadi saat autofit memangkas paragrafnya) sudah diperbaiki.
+
+Hasil `QA/slop_check.py` (skor 0–100, aman ≥ 80):
+
+| Paper | Sebelum | Sesudah |
+|---|---|---|
+| Demo Warkab (isi utama) | 68 (15 em dash, "robust", "Most importantly") | **98** (0 em dash, 0 kosakata khas AI) |
+| 43 paper dari stress test (semua bentuk data) | — | **min 93, median 98** |
+
+Kedalaman appendix (paper demo: 78 → 83 halaman):
+
+- **Observasi kunci berbasis data** di awal appendix A, C, E, F, G, H, I, J. Contohnya:
+  - 35 dari 52 variabel tetap signifikan setelah koreksi Benjamini–Hochberg;
+  - uji Schoenfeld tidak menolak asumsi proportional hazards;
+  - perjalanan model dari AUC baseline ke final;
+  - PSI drift terbesar;
+  - rentang AUC per segmen;
+  - porsi atribusi SHAP 5 fitur teratas;
+  - 3 dari 3 efek kausal lolos semua uji, dengan E-value terkecil;
+  - spread risiko 18× antar desil;
+  - selisih AUC terbesar antar grup (audit fairness).
+- **Appendix K (baru): metodologi & rumus**:
+  - IV/WoE, interval Wilson, Benjamini–Hochberg;
+  - Kaplan–Meier, Cox, RMST;
+  - DeLong, Brier, ECE;
+  - EMPC, CLV;
+  - AIPW, E-value;
+  - PSI dan ukuran sampel pilot;
+  - semuanya dengan sitasi.
+- **6 tabel tambahan**: ringkasan numerik, baseline default, bootstrap berpasangan, permutation importance untuk seleksi fitur, performa per segmen, profil error.
+- Urutan akhir: A–J analisis, K rumus, L reproducibility, M figure tambahan (bila ada).
+
+Skor gaya tulisan per varian stress test:
+
+| Varian | Skor | Temuan | Kata isi utama |
+|---|---|---|---|
+| all_categorical | 96 | 2 | 2,092 |
+| baseline_claims | 96 | 2 | 1,956 |
+| date_only_tenure | 96 | 2 | 2,270 |
+| excel_files | 98 | 1 | 1,954 |
+| extreme_imbalance | 98 | 1 | 1,970 |
+| float_ids_numeric_target | 98 | 1 | 1,953 |
+| full_mode_small | 98 | 1 | 1,976 |
+| heavy_missing | 98 | 1 | 1,956 |
+| indonesian_columns | 98 | 1 | 1,954 |
+| inverted_is_active | 98 | 1 | 1,949 |
+| label_metric_f1 | 96 | 2 | 1,967 |
+| labels_separate_file | 98 | 1 | 1,943 |
+| multiclass_status | 98 | 1 | 1,940 |
+| no_tenure_no_premium | 96 | 2 | 2,240 |
+| no_test | 98 | 1 | 1,949 |
+| panel_monthly | 98 | 1 | 1,938 |
+| semicolon_latin1 | 98 | 1 | 1,956 |
+| single_file_missing_target | 98 | 1 | 1,960 |
+| start_end_dates | 98 | 1 | 1,978 |
+| text_and_one_to_one | 98 | 1 | 1,969 |
+| tiny | 98 | 1 | 1,919 |
+| wide_noise | 98 | 1 | 1,952 |
+| x_bom_spaces_headers | 98 | 1 | 1,932 |
+| x_bool_and_special_names | 98 | 1 | 1,933 |
+| x_currency_scaled_strings | 98 | 1 | 1,949 |
+| x_duplicate_columns | 98 | 1 | 1,951 |
+| x_duplicates_conflicting | 98 | 1 | 1,952 |
+| x_empty_rows_cols_constant | 98 | 1 | 1,969 |
+| x_excel_title_rows_multisheet | 98 | 1 | 1,959 |
+| x_high_cardinality_ids | 98 | 1 | 1,961 |
+| x_inf_outliers_negative | 96 | 2 | 1,948 |
+| x_jsonl_parquet | 98 | 1 | 1,943 |
+| x_leakage_traps | 98 | 1 | 1,965 |
+| x_messy_target_labels | 98 | 1 | 1,944 |
+| x_mixed_date_formats | 97 | 2 | 2,296 |
+| x_mixed_type_numbers | 98 | 1 | 1,964 |
+| x_pii_free_text | 98 | 1 | 1,950 |
+| x_status_active_inactive | 98 | 1 | 1,947 |
+| x_tab_txt_file | 98 | 1 | 1,938 |
+| x_target_bool_float | 98 | 1 | 1,945 |
+| x_test_columns_mismatch | 98 | 1 | 1,951 |
+| x_tiny_wide_mess | 93 | 4 | 2,231 |
+| x_unseen_categories | 98 | 1 | 1,942 |
 
 ## 5. Regresi & perbaikan pada QA final
 
@@ -182,6 +279,7 @@ python examples/mock_case_warkab/make_mock_case.py latihan
 python tools/run_case.py --config latihan/case_config.json
 python tools/make_zip.py --case latihan
 python QA/qa_check.py --case latihan
+python QA/slop_check.py "latihan/outputs/churn_insurance/Warkab_Final Stage 1.pdf"
 python QA/make_walkthrough.py --case latihan --out rekaman --stress tools/STRESS_TEST_REPORT.md
 ```
 

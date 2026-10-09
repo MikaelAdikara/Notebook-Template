@@ -13,15 +13,14 @@ Semua teks di bawah sudah terisi angka dari run ini. Pilih yang paling sesuai de
 ## 2. Framing executive summary (pilih 1 sebagai kalimat pembuka)
 
 - **Lifecycle:** "Churn at PT Asuransi Nusantara Sejahtera is a timing problem: risk peaks in tenure interval [18, 24) months, when 0.99% of active customers leave per month."
-- **Money-first:** "Churn puts IDR 9.9B of annual premium at risk; 46% of it sits in the 20% of customers our model flags."
+- **Money-first:** "Churn puts IDR 10B of annual premium at risk; 46% of it sits in the 20% of customers our model flags."
 - **Driver-first:** "Customers with premium change at last renewal (%) = '13.2–30.6' are 1.6 times more likely to leave than average."
-- **Action-first:** "A targeted retention campaign on the top 56% of customers returns IDR 807.7M net (ROI 1.2×), far above random targeting."
+- **Action-first:** "A targeted retention campaign on the top 50% of customers returns IDR 810.8M net (ROI 1.4×), far above random targeting."
 
 ## 3. Nama persona (ganti P1, P2, … di laporan)
 
-- P3 → **"Manual Payers"** (drivers: payment method, tenure (months), auto-renewal; 42% of at-risk customers, actual churn 33.3%). Intervensi: Auto-debit enrolment incentive, reminders before the grace period ends, flexible payment dates and instalments.
-- P1 → **"Price-Shocked Renewers"** (drivers: premium change at last renewal (%), payment method, tenure (months); 39% of at-risk customers, actual churn 38.2%). Intervensi: Cap or phase in increases for loyal at-risk customers, explain value, offer deductible/coverage adjustments instead of lapse.
-- P2 → **"New & Unanchored"** (drivers: tenure (months), premium change at last renewal (%), auto-renewal; 19% of at-risk customers, actual churn 31.5%). Intervensi: Structured onboarding (welcome call, coverage check, app activation, check-in before the hazard peak) and treating the first renewal as a critical moment.
+- P2 → **"Manual Renewers"** (drivers: auto-renewal, payment method; 53% of at-risk customers, actual churn 32.5%). Intervensi: Auto-debit enrolment incentive, reminders before the grace period ends, flexible payment dates and instalments.
+- P1 → **"Price-Shocked Renewers"** (drivers: premium change at last renewal (%); 47% of at-risk customers, actual churn 36.8%). Intervensi: Cap or phase in increases for loyal at-risk customers, explain value, offer deductible/coverage adjustments instead of lapse.
 
 ## 4. Paragraf diskusi per tema driver (dengan sitasi terverifikasi)
 

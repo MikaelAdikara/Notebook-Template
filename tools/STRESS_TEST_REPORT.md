@@ -10,7 +10,7 @@ Setiap varian = satu bentuk data asuransi berbeda, dijalankan end-to-end oleh `t
 | excel_files | train/test as .xlsx | PASS | 0.7423 | 3000.0 | churn | none | True | True | True |
 | extreme_imbalance | ≈2% churn rate | PASS | 0.6689 | 4875.0 | churn | none | True | True | True |
 | float_ids_numeric_target | Kaggle-style float IDs, target 0/1 integer, int IDs in sample submission | PASS | 0.7497 | 3000.0 | Churn | none | True | True | True |
-| full_mode_small | FULL mode (all 9 algorithms, Optuna, multi-seed) on 1,500 rows + PDF/autofit | PASS | 0.7158 | 1500.0 | churn | none | True | True | True |
+| full_mode_small | FULL mode (all 9 algorithms, Optuna, multi-seed) on 1,500 rows + PDF/autofit | PASS | 0.722 | 1500.0 | churn | none | True | True | True |
 | heavy_missing | 40–70% missing in many columns + missing target rows | PASS | 0.7326 | 2960.0 | churn | none | True | True | True |
 | indonesian_columns | Indonesian column names, target 'berhenti' = Ya/Tidak | PASS | 0.7558 | 3000.0 | berhenti | none | True | True | True |
 | inverted_is_active | target is_active (1 = still customer) | PASS | 0.7314 | 3000.0 | is_active | none | True | True | True |

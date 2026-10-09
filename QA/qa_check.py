@@ -119,6 +119,14 @@ def main():
         chk("Tidak ada penanda [EDIT] tersisa", "[edit]" not in full, "cari [EDIT] di Word (highlight kuning)", required=False)
         chk("Tidak ada 'nan'/'None' di teks isi", not re.search(r"\b(nan|none)\b(?![-\w])", body.replace("none of", "").replace("nonetheless", "")), required=False)
         chk("Daftar pustaka ada", "references" in body)
+        try:                                                       # gaya tulisan: indikator tulisan "terasa AI"
+            sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+            import slop_check
+            F_, score_, *_ = slop_check.audit(slop_check.read_text(pdfs[0], False))
+            chk("Gaya tulisan tidak terasa AI (slop_check ≥ 80)", score_ >= 80,
+                f"skor {score_:.0f}/100, {len(F_)} temuan → python QA/slop_check.py \"{os.path.basename(pdfs[0])}\"", required=False)
+        except Exception as e:
+            chk("slop_check", False, str(e)[:100], required=False)
 
     # 3. other deliverables
     for fn, req in [("submission.csv", bool(cfg.get("TEST_PATH", True))), ("dashboard/index.html", True), ("NARRATIVE_OPTIONS.md", True), ("JUDGE_QA.md", True), ("REPORT_TODO.md", True)]:

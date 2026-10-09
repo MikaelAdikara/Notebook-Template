@@ -19,5 +19,6 @@
 8. Edit artikel di Word (parafrase, pilih narasi) → Save As PDF `Warkab_Final Stage 1.pdf`.
 9. ZIP pengumpulan: `python "C:\Users\mikae\OneDrive\Documents\Lomba\DAC ITS\Final\Notebook-Template\tools\make_zip.py" --case . --pdf "Warkab_Final Stage 1.pdf"`
    (PDF final hasil edit kamu; tanpa --pdf → pakai draft otomatis).
+10. Cek akhir otomatis: `python "C:\Users\mikae\OneDrive\Documents\Lomba\DAC ITS\Final\Notebook-Template\QA\qa_check.py" --case .` → semua cek wajib PASS (hasil di `QA_CHECK.md`).
 
 Panduan lengkap: C:\Users\mikae\OneDrive\Documents\Lomba\DAC ITS\Final\Notebook-Template\01_Churn_Insurance\00_MULAI_DI_SINI.md

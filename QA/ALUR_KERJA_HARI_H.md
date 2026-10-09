@@ -75,6 +75,18 @@ Buka notebook ter-eksekusi → jalankan cell **24.2c sampai 24.5** (±3 menit). 
 
 ### 7. Finalisasi di Word
 Parafrase gaya tim, pilih narasi, hapus penanda [EDIT], cek angka = tabel. Jangan ubah format. Save As PDF `<Tim>_Final Stage 1.pdf`.
+Lalu audit gaya tulisan (tanpa AI): `python Notebook-Template/QA/slop_check.py "case/<Tim>_Final Stage 1.pdf"` → skor ≥ 80.
+Checker menandai:
+- kosakata khas AI (crucial, robust, leverage, comprehensive…);
+- em dash berlebih;
+- ekor "-ing" kosong;
+- "not only… but also";
+- pembuka Moreover/Furthermore;
+- adverb pengisi;
+- kalimat pasif dominan;
+- tiga kalimat berturut dengan panjang seragam.
+
+Perbaiki dengan menulis fakta/angka spesifik, bukan sekadar ganti sinonim. Jangan ubah angka, nama, sitasi, atau istilah statistik baku.
 
 ### 8. ZIP
 ```

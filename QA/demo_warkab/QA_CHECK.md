@@ -2,17 +2,17 @@
 
 Case: `<folder-demo>\demo_warkab`
 
-**43 PASS · 0 FAIL · 1 WARN**
+**43 PASS · 0 FAIL · 2 WARN**
 
 | Status | Cek | Detail |
 |---|---|---|
 | PASS | Run selesai (run_summary.json) | <folder-demo>\demo_warkab\outputs/churn_insurance\run_summary.json |
 | PASS | Tanpa section error | 0 error |
 | PASS | Target churn = 1 ter-mapping | {'No': 0, 'Yes': 1} |
-| PASS | Skor model tercatat | hill_climb / OOF AUC 0.7600 |
+| PASS | Skor model tercatat | hill_climb / OOF AUC 0.7599 |
 | PASS | Artikel DOCX | <folder-demo>\demo_warkab\outputs/churn_insurance\Warkab_Final Stage 1.docx |
 | PASS | Artikel PDF | <folder-demo>\demo_warkab\outputs/churn_insurance\Warkab_Final Stage 1.pdf |
-| PASS | Isi utama ≤ 10 halaman (cover & appendix tidak dihitung) | 10 halaman isi, total PDF 78 |
+| PASS | Isi utama ≤ 10 halaman (cover & appendix tidak dihitung) | 10 halaman isi, total PDF 83 |
 | PASS | Nama tim 'Warkab' di cover |  |
 | PASS | Anggota 'Mikael Alexander Adikara Purnama' di cover |  |
 | PASS | Anggota 'Pandu Winata' di cover |  |
@@ -30,10 +30,10 @@ Case: `<folder-demo>\demo_warkab`
 | PASS | Riset [industry_facts] masuk artikel: 'Renewal premiums accounted for Rp77.07 trilli…' |  |
 | PASS | Riset [industry_facts] masuk artikel: 'Surrender claims paid by Indonesian life insu…' |  |
 | PASS | Semua sumber [industry_facts] verified = Y | 0 belum diverifikasi |
-| PASS | Riset [literature] masuk artikel: 'Using more than one million contracts, Eling …' |  |
+| WARN | Riset [literature] masuk artikel: 'Using more than one million contracts, Eling …' | tidak ditemukan (mungkin dipangkas autofit / tema tidak cocok driver) |
 | PASS | Riset [literature] masuk artikel: 'In a survey of recent lapsers, forgetting to …' |  |
-| PASS | Riset [literature] masuk artikel: 'In the U.S. property and casualty market, aro…' |  |
-| WARN | Riset [literature] masuk artikel: 'In an Indonesian insurer's portfolio, product…' | tidak ditemukan (mungkin dipangkas autofit / tema tidak cocok driver) |
+| WARN | Riset [literature] masuk artikel: 'In the U.S. property and casualty market, aro…' | tidak ditemukan (mungkin dipangkas autofit / tema tidak cocok driver) |
+| PASS | Riset [literature] masuk artikel: 'In an Indonesian insurer's portfolio, product…' |  |
 | PASS | Riset [literature] masuk artikel: 'Uplift models can yield more profitable reten…' |  |
 | PASS | Semua sumber [literature] verified = Y | 0 belum diverifikasi |
 | PASS | Riset [custom_paragraphs] masuk artikel: 'For ANS, whose renewal premiums are 58% of pr…' |  |
@@ -42,6 +42,7 @@ Case: `<folder-demo>\demo_warkab`
 | PASS | Tidak ada penanda [EDIT] tersisa | cari [EDIT] di Word (highlight kuning) |
 | PASS | Tidak ada 'nan'/'None' di teks isi |  |
 | PASS | Daftar pustaka ada |  |
+| PASS | Gaya tulisan tidak terasa AI (slop_check ≥ 80) | skor 98/100, 1 temuan → python QA/slop_check.py "Warkab_Final Stage 1.pdf" |
 | PASS | Output submission.csv |  |
 | PASS | Output dashboard/index.html |  |
 | PASS | Output NARRATIVE_OPTIONS.md |  |

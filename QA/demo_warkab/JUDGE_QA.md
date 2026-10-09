@@ -5,7 +5,7 @@ Jawaban sudah berisi angka run ini. Latih jawab ≤ 30 detik per pertanyaan.
 ## Juri industri asuransi
 
 **Q: Berapa uang yang dipertaruhkan dan berapa yang bisa diselamatkan?**  
-A: Expected annual premium at risk IDR 9.9B (20.8% of base). Optimal campaign: top 56% by expected loss → net IDR 807.7M (ROI 1.2×), profitable in 9/9 sensitivity scenarios.
+A: Expected annual premium at risk IDR 10B (20.8% of base). Optimal campaign: top 50% by expected loss → net IDR 810.8M (ROI 1.4×), profitable in 9/9 sensitivity scenarios.
 
 **Q: Kenapa nasabah keluar — dan apakah itu bisa dikendalikan perusahaan?**  
 A: Top drivers: premium change at last renewal (%), payment method, auto-renewal and complaints in the last 12 months. Actionable: premium change at last renewal (%), payment method and auto-renewal. Non-actionable drivers dipakai untuk targeting, bukan intervensi.
