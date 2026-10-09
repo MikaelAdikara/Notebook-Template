@@ -4,7 +4,7 @@ caption/penanda tidak tertinggal, dashboard & ZIP lengkap.
 
     python QA/qa_check.py --case <folder case>            → cetak checklist + tulis <case>/QA_CHECK.md
 
-Exit code 0 = semua cek wajib PASS, 1 = ada FAIL (baca baris FAIL → perbaiki → run ulang cell 24.2c–24.5).
+Exit code 0 = semua cek wajib PASS, 1 = ada FAIL (baca baris FAIL → perbaiki → double-click RUN_FAST/RUN_FULL.bat lagi).
 """
 import argparse
 import glob
@@ -58,7 +58,8 @@ def main():
         chk("Skor model tercatat", s.get("final_oof_auc") is not None, f"{s.get('final_model')} | OOF AUC {s.get('final_oof_auc', float('nan')):.4f}")
 
     # 2. article
-    pdfs = [p for p in glob.glob(os.path.join(out, "*Final Stage 1.pdf"))] or glob.glob(os.path.join(case, "*Final Stage 1.pdf"))
+    # PDF final hasil edit tim (di folder case) diprioritaskan; kalau belum ada → PDF otomatis di outputs
+    pdfs = glob.glob(os.path.join(case, "*Final Stage 1.pdf")) or glob.glob(os.path.join(out, "*Final Stage 1.pdf"))
     docx = glob.glob(os.path.join(out, "*Final Stage 1.docx"))
     chk("Artikel DOCX", bool(docx), docx[0] if docx else "")
     chk("Artikel PDF", bool(pdfs), pdfs[0] if pdfs else "PDF tidak ada (Word/LibreOffice tidak tersedia?) → Save As PDF manual", required=False)

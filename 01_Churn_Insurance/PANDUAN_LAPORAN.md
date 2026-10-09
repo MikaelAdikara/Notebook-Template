@@ -185,7 +185,7 @@ Cadangan (kalau ada ruang): what-if bar chart, persona heatmap, odds-ratio fores
 3. Cek angka sensitif (target mapping, parameter bisnis) & klaim kausal (hanya verdict "robust").
 4. Kalau ada aturan soal yang berbeda (misal Bahasa Indonesia, referensi tidak dihitung) → set config / terjemahkan.
 
-Re-generate tanpa modeling ulang: ubah case brief → jalankan ulang cell 24.2c–24.5 saja (±3 menit).
+Re-generate: ubah case brief / workbook riset → double-click RUN_FULL.bat lagi (atau RUN_FAST.bat kalau waktu mepet, ±10 menit). Kalau notebook sedang terbuka di Jupyter dan sudah di-Run All di sesi itu, cukup jalankan ulang cell 24.2c–24.5 (±3 menit).
 
 ## B. Membuat narasi "nempel" ke case (riset tim → artikel otomatis)
 Generator menulis narasi dari data; supaya Introduction & Discussion **spesifik ke perusahaan di soal**, isi `CASE_RESEARCH.xlsx` (dibuat `new_case.py`) — metodenya di `RESEARCH_KIT.md`.
@@ -199,5 +199,5 @@ Generator menulis narasi dari data; supaya Introduction & Discussion **spesifik 
 | `feature_labels` | semua tabel & figure | `pay_auto_debit` → "Auto-debit payment" |
 
 Aturan: kolom `use` = Y agar dipakai; `verified` = Y setelah DOI/URL dicek (yang belum diverifikasi muncul sebagai peringatan di `REPORT_TODO.md` §A2).
-Referensi duplikat (judul sama / nama+tahun sama) otomatis dibuang. Setelah workbook berubah cukup jalankan ulang cell 24.2c–24.5.
+Referensi duplikat (judul sama / nama+tahun sama) otomatis dibuang. Setelah workbook berubah: double-click RUN_FULL.bat lagi (atau RUN_FAST.bat kalau waktu mepet, ±10 menit). Kalau notebook sedang terbuka di Jupyter dan sudah di-Run All di sesi itu, cukup jalankan ulang cell 24.2c–24.5 (±3 menit).
 Contoh workbook terisi: `../examples/mock_case_warkab/CASE_RESEARCH.xlsx`; hasilnya di `../QA/` (PDF demo).

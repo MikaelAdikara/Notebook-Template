@@ -117,7 +117,7 @@ Prioritas sumber: **casebook > regulator (OJK, BI, LPS, BPS) > asosiasi (AAJI, A
 ## 4. Masukkan ke laporan (otomatis)
 
 1. Simpan `CASE_RESEARCH.xlsx` di folder case (sudah dibuat).
-2. Jalankan ulang notebook **cell 24.2c–24.5 saja** (atau RUN_FULL). Fakta & literatur `use = Y` otomatis masuk ke section yang dipilih + daftar pustaka.
+2. Simpan & tutup Excel, lalu double-click RUN_FULL.bat lagi (RUN_FAST.bat kalau waktu mepet). Fakta & literatur `use = Y` otomatis masuk ke section yang dipilih + daftar pustaka.
 3. Cek `REPORT_TODO.md` → bagian 'Research yang dipakai' menampilkan apa saja yang masuk.
 
 Tema driver terdeteksi: **lifecycle, payment, price, service**

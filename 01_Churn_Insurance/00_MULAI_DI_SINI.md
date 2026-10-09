@@ -43,7 +43,7 @@ Tujuan: Introduction & Discussion **nempel ke case**, bukan paragraf generik.
    - `feature_labels` → nama fitur yang enak dibaca di laporan.
    Kolom `use` = **Y** agar dipakai, `verified` = **Y** setelah dicek (yang belum diverifikasi diberi peringatan di REPORT_TODO).
 4. Setelah fast run: `python tools/research_helper.py --case case` → RESEARCH_PLAN diperbarui dengan keyword **per driver hasil model**.
-5. Setelah workbook diisi: jalankan ulang cell **24.2c–24.5** (tanpa modeling ulang) atau RUN_FAST/RUN_FULL → riset otomatis masuk ke Introduction, Discussion, Appendix B & daftar pustaka (duplikat otomatis dibuang).
+5. Setelah workbook diisi: double-click **RUN_FULL.bat** lagi (atau RUN_FAST.bat kalau waktu mepet, ±10 menit). Kalau notebook sedang terbuka di Jupyter dan sudah di-Run All di sesi itu, cukup jalankan ulang cell 24.2c–24.5 (±3 menit) → riset otomatis masuk ke Introduction, Discussion, Appendix B & daftar pustaka (duplikat otomatis dibuang).
 
 ## FASE 2 — Isi Case Intake (5–10 menit)
 Buka `case/CASE_INTAKE.html` di browser → isi dari soal → **Download JSON** → timpa `case/case_config.json`.
@@ -84,7 +84,7 @@ Di `case/outputs/churn_insurance/`:
 5. Save As PDF: `<Tim>_Final Stage 1.pdf`.
 6. `JUDGE_QA.md` — latihan jawab pertanyaan juri (angka sudah terisi).
 
-Ubah narasi tanpa modeling ulang: edit case brief di notebook (cell USER OVERRIDE) → jalankan ulang cell **24.2c–24.5** saja.
+Ubah narasi / tambah riset: edit `case_config.json` atau `CASE_RESEARCH.xlsx` → double-click **RUN_FULL.bat** lagi (atau RUN_FAST.bat kalau waktu mepet, ±10 menit). Kalau notebook sedang terbuka di Jupyter dan sudah di-Run All di sesi itu, cukup jalankan ulang cell 24.2c–24.5 (±3 menit).
 
 ## FASE 6 — Kumpulkan (5 menit)
 ```

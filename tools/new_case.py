@@ -78,7 +78,7 @@ def main():
    - `dashboard/` — buka `index.html`; deploy: `cd outputs/churn_insurance/dashboard` lalu `npx vercel --prod`
    - `submission.csv`, `tables/`, `figures/`, `report_tables.xlsx`, `model_card.md`
    - `{a.team}_churn_analysis.ipynb` (di folder ini) — notebook ter-eksekusi lengkap dengan output (bukti analisis)
-7. Setelah CASE_RESEARCH.xlsx terisi: jalankan ulang cell 24.2c–24.5 di notebook (±3 menit) → artikel memuat riset tim.
+7. Setelah CASE_RESEARCH.xlsx (dan paragraf dari SENTUHAN_MANUSIA.md) terisi: double-click RUN_FULL.bat lagi (atau RUN_FAST.bat kalau waktu mepet, ±10 menit). Kalau notebook sedang terbuka di Jupyter dan sudah di-Run All di sesi itu, cukup jalankan ulang cell 24.2c–24.5 (±3 menit) → artikel memuat riset tim.
 8. Edit artikel di Word (parafrase, pilih narasi) → Save As PDF `{a.team}_Final Stage 1.pdf`.
 9. ZIP pengumpulan: `python "{os.path.join(HERE, 'make_zip.py')}" --case . --pdf "{a.team}_Final Stage 1.pdf"`
    (PDF final hasil edit kamu; tanpa --pdf → pakai draft otomatis).

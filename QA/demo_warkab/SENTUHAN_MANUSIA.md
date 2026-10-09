@@ -5,7 +5,7 @@ Paper otomatis sudah lengkap dan bersih. Lima sentuhan di bawah ini yang membeda
 ## Cara memasukkan ke paper (supaya tidak hilang saat run ulang)
 1. Edit draf di bawah sampai tidak ada `[ISI …]` tersisa (hapus kalimat yang informasinya tidak ada di case — jangan mengarang angka).
 2. Buka `CASE_RESEARCH.xlsx` → sheet `custom_paragraphs` → isi `use = Y`, `section` dan `position` sesuai yang tertulis di tiap blok, tempel teks ke kolom `text`.
-3. Jalankan ulang cell **24.2c–24.5** (±3 menit) → paragraf masuk paper di tempatnya; autofit tetap menjaga ≤ 10 halaman.
+3. double-click **RUN_FULL.bat** lagi (atau RUN_FAST.bat kalau waktu mepet, ±10 menit). Kalau notebook sedang terbuka di Jupyter dan sudah di-Run All di sesi itu, cukup jalankan ulang cell 24.2c–24.5 (±3 menit) → paragraf masuk paper di tempatnya; autofit tetap menjaga ≤ 10 halaman.
 4. Cek: `python QA/slop_check.py "<paper>.pdf"` (skor ≥ 80) dan `python QA/qa_check.py --case .`.
 
 Aturan menulis: kalimat aktif dengan subjek 'we' / nama perusahaan, angka spesifik, tanpa em dash, tanpa 'crucial / robust / comprehensive / leverage', jangan memulai dengan 'Moreover / Furthermore'. Satu paragraf 2–4 kalimat sudah cukup.

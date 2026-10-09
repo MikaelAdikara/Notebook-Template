@@ -139,7 +139,7 @@ Isi kolom `in_text_citation` persis seperti di teks (mis. `(Hein et al., 2020)`)
 Section yang valid: `executive_summary, introduction, data, methodology, findings_drivers, findings_timing, findings_segments, findings_model, findings_explain, business, causal, personas, recommendations, discussion, limitations, conclusion`.
 Tema literatur: `lifecycle, payment, price, service, affordability, relationship, channel, engagement, demographic, geography, general, methods` (`methods` → Appendix B).
 
-Setelah diisi: tutup Excel → jalankan ulang **cell 24.2c–24.5** (±3 menit) → cek `REPORT_TODO.md` bagian A2 (apa saja yang masuk) → cek halaman (autofit tetap menjaga ≤ 10 halaman).
+Setelah diisi: tutup Excel → double-click **RUN_FULL.bat** lagi (atau RUN_FAST.bat kalau waktu mepet, ±10 menit). Kalau notebook sedang terbuka di Jupyter dan sudah di-Run All di sesi itu, cukup jalankan ulang cell 24.2c–24.5 (±3 menit) → cek `REPORT_TODO.md` bagian A2 (apa saja yang masuk) → cek halaman (autofit tetap menjaga ≤ 10 halaman).
 
 ---
 
@@ -164,7 +164,7 @@ Template kalimat "so what" (EN):
 | 0–15 | `new_case.py`, isi intake, RUN_FAST | baca casebook (§1), `research_helper.py --casebook …` |
 | 15–30 | cek fast run → RUN_FULL | jalankan ulang `research_helper.py` (query driver-spesifik), mulai cari (§2–3) |
 | 30–90 | full run berjalan | isi `CASE_RESEARCH.xlsx` (§6), tulis 2–4 custom paragraph |
-| 90–110 | jalankan ulang cell 24.2c–24.5 | baca artikel, pilih narasi, parafrase |
+| 90–110 | double-click RUN_FULL.bat lagi (riset ikut masuk) | baca artikel, pilih narasi, parafrase |
 | 110–130 | `make_zip.py` | latihan `JUDGE_QA.md` |
 
 ---

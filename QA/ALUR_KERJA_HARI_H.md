@@ -1,138 +1,35 @@
-# Alur kerja Hari-H: dari soal diterima sampai paper & ZIP terkumpul (Tim Warkab)
+# Alur kerja Hari-H
 
-> Tidak perlu AI. Semua perintah dijalankan dari folder yang berisi `Notebook-Template/`.
-> Di komputer panitia: download & install dulu sesuai `DOWNLOAD_DAN_INSTALASI.md` (±10 menit).
-> Bukti setiap langkah benar-benar berjalan: video `walkthrough_warkab/walkthrough_Warkab.mp4`, screenshot di `walkthrough_warkab/screens/`, dan `QA_FINAL_REPORT.md`.
+Panduan langkah demi langkah dari download sampai upload ada di satu file: **`../MULAI_DI_SINI.md`** (root folder `Notebook-Template`).
 
-```
- SOAL (casebook + data)
-   │
-   ├─(1) new_case.py ───────────► folder case: data/, case_config.json, CASE_INTAKE.html,
-   │                              RESEARCH_PLAN.html, CASE_RESEARCH.xlsx, RUN_FAST.bat, RUN_FULL.bat
-   ├─(2) CASE_INTAKE.html ──────► case_config.json (target, metrik, konteks, pertanyaan, budget, portofolio)
-   ├─(3) RESEARCH_PLAN.html ────► cari sumber (link siap klik) ─► isi CASE_RESEARCH.xlsx     [sambil RUN_FULL jalan]
-   ├─(4) RUN_FAST.bat ──────────► cek target/ID/leakage/narasi (±10 menit)
-   ├─(5) RUN_FULL.bat ──────────► notebook ter-eksekusi + artikel DOCX/PDF ≤10 hal + appendix + dashboard + submission
-   ├─(6) rerun cell 24.2c–24.5 ─► artikel ter-update dengan riset tim (tanpa modeling ulang, ±3 menit)
-   ├─(7) Word: edit & Save As PDF
-   ├─(8) make_zip.py ───────────► <Tim>_Final Stage 1.zip
-   └─(9) qa_check.py ───────────► QA_CHECK.md: semua cek wajib PASS → upload
-```
+Isinya, berurutan:
+- A. persiapan komputer (SETUP.bat);
+- B. siapkan case (new_case, data, form intake);
+- C. run cepat untuk cek;
+- D. riset & sentuhan manusia;
+- E. run final;
+- F. finalisasi paper di Word;
+- G. ZIP, cek akhir, upload.
 
-## Jadwal (dikerjakan satu orang, ±3 jam)
-
-Kuncinya: komputer menjalankan RUN_FULL di background, sementara kamu mengerjakan riset. Tidak ada waktu menunggu.
-
-| Waktu | Kamu mengerjakan | Komputer sedang |
-|---|---|---|
-| T+0–15 mnt | Langkah 1–2: folder case, copy data, isi intake (baca casebook sekali sambil mengisi) | — |
-| T+15–25 | Langkah 4: double-click RUN_FAST; selama berjalan, buka RESEARCH_PLAN.html dan tandai fakta casebook | RUN_FAST |
-| T+25–30 | Cek `run_summary.json` & `REPORT_TODO.md` (target, ID, leakage); perbaiki config kalau perlu | — |
-| T+30–90 | Langkah 5: double-click RUN_FULL, lalu langkah 3: cari sumber & isi CASE_RESEARCH.xlsx (`verified = Y`); baca draft fast run & pilih narasi di NARRATIVE_OPTIONS.md | RUN_FULL (±45–60 mnt) |
-| T+90–100 | Langkah 6: rerun cell 24.2c–24.5 → riset masuk paper | rerun laporan |
-| T+100–160 | Langkah 7: edit di Word (executive summary, discussion, rekomendasi), cek angka = tabel, Save As PDF, slop_check | — |
-| T+160–175 | Langkah 8–9: ZIP + qa_check → upload; sisa waktu: latihan JUDGE_QA.md | — |
-
-Waktu mepet? Lewati RUN_FULL dan pakai hasil RUN_FAST (paper sudah lengkap), lalu langsung ke langkah 6.
-
-## Langkah detail
-
-### 1. Buat folder case (2 menit)
-```
-python Notebook-Template/tools/new_case.py case --casebook "soal.pdf" --members "Nama 1;Nama 2"
-```
-Copy semua file data panitia ke `case/data/`. Format apa pun: csv/tsv/txt, xlsx (banyak sheet, judul di atas header), json/jsonl, parquet.
-Data rusak/dimanipulasi tetap jalan: BOM, kolom ganda, "Rp 5 jt", tanggal campur, inf, label kotor, baris rusak, kolom bocor
-(lihat `01_Churn_Insurance/CASE_SCENARIOS.md` bagian X dan `tools/STRESS_TEST_REPORT.md`).
-
-### 2. Case Intake (5–10 menit)
-Buka `case/CASE_INTAKE.html` (offline) → isi dari soal → **Download JSON** → timpa `case/case_config.json`.
-
-| Isi dari soal | Key |
-|---|---|
-| Nama kolom target & nilai churn, ID, file tambahan | `TARGET_COL`, `POSITIVE_LABEL`, `ID_COL`, `EXTRA_TABLES`, `TRAIN_LABELS` |
-| Metrik & format submission | `METRIC`, `SUBMISSION_MODE` |
-| Nama perusahaan, konteks (EN), definisi churn, periode | `COMPANY_NAME`, `CASE_CONTEXT`, `CHURN_DEFINITION`, `DATA_PERIOD` |
-| Pertanyaan yang diminta soal → Research Questions | `CASE_QUESTIONS` |
-| Intervensi yang mungkin | `AVAILABLE_INTERVENTIONS` |
-| Margin, biaya, success rate, budget, jumlah nasabah | `PROFIT_MARGIN`, `RETENTION_COST`, `RETENTION_SUCCESS_RATE`, `RETENTION_BUDGET`, `PORTFOLIO_SIZE`, `BUSINESS_PARAMS_SOURCE=case` |
-| Fakta angka di casebook | `CASE_KEY_FACTS` (atau sheet `case_facts`) |
-
-### 3. Riset latar belakang ("resume"), dikerjakan sambil RUN_FULL berjalan
-1. `case/RESEARCH_PLAN.html`: istilah kunci & kalimat berangka dari casebook + link pencarian per tema (Google Scholar, Crossref, Semantic Scholar, Garuda, Google Books, OJK/AAJI/AAUI).
-2. Metode lengkap: `01_Churn_Insurance/RESEARCH_KIT.md` (baca casebook 3 lapis, keyword EN/ID + Boolean, hierarki sumber, verifikasi, matriks sintesis, pola kalimat, APA 7).
-3. Isi `case/CASE_RESEARCH.xlsx`, `use = Y`, `verified = Y` setelah sumber dibuka.
-4. Setelah fast run: `python Notebook-Template/tools/research_helper.py --case case` → query literatur per driver hasil model.
-Contoh workbook terisi: `examples/mock_case_warkab/CASE_RESEARCH.xlsx`.
-
-### 4. RUN_FAST.bat (±10 menit)
-Cek `outputs/churn_insurance/run_summary.json`: `target_mapping` (churn = 1), `churn_rate`, `section_errors` kosong, `leaky_cols`.
-Kalau berhenti dengan pesan (target 1 kelas, data < 30 baris, target kontinu): pesan menyebut key yang harus diubah.
-
-### 5. RUN_FULL.bat (30–90 menit, background)
-Hasil di `case/outputs/churn_insurance/`:
-- `<Tim>_Final Stage 1.docx/.pdf`: cover, executive summary, 6 bab, referensi ≤ 10 halaman (autofit via Word), appendix A–L tidak dibatasi;
-- `NARRATIVE_OPTIONS.md` (judul/framing alternatif), `JUDGE_QA.md` (latihan pertanyaan juri), `REPORT_TODO.md` (checklist);
-- `dashboard/` (web app hasil analisis, siap Vercel), `submission.csv`, Excel semua tabel, figures, model card;
-- `<Tim>_churn_analysis.ipynb` ter-eksekusi (bukti analisis untuk ZIP).
-
-### 6. Masukkan riset tim tanpa modeling ulang
-Buka notebook ter-eksekusi → jalankan cell **24.2c sampai 24.5** (±3 menit). Fakta casebook dan fakta industri masuk ke Introduction. Literatur masuk ke Discussion & Appendix B, paragraf custom masuk ke section yang dipilih, dan daftar pustaka ter-update.
-
-### 7. Sentuhan manusia + finalisasi di Word
-Buka `case/outputs/churn_insurance/SENTUHAN_MANUSIA.md` (dibuat otomatis tiap run). Isinya 5 blok draf paragraf dengan angka run kamu sudah terisi:
-1. **suara aktuaria**: persistency 13/25 bulan, churn berbobot premi, biaya akuisisi;
-2. **cerita iterasi model** dari experiment log;
-3. **ambang operasional & governance**: skor → kanal → SLA → eskalasi keputusan;
-4. **insight bisnis lokal per driver**, dengan pertanyaan pemandu per tema;
-5. **checklist guidebook** plus template deklarasi AI.
-
-Ganti setiap `[ISI DARI CASE: …]` dengan fakta casebook. Kalimat yang faktanya tidak ada di case dihapus, jangan dikarang. Tempel hasilnya ke `CASE_RESEARCH.xlsx` → `custom_paragraphs` (section/position tertulis di tiap blok), lalu rerun cell 24.2c–24.5. Dengan begitu paragraf masuk paper dan tidak hilang saat run ulang.
-
-Parafrase gaya tim, pilih narasi, hapus penanda [EDIT], cek angka = tabel. Jangan ubah format. Save As PDF `<Tim>_Final Stage 1.pdf`.
-Lalu audit gaya tulisan (tanpa AI): `python Notebook-Template/QA/slop_check.py "case/<Tim>_Final Stage 1.pdf"` → skor ≥ 80.
-Checker menandai:
-- kosakata khas AI (crucial, robust, leverage, comprehensive…);
-- em dash berlebih;
-- ekor "-ing" kosong;
-- "not only… but also";
-- pembuka Moreover/Furthermore;
-- adverb pengisi;
-- kalimat pasif dominan;
-- tiga kalimat berturut dengan panjang seragam.
-
-Perbaiki dengan menulis fakta/angka spesifik, bukan sekadar ganti sinonim. Jangan ubah angka, nama, sitasi, atau istilah statistik baku.
-
-### 8. ZIP
-```
-python Notebook-Template/tools/make_zip.py --case case --pdf "case/<Tim>_Final Stage 1.pdf"
-```
-
-### 9. Cek akhir otomatis
-```
-python Notebook-Template/QA/qa_check.py --case case
-```
-Harus "semua cek wajib PASS". Cek mencakup:
-- ≤10 halaman isi;
-- nama tim & anggota di cover;
-- nama perusahaan & konteks soal;
-- tiap pertanyaan soal;
-- skala portofolio & budget;
-- tiap baris riset `use = Y` benar-benar ada di artikel;
-- tidak ada caption mentah / [EDIT] / "nan";
-- dashboard, submission, ZIP.
-
-### (Opsional) Dashboard online
-Yang di-deploy adalah **hasil analisis** case itu sendiri (dibuat ulang setiap run, isinya mengikuti data + case brief).
-```
-cd case/outputs/churn_insurance/dashboard
-npx vercel --prod
-```
-Data nasabah rahasia → `"DASHBOARD_INCLUDE_CUSTOMERS": false` lalu jalankan ulang cell dashboard sebelum deploy.
+Bukti setiap langkah benar-benar berjalan: video `walkthrough_warkab/walkthrough_Warkab.mp4`, screenshot di `walkthrough_warkab/screens/`, dan `QA_FINAL_REPORT.md`.
 
 ## Latihan sebelum hari-H (sekali, ±40 menit)
+
+Dari folder kerja, setelah SETUP selesai:
+
 ```
-python Notebook-Template/examples/mock_case_warkab/make_mock_case.py latihan
+.venv\Scripts\python Notebook-Template\examples\mock_case_warkab\make_mock_case.py latihan
 ```
-Lalu double-click `latihan/RUN_FULL.bat` → `python Notebook-Template/tools/make_zip.py --case latihan` → `python Notebook-Template/QA/qa_check.py --case latihan`.
-Rekam ulang walkthrough (opsional): `python Notebook-Template/QA/make_walkthrough.py --case latihan --out rekaman --stress Notebook-Template/tools/STRESS_TEST_REPORT.md`.
+
+Double-click `latihan\RUN_FULL.bat`, lalu jalankan:
+
+```
+.venv\Scripts\python Notebook-Template\tools\make_zip.py --case latihan
+.venv\Scripts\python Notebook-Template\QA\qa_check.py --case latihan
+```
+
+Rekam ulang walkthrough (opsional):
+
+```
+.venv\Scripts\python Notebook-Template\QA\make_walkthrough.py --case latihan --out rekaman --stress Notebook-Template\tools\STRESS_TEST_REPORT.md
+```
