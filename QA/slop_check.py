@@ -63,7 +63,10 @@ PASSIVE = r"\b(is|are|was|were|be|been|being)\s+(\w+ly\s+)?(\w+ed|built|done|mad
 def read_text(path, include_appendix):
     ext = os.path.splitext(path)[1].lower()
     if ext == ".pdf":
-        import fitz
+        try:
+            import pymupdf as fitz
+        except ImportError:
+            import fitz
         with fitz.open(path) as d:
             pages = [p.get_text() for p in d]
         if not include_appendix:

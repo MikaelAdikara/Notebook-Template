@@ -273,6 +273,20 @@ Skor gaya tulisan per varian stress test:
   - 43 paper dari stress test punya skor gaya minimal 96 (median 98);
   - demo full: 0 error, 49 menit, OOF AUC 0,760, AUC test tersembunyi 0,782, 10 halaman isi (84 total), qa_check 43 PASS · 0 FAIL, slop 98/100.
 
+## 5c. Simulasi komputer panitia (setup aman)
+
+Repo bersih diekstrak ke folder baru, lalu dijalankan persis seperti di komputer panitia: double-click `SETUP.bat` → `make_mock_case.py` → `RUN_FAST.bat` → `make_zip.py` → `qa_check.py`.
+
+- **SETUP.bat**: membuat `.venv` terisolasi di folder kerja, tanpa admin dan tanpa menyentuh Python sistem. Selesai dalam 11,7 menit, 22/22 paket terpasang.
+- **Temuan penting**: dengan versi paket terbaru dari internet (matplotlib 3.11, scikit-learn 1.9, numpy 2.4, optuna 5.0, PyMuPDF 1.28), satu section error (`boxplot(labels=...)` dihapus di matplotlib 3.11). Perbaikannya:
+  - kode boxplot dibuat kompatibel dengan matplotlib lama dan baru;
+  - impor PyMuPDF memakai `pymupdf`, dengan cadangan `fitz`;
+  - SETUP kini memasang versi yang sudah teruji (`constraints-tested.txt`) lebih dulu.
+- **Hasil setelah perbaikan**:
+  - versi terbaru: 0 section error, `qa_check` semua cek wajib PASS, `slop_check` 98/100;
+  - versi pengembangan: 0 section error.
+- **Auto-install di notebook**: di luar virtual environment, paket dipasang dengan `--user` (tanpa admin, tidak mengubah paket sistem).
+
 ## 5. Regresi & perbaikan pada QA final
 
 Tidak ada downgrade:

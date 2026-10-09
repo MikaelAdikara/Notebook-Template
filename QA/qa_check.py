@@ -65,7 +65,10 @@ def main():
     body = full = ""
     if pdfs:
         try:
-            import fitz
+            try:
+                import pymupdf as fitz
+            except ImportError:
+                import fitz
             d = fitz.open(pdfs[0])
             pages = [p.get_text() for p in d]
             app = next((i for i, t in enumerate(pages) if re.search(r"^\s*Appendices\s*$", t, re.M)), len(pages))

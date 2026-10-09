@@ -156,7 +156,10 @@ def frame(img_path, step, title, desc, out_png, crop_top=0):
 
 def pdf_pages(pdf, pages, out_dir, prefix):
     try:
-        import fitz
+        try:
+            import pymupdf as fitz
+        except ImportError:
+            import fitz
     except ImportError:
         return []
     outs = []
@@ -252,7 +255,10 @@ def main():
         for p, img in pdf_pages(pdf, sorted(captions), shots, "09_article"):
             add(img, *captions[p])
         try:
-            import fitz
+            try:
+                import pymupdf as fitz
+            except ImportError:
+                import fitz
             with fitz.open(pdf) as d_:
                 app = next((i for i in range(1, d_.page_count) if "Appendices" in d_[i].get_text()[:200]), None)
             if app:

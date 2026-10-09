@@ -91,7 +91,10 @@ def read_text(path):
     ext = os.path.splitext(path)[1].lower()
     if ext == ".pdf":
         try:
-            import fitz
+            try:
+                import pymupdf as fitz
+            except ImportError:
+                import fitz
             with fitz.open(path) as d:
                 return "\n".join(p.get_text() for p in d)
         except ImportError:

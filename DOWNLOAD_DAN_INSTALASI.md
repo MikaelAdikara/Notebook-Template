@@ -1,73 +1,79 @@
 # Download & instalasi di komputer lain (mis. komputer panitia)
 
-Template ini tidak terikat ke satu laptop: semua path relatif, file `.bat` dibuat ulang di komputer tempat kamu menjalankan `new_case.py`, dan tidak ada data atau akun yang disimpan di dalamnya.
+Setup ini **aman untuk komputer milik orang lain**:
+- semua paket dipasang ke environment terisolasi `.venv` di folder kerja kamu;
+- tidak butuh hak admin;
+- tidak mengubah Python atau paket milik komputer itu;
+- tidak menyimpan data atau akun.
+
+Untuk membersihkan setelah lomba, cukup hapus folder kerja (termasuk `.venv`).
 
 ## 1. Download (±1 menit)
 
 Pilih salah satu:
-
-- **Zenodo (DOI)**: buka `https://doi.org/<DOI-ZENODO>` → bagian *Files* → **Download**.
+- **Zenodo (DOI)**: `https://doi.org/<DOI-ZENODO>` → *Files* → **Download**.
 - **GitHub Release**: halaman *Releases* repo → versi terbaru → **Source code (zip)**.
 
-Ekstrak ZIP ke folder kerja, misalnya `D:\lomba\`. **Ganti nama folder hasil ekstrak menjadi `Notebook-Template`** (ZIP dari GitHub/Zenodo biasanya bernama `Notebook-Template-1.0.0` atau sejenisnya), supaya semua perintah di panduan cocok.
+Ekstrak ke folder kerja, misalnya `D:\lomba\`. **Ganti nama folder hasil ekstrak menjadi `Notebook-Template`**, karena ZIP dari GitHub/Zenodo biasanya bernama `Notebook-Template-1.0.0` atau sejenisnya.
 
 ```
 D:\lomba\
   Notebook-Template\      ← hasil ekstrak (sudah di-rename)
-  case\                   ← nanti dibuat oleh new_case.py
+  .venv\                  ← dibuat SETUP.bat (environment terisolasi)
+  case\                   ← dibuat new_case.py
 ```
 
-Buka terminal (Command Prompt / PowerShell / Anaconda Prompt) di `D:\lomba\`.
+## 2. Setup (±5–10 menit, butuh internet): double-click `Notebook-Template\SETUP.bat`
 
-## 2. Cek Python (±1 menit)
+SETUP akan:
+1. mencari Python di komputer (`py` launcher atau `python`), butuh versi 3.9–3.12;
+2. membuat `D:\lomba\.venv`;
+3. memasang paket dari `requirements-churn.txt` ke environment itu, **memakai versi yang sudah teruji** (`constraints-tested.txt`). Kalau versi itu tidak tersedia untuk Python di komputer tersebut, SETUP otomatis memakai versi terbaru, yang juga sudah diuji; kalau ada paket yang gagal, dicoba satu per satu;
+4. menguji import setiap paket, lalu menampilkan perintah langkah berikutnya.
 
-```
-python --version
-```
+Hasilnya harus **"✅ SETUP SELESAI"**. Paket bertanda "opsional" yang gagal tidak masalah, karena notebook otomatis melewati analisis yang membutuhkannya.
 
-Butuh Python **3.9–3.12**. Kalau ada beberapa Python (mis. Anaconda + Python biasa), pakai satu yang sama untuk install **dan** menjalankan notebook. Selalu `python -m pip ...`, jangan `pip ...` polos.
-
-## 3. Install paket (±5–10 menit, butuh internet)
-
-```
-python -m pip install -r Notebook-Template/requirements-churn.txt
-```
-
-`requirements-churn.txt` hanya berisi paket untuk template churn (lebih ringan dan lebih jarang gagal daripada `requirements.txt` yang ikut memasang paket NLP/computer vision).
-
-Lalu cek: buka `Notebook-Template/00_Setup/00_environment_check.ipynb` → Restart & Run All → semua paket inti ✅. Notebook churn juga memasang otomatis paket yang belum ada saat dijalankan.
-
-Kalau `pip install` gagal untuk satu paket:
-
-| Paket gagal | Dampak | Tindakan |
-|---|---|---|
-| `catboost`, `xgboost` atau `lightgbm` | model itu dilewati otomatis, model lain tetap jalan | lanjut saja |
-| `shap` | penjelasan SHAP dilewati; permutation importance tetap ada | lanjut saja |
-| `lifelines` | sebagian analisis survival dilewati | lanjut saja |
-| `interpret-core` | model EBM dilewati | lanjut saja |
-| `python-docx` | artikel DOCX tidak dibuat | **wajib**, ulangi install |
-| `nbclient`, `ipykernel` | `RUN_FAST/RUN_FULL.bat` tidak jalan | jalankan notebook manual di Jupyter (Restart & Run All) |
-
-## 4. Mulai kerja
-
-Ikuti `Notebook-Template/QA/ALUR_KERJA_HARI_H.md`. Langkah pertama:
+Tanpa double-click (atau di Linux/macOS):
 
 ```
-python Notebook-Template/tools/new_case.py case --casebook "casebook.pdf" --team "NamaTim" --members "Nama 1;Nama 2"
+python Notebook-Template/tools/setup_env.py
 ```
 
-`RUN_FAST.bat` / `RUN_FULL.bat` dibuat di folder `case/` dengan path Python komputer itu, jadi langsung bisa di-double-click.
+Di Linux/macOS juga bisa memakai `bash Notebook-Template/setup_env.sh`.
 
-## 5. Kalau komputer tidak punya MS Word
+## 3. Mulai kerja
 
-Artikel DOCX tetap dibuat. Hitung halaman & PDF memakai LibreOffice bila terpasang; kalau tidak ada keduanya, buka DOCX di aplikasi apa pun yang tersedia lalu *Save As PDF* manual dan cek sendiri jumlah halaman isi (≤ 10).
+Jalankan dari folder kerja `D:\lomba\`, memakai Python dari `.venv`:
+
+```
+.venv\Scripts\python Notebook-Template\tools\new_case.py case --casebook "casebook.pdf" --team "NamaTim" --members "Nama 1;Nama 2"
+```
+
+- `case\RUN_FAST.bat` dan `case\RUN_FULL.bat` otomatis memakai `.venv`, jadi tinggal double-click.
+- Untuk membuka notebook di Jupyter, double-click `Notebook-Template\START_JUPYTER.bat`.
+
+Lanjutkan dengan `Notebook-Template\QA\ALUR_KERJA_HARI_H.md`.
+
+## 4. Kalau ada masalah
+
+| Masalah | Solusi |
+|---|---|
+| "Python tidak ditemukan" | Minta panitia Python 3.9–3.12 atau Anaconda. Kalau ada Anaconda, jalankan perintah di bagian 2 dari *Anaconda Prompt*. |
+| Python 3.13+ | SETUP tetap mencoba; paket opsional yang belum mendukung versi itu dilewati otomatis. |
+| Internet lambat / diblokir proxy | Pakai rencana cadangan offline (bagian 6). |
+| Paket **wajib** gagal | Jalankan SETUP.bat lagi (aman diulang). Kalau tetap gagal, jalankan notebook di Jupyter bawaan komputer; notebook memasang paket yang kurang dengan `--user`, tanpa admin dan tanpa mengubah paket sistem. |
+| Tidak ada MS Word | DOCX tetap dibuat; PDF memakai LibreOffice bila ada. Kalau tidak ada keduanya, *Save As PDF* manual dan cek sendiri jumlah halaman isi (≤ 10). |
+
+## 5. Apa saja yang disentuh template di komputer itu
+- `D:\lomba\` (folder kerja): `.venv`, `case\`, output analisis.
+- Cache standar milik pengguna: cache pip dan matplotlib. Tidak ada perubahan sistem, registry, atau software lain.
+- MS Word (kalau ada) dibuka di latar hanya untuk menghitung halaman dan membuat PDF, lalu ditutup kembali.
 
 ## 6. Rencana cadangan tanpa internet
 
 Siapkan di laptop sendiri sebelum hari-H, lalu bawa di flashdisk:
-
 1. ZIP template ini.
-2. Paket Python offline. Sesuaikan versi Python & sistem operasi komputer panitia (tanyakan panitia bila bisa; contoh untuk Windows 64-bit, Python 3.11):
+2. Paket Python offline, disesuaikan dengan versi Python dan sistem operasi komputer panitia (tanyakan panitia bila bisa). Contoh untuk Windows 64-bit, Python 3.11:
 
 ```
 python -m pip download -r Notebook-Template/requirements-churn.txt -d wheels --only-binary=:all: --python-version 3.11 --platform win_amd64
@@ -76,15 +82,15 @@ python -m pip download -r Notebook-Template/requirements-churn.txt -d wheels --o
 Di komputer panitia:
 
 ```
-python -m pip install --no-index --find-links wheels -r Notebook-Template/requirements-churn.txt
+python Notebook-Template/tools/setup_env.py --wheels D:\lomba\wheels
 ```
 
 ## 7. Latihan sekali sebelum hari-H
 
-Di komputer lain (atau laptop teman), ulangi langkah 1–3 lalu:
+Di komputer lain (atau laptop teman), ulangi langkah 1–2, lalu jalankan dari `D:\lomba\`:
 
 ```
-python Notebook-Template/examples/mock_case_warkab/make_mock_case.py latihan
+.venv\Scripts\python Notebook-Template\examples\mock_case_warkab\make_mock_case.py latihan
 ```
 
-Double-click `latihan/RUN_FAST.bat`. Kalau selesai dengan "no section errors", template siap dipakai di komputer mana pun.
+Double-click `latihan\RUN_FAST.bat`. Kalau selesai dengan "no section errors", template siap dipakai di komputer mana pun.

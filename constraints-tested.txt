@@ -1,0 +1,27 @@
+# Versi yang dipakai saat seluruh QA dijalankan (Python 3.11, Windows). Dipakai SETUP lebih dulu;
+# kalau tidak tersedia untuk Python/OS komputer itu, SETUP otomatis memakai versi terbaru.
+numpy==2.4.4
+pandas==2.3.3
+scikit-learn==1.6.1
+scipy==1.17.1
+matplotlib==3.10.9
+seaborn==0.13.2
+openpyxl==3.1.5
+lightgbm==4.7.0
+xgboost==3.2.0
+catboost==1.2.10
+statsmodels==0.15.0
+optuna==4.9.0
+shap==0.51.0
+lifelines==0.30.3
+python-docx==1.2.0
+interpret-core==0.7.8
+imbalanced-learn==0.14.2
+psutil==7.2.2
+PyMuPDF==1.27.2.2
+Pillow==12.1.1
+tqdm==4.67.3
+nbclient==0.10.4
+nbformat==5.10.4
+ipykernel==7.1.0
+jupyter==1.1.1
