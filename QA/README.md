@@ -2,7 +2,7 @@
 
 | File / folder | Isi |
 |---|---|
-| `ALUR_KERJA_HARI_H.md` | **Alur kerja dari soal diterima sampai paper & ZIP terkumpul** (pembagian kerja 2 orang, perintah per langkah) |
+| `ALUR_KERJA_HARI_H.md` | **Alur kerja dari soal diterima sampai paper & ZIP terkumpul** (jadwal satu orang ±3 jam, perintah per langkah) |
 | `QA_FINAL_REPORT.md` | Hasil QA/QC final: stress test 44 bentuk data, bukti per jenis kerusakan, demo end-to-end, regresi, celah yang diperbaiki |
 | `walkthrough_warkab/walkthrough_Warkab.mp4` | **Rekaman proses** (37 langkah, ±2,8 menit): casebook → folder case → intake → research plan → workbook riset → RUN_FULL → ringkasan run → halaman artikel → appendix → 7 tab dashboard → narrative/judge/todo → QA check → stress test → ZIP |
 | `walkthrough_warkab/STEPS.md` + `screens/` | Langkah yang sama dalam bentuk screenshot (bisa dibaca tanpa memutar video) |

@@ -31,7 +31,7 @@ python Notebook-Template/tools/new_case.py case --casebook "path/ke/casebook.pdf
 **`RESEARCH_PLAN.html`** (keyword + link pencarian siap klik + fakta yang terdeteksi dari casebook) dan **`CASE_RESEARCH.xlsx`** (workbook riset tim).
 Copy file data panitia ke `case/data/` (format apa pun: csv/tsv/txt/xlsx multi-sheet/json/jsonl/parquet; data kotor tetap jalan — lihat tabel "Data rusak" di bawah).
 
-## FASE 1b — Riset latar belakang (paralel, 30–60 menit, 1 orang)
+## FASE 1b — Riset latar belakang (30–60 menit, dikerjakan sambil RUN_FULL berjalan)
 Tujuan: Introduction & Discussion **nempel ke case**, bukan paragraf generik.
 1. Buka `case/RESEARCH_PLAN.html` → baca blok "Fakta dari casebook" (kandidat kalimat untuk Introduction) dan klik link pencarian per tema (Google Scholar, Crossref, Semantic Scholar, Garuda, Google Books, OJK/AAJI).
 2. Ikuti `RESEARCH_KIT.md`: pilih sumber (jurnal/buku/regulator > laporan industri > berita), **verifikasi DOI/URL**, catat 1 kalimat temuan.

@@ -9,7 +9,7 @@
    ├─(1) new_case.py ───────────► folder case: data/, case_config.json, CASE_INTAKE.html,
    │                              RESEARCH_PLAN.html, CASE_RESEARCH.xlsx, RUN_FAST.bat, RUN_FULL.bat
    ├─(2) CASE_INTAKE.html ──────► case_config.json (target, metrik, konteks, pertanyaan, budget, portofolio)
-   ├─(3) RESEARCH_PLAN.html ────► cari sumber (link siap klik) ─► isi CASE_RESEARCH.xlsx     [orang ke-2, paralel]
+   ├─(3) RESEARCH_PLAN.html ────► cari sumber (link siap klik) ─► isi CASE_RESEARCH.xlsx     [sambil RUN_FULL jalan]
    ├─(4) RUN_FAST.bat ──────────► cek target/ID/leakage/narasi (±10 menit)
    ├─(5) RUN_FULL.bat ──────────► notebook ter-eksekusi + artikel DOCX/PDF ≤10 hal + appendix + dashboard + submission
    ├─(6) rerun cell 24.2c–24.5 ─► artikel ter-update dengan riset tim (tanpa modeling ulang, ±3 menit)
@@ -18,16 +18,21 @@
    └─(9) qa_check.py ───────────► QA_CHECK.md: semua cek wajib PASS → upload
 ```
 
-## Pembagian kerja 2 orang
+## Jadwal (dikerjakan satu orang, ±3 jam)
 
-| Waktu | Mikael | Pandu |
+Kuncinya: komputer menjalankan RUN_FULL di background, sementara kamu mengerjakan riset. Tidak ada waktu menunggu.
+
+| Waktu | Kamu mengerjakan | Komputer sedang |
 |---|---|---|
-| T+0–10 mnt | Langkah 1–2: folder case, copy data, isi intake | Baca casebook 3 lapis (RESEARCH_KIT §2), tandai angka & fakta |
-| T+10–20 | Langkah 4: RUN_FAST → cek `run_summary.json`, `REPORT_TODO.md` | Buka RESEARCH_PLAN.html, mulai cari sumber |
-| T+20–90 | Langkah 5: RUN_FULL (background) → baca draft fast run, pilih narasi di NARRATIVE_OPTIONS.md | Isi CASE_RESEARCH.xlsx (case_facts, industry_facts, literature, custom_paragraphs), verifikasi DOI/URL |
-| T+90–100 | Langkah 6: rerun cell 24.2c–24.5 | Cek kutipan & daftar pustaka |
-| T+100–160 | Langkah 7: edit di Word (bagian depan) | Edit di Word (diskusi, rekomendasi), latihan JUDGE_QA.md |
-| T+160–170 | Langkah 8–9: ZIP + qa_check → upload | Cek nama file & isi ZIP |
+| T+0–15 mnt | Langkah 1–2: folder case, copy data, isi intake (baca casebook sekali sambil mengisi) | — |
+| T+15–25 | Langkah 4: double-click RUN_FAST; selama berjalan, buka RESEARCH_PLAN.html dan tandai fakta casebook | RUN_FAST |
+| T+25–30 | Cek `run_summary.json` & `REPORT_TODO.md` (target, ID, leakage); perbaiki config kalau perlu | — |
+| T+30–90 | Langkah 5: double-click RUN_FULL, lalu langkah 3: cari sumber & isi CASE_RESEARCH.xlsx (`verified = Y`); baca draft fast run & pilih narasi di NARRATIVE_OPTIONS.md | RUN_FULL (±45–60 mnt) |
+| T+90–100 | Langkah 6: rerun cell 24.2c–24.5 → riset masuk paper | rerun laporan |
+| T+100–160 | Langkah 7: edit di Word (executive summary, discussion, rekomendasi), cek angka = tabel, Save As PDF, slop_check | — |
+| T+160–175 | Langkah 8–9: ZIP + qa_check → upload; sisa waktu: latihan JUDGE_QA.md | — |
+
+Waktu mepet? Lewati RUN_FULL dan pakai hasil RUN_FAST (paper sudah lengkap), lalu langsung ke langkah 6.
 
 ## Langkah detail
 
@@ -52,7 +57,7 @@ Buka `case/CASE_INTAKE.html` (offline) → isi dari soal → **Download JSON** �
 | Margin, biaya, success rate, budget, jumlah nasabah | `PROFIT_MARGIN`, `RETENTION_COST`, `RETENTION_SUCCESS_RATE`, `RETENTION_BUDGET`, `PORTFOLIO_SIZE`, `BUSINESS_PARAMS_SOURCE=case` |
 | Fakta angka di casebook | `CASE_KEY_FACTS` (atau sheet `case_facts`) |
 
-### 3. Riset latar belakang ("resume") — paralel
+### 3. Riset latar belakang ("resume"), dikerjakan sambil RUN_FULL berjalan
 1. `case/RESEARCH_PLAN.html`: istilah kunci & kalimat berangka dari casebook + link pencarian per tema (Google Scholar, Crossref, Semantic Scholar, Garuda, Google Books, OJK/AAJI/AAUI).
 2. Metode lengkap: `01_Churn_Insurance/RESEARCH_KIT.md` (baca casebook 3 lapis, keyword EN/ID + Boolean, hierarki sumber, verifikasi, matriks sintesis, pola kalimat, APA 7).
 3. Isi `case/CASE_RESEARCH.xlsx`, `use = Y`, `verified = Y` setelah sumber dibuka.
