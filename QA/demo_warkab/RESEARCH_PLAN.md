@@ -1,6 +1,6 @@
 # RESEARCH PLAN — Warkab
 
-Dibuat 2026-10-09 10:42. Ikuti urutan: **1 → 2 → 3 → 4**. Target waktu total: 60–90 menit (bisa paralel dengan full run).
+Dibuat 2026-10-09 12:19. Ikuti urutan: **1 → 2 → 3 → 4**. Target waktu total: 60–90 menit (bisa paralel dengan full run).
 
 ## 1. Ekstraksi casebook (15 menit) → `case_config.json` + sheet `case_facts`
 

@@ -9,7 +9,7 @@ Anggota tim: Mikael Alexander Adikara Purnama & Pandu Winata.
 |---|---|---|---|
 | 1 | **Stress test 44 bentuk data**: 22 skenario case + 22 data rusak/dimanipulasi, semuanya pada notebook final | ****44/44 PASS**** (target 1 kelas berhenti dengan pesan jelas = perilaku yang benar) | `tools/STRESS_TEST_REPORT.md`, bagian 2 |
 | 2 | Bukti per jenis kerusakan: data rusak ditafsirkan **benar**, bukan sekadar tidak error | 22/22 sesuai harapan | bagian 3 (baris log asli notebook) |
-| 3 | **Demo end-to-end tim Warkab** (casebook fiktif → intake → riset → `RUN_FULL.bat` → artikel → dashboard → ZIP) | 0 section error, OOF AUC 0,760, **AUC test tersembunyi 0,782**, 47,3 menit | `demo_warkab/`, video |
+| 3 | **Demo end-to-end tim Warkab** (casebook fiktif → intake → riset → `RUN_FULL.bat` → artikel → dashboard → ZIP) | 0 section error, OOF AUC 0,760, **AUC test tersembunyi 0,782**, 49,4 menit | `demo_warkab/`, video |
 | 4 | QA otomatis artikel demo (`QA/qa_check.py`) | **43 PASS · 0 FAIL · 2 WARN** | `demo_warkab/QA_CHECK.md` |
 | 5 | Regresi (tidak ada downgrade): notebook final vs sebelum upgrade, data & seed sama | AUC fast run identik 0,7575; 154 cell (90 code) tetap; semua fitur lama tetap | bagian 5 |
 | 6 | Run cepat pada notebook + runner final | 0 section error, AUC 0,7575, test AUC 0,780, console bersih | bagian 5 |
@@ -129,10 +129,10 @@ Data sintetis: 8.000 train + 2.000 test + tabel klaim, sengaja berantakan.
 | Langkah | Perintah | Hasil |
 |---|---|---|
 | Siapkan case | `python examples/mock_case_warkab/make_mock_case.py <folder>` | folder kerja + RESEARCH_PLAN + workbook riset |
-| Run penuh | double-click `RUN_FULL.bat` | 47,3 menit (sambil 3 stress test paralel), 0 section error |
+| Run penuh | double-click `RUN_FULL.bat` | 49,4 menit (sambil 3 stress test paralel), 0 section error |
 | Model | — | hill-climbing ensemble (XGBoost-FS, LogReg, CatBoost), OOF ROC-AUC 0,760 (95% CI 0,748–0,772); **AUC pada test tersembunyi 0,782** |
 | Leakage | — | `cancellation_reason` terdeteksi & dibuang otomatis |
-| Artikel | `Warkab_Final Stage 1.pdf` | 83 halaman total: cover + **10 halaman isi** + appendix A–L |
+| Artikel | `Warkab_Final Stage 1.pdf` | 84 halaman total: cover + **10 halaman isi** + appendix A–L |
 | ZIP | `python tools/make_zip.py --case <folder>` | `Warkab_Final Stage 1.zip` (PDF + notebook ter-eksekusi + supporting) |
 | QA | `python QA/qa_check.py --case <folder>` | 43 PASS · 0 FAIL · 2 WARN (termasuk gaya tulisan 98/100) |
 
@@ -251,6 +251,27 @@ Skor gaya tulisan per varian stress test:
 | x_test_columns_mismatch | 98 | 1 | 1,951 |
 | x_tiny_wide_mess | 93 | 4 | 2,231 |
 | x_unseen_categories | 98 | 1 | 1,942 |
+
+## 5b. Putaran terakhir: equation, sentuhan manusia, kebersihan ZIP
+
+- **Equation bernomor**:
+  - Isi utama 4.2 memuat (1) CLV yang benar-benar dipakai notebook, CLVᵢ = m·Pᵢ·(1 − ρᵢᴴ)/(1 − ρᵢ) dengan ρᵢ = (1 − pᵢ)/(1 + d), dan (2) profit kampanye Π(k).
+  - Bagian 4.3 memuat estimator AIPW (bisa dipangkas autofit bila halaman penuh).
+  - Appendix K kini berisi ±16 equation bernomor: IV/WoE, Wilson, Benjamini–Hochberg, Kaplan–Meier, Cox, RMST, Brier, ECE, EMPC, CLV, AIPW, E-value, PSI, ukuran sampel pilot.
+- **Insurance KPI**: rasio persistensi 13/25 bulan (3.2 dan Appendix E) dan churn berbobot premi (4.1).
+- **`SENTUHAN_MANUSIA.md`** dibuat otomatis setiap run. Isinya draf paragraf berangka untuk:
+  - suara aktuaria;
+  - cerita iterasi model;
+  - ambang operasional & governance;
+  - insight lokal per driver (dengan pertanyaan pemandu);
+  - checklist guidebook dan template deklarasi AI.
+
+  Bagian `[ISI DARI CASE]` diisi tim, lalu ditempel ke `custom_paragraphs` supaya ikut setiap rerun.
+- **Kebocoran catatan internal ke ZIP diperbaiki**. Sebelumnya `JUDGE_QA.md`, `NARRATIVE_OPTIONS.md` dan `REPORT_TODO.md` ikut ZIP pengumpulan. Sekarang `make_zip.py` dan cell ZIP notebook mengecualikan semua catatan internal; terverifikasi 0 file internal di ZIP demo.
+- **Verifikasi akhir**:
+  - stress test 44/44 lolos;
+  - 43 paper dari stress test punya skor gaya minimal 96 (median 98);
+  - demo full: 0 error, 49 menit, OOF AUC 0,760, AUC test tersembunyi 0,782, 10 halaman isi (84 total), qa_check 43 PASS · 0 FAIL, slop 98/100.
 
 ## 5. Regresi & perbaikan pada QA final
 

@@ -1,18 +1,18 @@
 # QA CHECK — Warkab
 
-Case: `<folder-demo>\demo_warkab`
+Case: `<folder-demo>\demo2`
 
 **43 PASS · 0 FAIL · 2 WARN**
 
 | Status | Cek | Detail |
 |---|---|---|
-| PASS | Run selesai (run_summary.json) | <folder-demo>\demo_warkab\outputs/churn_insurance\run_summary.json |
+| PASS | Run selesai (run_summary.json) | <folder-demo>\demo2\outputs/churn_insurance\run_summary.json |
 | PASS | Tanpa section error | 0 error |
 | PASS | Target churn = 1 ter-mapping | {'No': 0, 'Yes': 1} |
 | PASS | Skor model tercatat | hill_climb / OOF AUC 0.7599 |
-| PASS | Artikel DOCX | <folder-demo>\demo_warkab\outputs/churn_insurance\Warkab_Final Stage 1.docx |
-| PASS | Artikel PDF | <folder-demo>\demo_warkab\outputs/churn_insurance\Warkab_Final Stage 1.pdf |
-| PASS | Isi utama ≤ 10 halaman (cover & appendix tidak dihitung) | 10 halaman isi, total PDF 83 |
+| PASS | Artikel DOCX | <folder-demo>\demo2\outputs/churn_insurance\Warkab_Final Stage 1.docx |
+| PASS | Artikel PDF | <folder-demo>\demo2\outputs/churn_insurance\Warkab_Final Stage 1.pdf |
+| PASS | Isi utama ≤ 10 halaman (cover & appendix tidak dihitung) | 10 halaman isi, total PDF 84 |
 | PASS | Nama tim 'Warkab' di cover |  |
 | PASS | Anggota 'Mikael Alexander Adikara Purnama' di cover |  |
 | PASS | Anggota 'Pandu Winata' di cover |  |
@@ -49,5 +49,5 @@ Case: `<folder-demo>\demo_warkab`
 | PASS | Output JUDGE_QA.md |  |
 | PASS | Output REPORT_TODO.md |  |
 | PASS | Dashboard berisi data case ini |  |
-| PASS | ZIP pengumpulan dibuat | <folder-demo>\demo_warkab\Warkab_Final Stage 1.zip |
-| PASS | ZIP berisi PDF + notebook ter-eksekusi | 157 file |
+| PASS | ZIP pengumpulan dibuat | <folder-demo>\demo2\Warkab_Final Stage 1.zip |
+| PASS | ZIP berisi PDF + notebook ter-eksekusi | 154 file |

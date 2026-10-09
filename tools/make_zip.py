@@ -23,6 +23,10 @@ for _st in (sys.stdout, sys.stderr):  # console Windows (cp1252) tidak bisa menc
         pass
 
 
+INTERNAL_FILES = {"JUDGE_QA.md", "NARRATIVE_OPTIONS.md", "REPORT_TODO.md", "SENTUHAN_MANUSIA.md", "QA_CHECK.md", "SLOP_CHECK.md",
+                  }
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--case", default=".", help="folder kerja case (berisi case_config.json)")
@@ -56,6 +60,8 @@ def main():
                 continue
             for fn in files:
                 if fn.endswith(".zip") or fn.startswith(base) or fn.startswith("_") or fn.startswith("REPORT_DRAFT"):
+                    continue
+                if fn in INTERNAL_FILES:            # catatan persiapan tim — jangan sampai terbaca juri
                     continue
                 z.write(os.path.join(root, fn), os.path.join("supporting", os.path.relpath(os.path.join(root, fn), out)))
                 n += 1

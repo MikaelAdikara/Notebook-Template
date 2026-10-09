@@ -78,7 +78,16 @@ Hasil di `case/outputs/churn_insurance/`:
 ### 6. Masukkan riset tim tanpa modeling ulang
 Buka notebook ter-eksekusi → jalankan cell **24.2c sampai 24.5** (±3 menit). Fakta casebook dan fakta industri masuk ke Introduction. Literatur masuk ke Discussion & Appendix B, paragraf custom masuk ke section yang dipilih, dan daftar pustaka ter-update.
 
-### 7. Finalisasi di Word
+### 7. Sentuhan manusia + finalisasi di Word
+Buka `case/outputs/churn_insurance/SENTUHAN_MANUSIA.md` (dibuat otomatis tiap run). Isinya 5 blok draf paragraf dengan angka run kamu sudah terisi:
+1. **suara aktuaria**: persistency 13/25 bulan, churn berbobot premi, biaya akuisisi;
+2. **cerita iterasi model** dari experiment log;
+3. **ambang operasional & governance**: skor → kanal → SLA → eskalasi keputusan;
+4. **insight bisnis lokal per driver**, dengan pertanyaan pemandu per tema;
+5. **checklist guidebook** plus template deklarasi AI.
+
+Ganti setiap `[ISI DARI CASE: …]` dengan fakta casebook. Kalimat yang faktanya tidak ada di case dihapus, jangan dikarang. Tempel hasilnya ke `CASE_RESEARCH.xlsx` → `custom_paragraphs` (section/position tertulis di tiap blok), lalu rerun cell 24.2c–24.5. Dengan begitu paragraf masuk paper dan tidak hilang saat run ulang.
+
 Parafrase gaya tim, pilih narasi, hapus penanda [EDIT], cek angka = tabel. Jangan ubah format. Save As PDF `<Tim>_Final Stage 1.pdf`.
 Lalu audit gaya tulisan (tanpa AI): `python Notebook-Template/QA/slop_check.py "case/<Tim>_Final Stage 1.pdf"` → skor ≥ 80.
 Checker menandai:

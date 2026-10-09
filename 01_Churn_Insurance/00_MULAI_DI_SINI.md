@@ -78,6 +78,7 @@ Double-click `RUN_FULL.bat`. Waktu mepet: tambahkan di config `"USE_OPTUNA": fal
 Di `case/outputs/churn_insurance/`:
 1. **`<Tim>_Final Stage 1.docx`** — artikel lengkap (cover, executive summary, 6 bab, referensi, appendix A–L), format soal, **≤ 10 halaman isi (autofit)**.
 2. `REPORT_TODO.md` — checklist.
+2b. **`SENTUHAN_MANUSIA.md`** — draf paragraf suara aktuaria, cerita iterasi, ambang operasional & governance, insight lokal per driver (angka sudah terisi; isi `[ISI DARI CASE]`) + checklist guidebook & template deklarasi AI. Tidak ikut ZIP.
 3. `NARRATIVE_OPTIONS.md` — alternatif judul, framing executive summary, **nama persona**, paragraf diskusi per driver (dengan sitasi terverifikasi), peta "soal menanyakan X → bagian Y".
 4. Edit di Word: parafrase gaya tim, tambahkan insight spesifik case, pilih narasi. Jangan ubah format.
 5. Save As PDF: `<Tim>_Final Stage 1.pdf`.

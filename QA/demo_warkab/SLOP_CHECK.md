@@ -1,6 +1,6 @@
 # SLOP CHECK — Warkab_Final Stage 1.pdf
 
-Kata dianalisis: 2,562 | temuan: 1 | em dash: 0 | kalimat pasif: 20% | **skor: 98/100** (aman)
+Kata dianalisis: 2,623 | temuan: 1 | em dash: 0 | kalimat pasif: 20% | **skor: 98/100** (aman)
 
 | Kategori | Jumlah | Contoh (kutipan) | Saran |
 |---|---|---|---|
