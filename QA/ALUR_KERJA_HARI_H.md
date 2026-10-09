@@ -1,6 +1,7 @@
 # Alur kerja Hari-H: dari soal diterima sampai paper & ZIP terkumpul (Tim Warkab)
 
 > Tidak perlu AI. Semua perintah dijalankan dari folder yang berisi `Notebook-Template/`.
+> Di komputer panitia: download & install dulu sesuai `DOWNLOAD_DAN_INSTALASI.md` (±10 menit).
 > Bukti setiap langkah benar-benar berjalan: video `walkthrough_warkab/walkthrough_Warkab.mp4`, screenshot di `walkthrough_warkab/screens/`, dan `QA_FINAL_REPORT.md`.
 
 ```
@@ -38,7 +39,7 @@ Waktu mepet? Lewati RUN_FULL dan pakai hasil RUN_FAST (paper sudah lengkap), lal
 
 ### 1. Buat folder case (2 menit)
 ```
-python Notebook-Template/tools/new_case.py case --casebook "soal.pdf"
+python Notebook-Template/tools/new_case.py case --casebook "soal.pdf" --members "Nama 1;Nama 2"
 ```
 Copy semua file data panitia ke `case/data/`. Format apa pun: csv/tsv/txt, xlsx (banyak sheet, judul di atas header), json/jsonl, parquet.
 Data rusak/dimanipulasi tetap jalan: BOM, kolom ganda, "Rp 5 jt", tanggal campur, inf, label kotor, baris rusak, kolom bocor

@@ -14,7 +14,7 @@ Draft: `REPORT_DRAFT.docx` (judul: *Removing Payment Friction: Evidence-Based Ch
 
 ## A2. Research yang dipakai (CASE_RESEARCH.xlsx)
 
-- File: `C:\Users\mikae\AppData\Local\Temp\claude\C--Users-mikae-OneDrive-Documents-Lomba-DAC-ITS-Final\51ee0b80-9346-491b-80aa-7ab7fa94b399\scratchpad\demo2\CASE_RESEARCH.xlsx`
+- File: `<folder-demo>\CASE_RESEARCH.xlsx`
 - Dipakai: case_facts = 2, industry_facts = 2, literature = 5, custom_paragraphs = 2, feature_labels = 17
 - [ ] Semua baris industry_facts / literature sudah `verified = Y` (sumber dibuka & dicek).
 

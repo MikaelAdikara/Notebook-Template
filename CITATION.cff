@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this template, please cite it as below."
+title: "Insurance Churn Analytics Template: Automated End-to-End Notebook, Report Generator and QA Toolkit"
+version: "1.0.0"
+date-released: "2026-10-09"
+license: MIT
+type: software
+authors:
+  - name: "Sains Data UB"
+    city: "Malang"
+    country: ID
+abstract: >-
+  An end-to-end, data-agnostic analytics template for insurance customer churn (lapse, surrender, non-renewal).
+  A single Jupyter notebook ingests messy tabular data, runs statistical driver analysis, survival analysis,
+  interpretable regression, a cross-validated machine-learning ensemble, doubly robust causal inference and
+  campaign economics, and writes a formatted article with appendices, an interactive dashboard and a submission file.
+  Tools cover case setup, research planning, headless execution, stress testing on 44 data variants,
+  automatic article QA and an AI-writing-style audit.
+keywords:
+  - insurance
+  - customer churn
+  - lapse
+  - survival analysis
+  - causal inference
+  - machine learning
+  - explainable AI
+  - reproducible research

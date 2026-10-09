@@ -1,7 +1,7 @@
 # QA / QC FINAL — Template Churn Asuransi (Tim Warkab)
 
 Tanggal: 9 Oktober 2026. Mesin uji: Windows 11, Python 3.11, MS Word (hitung halaman & PDF), Microsoft Edge (screenshot), ffmpeg (video).
-Anggota tim: Mikael Alexander Adikara Purnama & Pandu Winata.
+Anggota tim pada demo diganti placeholder (Anggota 1, Anggota 2).
 
 ## Ringkasan
 

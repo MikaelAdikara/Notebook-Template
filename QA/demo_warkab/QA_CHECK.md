@@ -14,8 +14,8 @@ Case: `<folder-demo>\demo2`
 | PASS | Artikel PDF | <folder-demo>\demo2\outputs/churn_insurance\Warkab_Final Stage 1.pdf |
 | PASS | Isi utama ≤ 10 halaman (cover & appendix tidak dihitung) | 10 halaman isi, total PDF 84 |
 | PASS | Nama tim 'Warkab' di cover |  |
-| PASS | Anggota 'Mikael Alexander Adikara Purnama' di cover |  |
-| PASS | Anggota 'Pandu Winata' di cover |  |
+| PASS | Anggota 'Anggota 1' di cover |  |
+| PASS | Anggota 'Anggota 2' di cover |  |
 | PASS | Nama perusahaan dari soal dipakai | PT Asuransi Nusantara Sejahtera |
 | PASS | Konteks soal (CASE_CONTEXT) masuk Introduction |  |
 | PASS | Pertanyaan soal dijawab: 'What are the main drivers of churn, and how large …' |  |

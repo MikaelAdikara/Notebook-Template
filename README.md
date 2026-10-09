@@ -9,6 +9,10 @@ Kumpulan template notebook Python (`.ipynb`) siap pakai untuk lomba data analyti
 
 > Jalankan di **Jupyter / VS Code lokal** (sesuai aturan lomba: Google Colab tidak diperbolehkan).
 
+> **Pakai di komputer lain (mis. komputer panitia)?** Baca [`DOWNLOAD_DAN_INSTALASI.md`](DOWNLOAD_DAN_INSTALASI.md): download dari Zenodo/GitHub Release → `python -m pip install -r requirements-churn.txt` → `QA/ALUR_KERJA_HARI_H.md`.
+>
+> Dibuat oleh **Sains Data UB**. Lisensi MIT (lihat `LICENSE`); cara sitasi di `CITATION.cff`.
+
 ---
 
 ## Struktur repo

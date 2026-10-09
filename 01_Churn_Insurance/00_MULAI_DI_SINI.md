@@ -24,9 +24,9 @@ Dokumen pendukung:
 
 ## FASE 1 — Siapkan folder case (2 menit)
 ```
-python Notebook-Template/tools/new_case.py case --casebook "path/ke/casebook.pdf"
+python Notebook-Template/tools/new_case.py case --casebook "path/ke/casebook.pdf" --members "Nama 1;Nama 2"
 ```
-(Default tim = **Warkab**, anggota Mikael Alexander Adikara Purnama & Pandu Winata — ganti dengan `--team`/`--members` kalau perlu.)
+(Default tim = **Warkab**. Nama anggota diisi saat membuat folder: `--members "Nama 1;Nama 2"`, atau di CASE_INTAKE.html.)
 → folder `case/` berisi `data/`, `case_config.json`, `CASE_INTAKE.html`, `RUN_FAST.bat`, `RUN_FULL.bat`, `NEXT_STEPS.md`,
 **`RESEARCH_PLAN.html`** (keyword + link pencarian siap klik + fakta yang terdeteksi dari casebook) dan **`CASE_RESEARCH.xlsx`** (workbook riset tim).
 Copy file data panitia ke `case/data/` (format apa pun: csv/tsv/txt/xlsx multi-sheet/json/jsonl/parquet; data kotor tetap jalan — lihat tabel "Data rusak" di bawah).

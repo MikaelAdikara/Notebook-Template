@@ -56,5 +56,5 @@ Untuk setiap driver, tulis **satu kalimat kenapa driver itu masuk akal untuk per
 
 Template deklarasi AI (Bahasa Indonesia, sesuaikan dengan aturan lomba):
 
-> Kami, Tim Warkab (Mikael Alexander Adikara Purnama, Pandu Winata), menyatakan bahwa laporan ini merupakan karya orisinal dan belum pernah diikutsertakan dalam perlombaan lain. Kami menggunakan kecerdasan buatan generatif [ISI: nama model] untuk [ISI: mis. penyusunan draf narasi, pengecekan tata bahasa dan peringkasan literatur]. Seluruh analisis data, pemodelan, interpretasi hasil dan rekomendasi telah ditinjau, diverifikasi dan menjadi tanggung jawab tim.
+> Kami, Tim Warkab (Anggota 1, Anggota 2), menyatakan bahwa laporan ini merupakan karya orisinal dan belum pernah diikutsertakan dalam perlombaan lain. Kami menggunakan kecerdasan buatan generatif [ISI: nama model] untuk [ISI: mis. penyusunan draf narasi, pengecekan tata bahasa dan peringkasan literatur]. Seluruh analisis data, pemodelan, interpretasi hasil dan rekomendasi telah ditinjau, diverifikasi dan menjadi tanggung jawab tim.
 

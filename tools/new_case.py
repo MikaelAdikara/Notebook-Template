@@ -31,7 +31,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("folder")
     ap.add_argument("--team", default="Warkab")
-    ap.add_argument("--members", default="Mikael Alexander Adikara Purnama;Pandu Winata", help="anggota dipisah titik koma")
+    ap.add_argument("--members", default="", help="anggota dipisah titik koma")
     a = ap.parse_args()
     d = os.path.abspath(a.folder)
     os.makedirs(os.path.join(d, "data"), exist_ok=True)

@@ -1,0 +1,28 @@
+# Paket minimum untuk template churn asuransi (01_Churn_Insurance + tools + QA).
+# Pasang:  python -m pip install -r requirements-churn.txt
+numpy
+pandas
+scikit-learn
+scipy
+matplotlib
+seaborn
+openpyxl
+lightgbm
+xgboost
+catboost
+statsmodels
+optuna
+shap
+lifelines
+python-docx
+interpret-core
+imbalanced-learn
+psutil
+PyMuPDF
+tabulate
+Pillow
+tqdm
+nbclient
+nbformat
+ipykernel
+jupyter
